@@ -1,0 +1,155 @@
+{
+  "category": "TICKET_THEME",
+  "blocks": {
+    "hero": {
+      "image": { "url": "https://images.unsplash.com/photo-1565150064668-e063b5fdcf71?w=800&q=80", "alt": "유니버설 스튜디오 재팬 정문과 지구본" },
+      "badges": [
+        { "type": "instant_confirm", "label": "즉시확정" },
+        { "type": "e_ticket", "label": "e-티켓" }
+      ],
+      "title": "오사카 유니버설 스튜디오 재팬 (USJ) 입장권",
+      "subtitle": "해리포터 · 슈퍼 닌텐도 월드 · 미니언즈 파크",
+      "rating": { "score": 4.7, "count": 1523 },
+      "price": { "current": 79000, "original": 89000, "currency": "₩", "unit": "1인" }
+    },
+    "trustBadges": {
+      "badges": [
+        { "type": "instant_confirm", "label": "즉시확정", "icon": "⚡" },
+        { "type": "e_ticket", "label": "e-티켓", "icon": "📱" },
+        { "type": "free_cancel", "label": "3일 전 무료 취소", "icon": "↩️" }
+      ]
+    },
+    "highlights": {
+      "title": "이 티켓의 매력",
+      "items": [
+        { "icon": "🎢", "text": "40개 이상 어트랙션을 하루 종일 자유롭게 이용" },
+        { "icon": "🎃", "text": "시즌 한정 이벤트 (할로윈 호러나이트, 크리스마스 등) 입장 포함" },
+        { "icon": "🏰", "text": "슈퍼 닌텐도 월드 & 해리포터 에리어 입장 가능" },
+        { "icon": "⚡", "text": "익스프레스 패스 추가 구매로 대기시간 최대 80% 단축" }
+      ]
+    },
+    "optionTable": {
+      "title": "옵션 선택",
+      "options": [
+        {
+          "name": "1일권 (1 Day Pass)",
+          "description": "종일 자유이용권, 모든 에리어 입장 가능",
+          "price": { "amount": 79000, "currency": "₩", "unit": "1인" },
+          "originalPrice": 89000,
+          "badges": ["인기"],
+          "available": true
+        },
+        {
+          "name": "2일권 (2 Day Pass)",
+          "description": "연속 2일 이용, 여유롭게 전 에리어 정복",
+          "price": { "amount": 145000, "currency": "₩", "unit": "1인" },
+          "badges": ["추천"],
+          "available": true
+        },
+        {
+          "name": "1일권 + 익스프레스 패스 4",
+          "description": "1일권 + 인기 어트랙션 4종 우선 탑승",
+          "price": { "amount": 149000, "currency": "₩", "unit": "1인" },
+          "badges": [],
+          "available": true
+        }
+      ]
+    },
+    "imageGrid": {
+      "title": "파크 포토",
+      "images": [
+        { "url": "https://images.unsplash.com/photo-1624601573012-1f8b2f4c4f1e?w=600&q=80", "alt": "해리포터 호그와트 성", "caption": "위저딩 월드 오브 해리포터" },
+        { "url": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80", "alt": "롤러코스터 어트랙션", "caption": "스릴 넘치는 라이드 어트랙션" },
+        { "url": "https://images.unsplash.com/photo-1563784462386-044fd95e9852?w=600&q=80", "alt": "테마파크 야경", "caption": "화려한 야간 퍼레이드와 조명" }
+      ],
+      "layout": "carousel"
+    },
+    "overview": {
+      "title": "상품 소개",
+      "paragraphs": [
+        "오사카 유니버설 스튜디오 재팬(USJ)은 연간 1,500만 명이 방문하는 일본 최대 테마파크입니다. 해리포터의 마법 세계, 슈퍼 닌텐도 월드, 미니언즈 파크 등 인기 IP를 완벽하게 구현한 테마 에리어에서 특별한 하루를 보낼 수 있어요.",
+        "2024년 새롭게 리뉴얼된 슈퍼 닌텐도 월드에서는 도키 마리오 카트를 비롯한 인터랙티브 어트랙션을 체험할 수 있습니다. 파워업 밴드를 착용하면 실제 게임처럼 코인을 모으고 미션을 클리어하는 재미까지.",
+        "시즌별로 할로윈 호러나이트, 크리스마스 스페셜, 쿨 재팬 등 기간 한정 이벤트가 열려 언제 방문해도 새로운 경험을 할 수 있습니다. e-티켓으로 매표소 줄 없이 바로 입장하세요."
+      ]
+    },
+    "inclusions": {
+      "title": "포함 / 불포함",
+      "included": [
+        { "text": "USJ 1일/2일 자유이용권", "detail": "선택한 옵션에 따름" },
+        { "text": "모든 에리어 입장", "detail": "슈퍼 닌텐도 월드·해리포터 포함" }
+      ],
+      "excluded": [
+        { "text": "오사카 시내 ↔ USJ 교통비", "tip": "JR 유니버설시티역에서 도보 5분" },
+        { "text": "파크 내 식음료", "tip": "파크 내 레스토랑 평균 1,500~2,500엔" },
+        { "text": "익스프레스 패스", "tip": "별도 옵션으로 추가 구매 가능" }
+      ]
+    },
+    "usageGuide": {
+      "title": "이용 방법",
+      "steps": [
+        { "step": 1, "title": "예약 & 결제", "description": "원하는 날짜와 옵션을 선택한 후 결제합니다." },
+        { "step": 2, "title": "e-티켓 수신", "description": "결제 즉시 이메일로 QR코드가 포함된 e-티켓이 발송됩니다." },
+        { "step": 3, "title": "QR코드 입장", "description": "USJ 정문 게이트에서 스마트폰의 QR코드를 스캔하면 바로 입장됩니다." },
+        { "step": 4, "title": "자유이용", "description": "모든 에리어와 어트랙션을 자유롭게 이용하세요." }
+      ]
+    },
+    "reviews": {
+      "title": "이용자 리뷰",
+      "score": 4.7,
+      "count": 1523,
+      "summary": {
+        "positive": ["어트랙션 퀄리티가 높음", "e-티켓으로 입장이 간편함", "슈퍼 닌텐도 월드 최고"],
+        "negative": ["주말 대기시간이 긴 편", "파크 내 식비가 비쌈"]
+      },
+      "featured": [
+        {
+          "author": "travel_holic",
+          "rating": 5,
+          "text": "해리포터 에리어 진짜 미쳤어요! 버터비어 마시면서 호그와트 성 보는 게 꿈만 같았습니다. e-티켓이라 매표소 줄 안 서도 되니까 너무 편해요.",
+          "date": "2026-02-15"
+        },
+        {
+          "author": "osaka_mama",
+          "rating": 4,
+          "text": "아이랑 슈퍼 닌텐도 월드 갔는데 파워업 밴드 꼭 사세요. 코인 모으는 재미가 쏠쏠합니다. 다만 주말이라 마리오카트 90분 대기했어요. 익스프레스 패스 추천!",
+          "date": "2026-01-28"
+        }
+      ]
+    },
+    "notice": {
+      "title": "유의사항",
+      "items": [
+        { "type": "info", "text": "운영시간: 오전 9시~오후 9시 (시즌별 상이, 공식 사이트에서 확인)" },
+        { "type": "info", "text": "슈퍼 닌텐도 월드는 혼잡 시 입장 정리권이 필요할 수 있습니다." },
+        { "type": "warning", "text": "일부 어트랙션은 신장 제한(122cm 이상)이 있으며, 우천 시 운휴될 수 있습니다." },
+        { "type": "tip", "text": "평일 오전 개장 직후 방문하면 인기 어트랙션 대기시간이 절반 이하로 줄어듭니다." }
+      ]
+    },
+    "faq": {
+      "title": "자주 묻는 질문",
+      "items": [
+        {
+          "question": "e-티켓을 분실했어요. 재발급 가능한가요?",
+          "answer": "네, 마이리얼트립 앱 또는 예약 확인 이메일에서 언제든 QR코드를 다시 확인할 수 있습니다."
+        },
+        {
+          "question": "익스프레스 패스는 현장에서도 살 수 있나요?",
+          "answer": "현장 구매도 가능하지만, 인기 시즌에는 조기 매진되는 경우가 많아 사전 구매를 강력히 추천합니다."
+        },
+        {
+          "question": "비가 오면 어트랙션을 못 타나요?",
+          "answer": "실내 어트랙션은 정상 운영됩니다. 야외 라이드(할리우드 드림, 쥬라기 월드 등)는 기상 상황에 따라 일시 운휴될 수 있어요."
+        }
+      ]
+    },
+    "socialProof": {
+      "todayBookings": 47,
+      "recentViews": 312
+    },
+    "relatedProducts": [],
+    "cta": {
+      "price": { "current": 79000, "original": 89000, "currency": "₩", "unit": "1인" },
+      "buttonText": "날짜 선택하고 예약하기"
+    }
+  }
+}

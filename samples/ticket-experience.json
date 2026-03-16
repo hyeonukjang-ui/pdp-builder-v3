@@ -1,0 +1,150 @@
+{
+  "category": "TICKET_EXPERIENCE",
+  "blocks": {
+    "hero": {
+      "image": { "url": "https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&q=80", "alt": "팀랩 보더리스 몰입형 디지털 아트" },
+      "badges": [
+        { "type": "instant_confirm", "label": "즉시확정" },
+        { "type": "e_ticket", "label": "e-티켓" }
+      ],
+      "title": "도쿄 팀랩 보더리스 (teamLab Borderless) 입장권",
+      "subtitle": "아자부다이 힐스 · 세계 최초 몰입형 디지털 아트 뮤지엄",
+      "rating": { "score": 4.8, "count": 1104 },
+      "price": { "current": 45000, "original": null, "currency": "₩", "unit": "1인" }
+    },
+    "trustBadges": {
+      "badges": [
+        { "type": "instant_confirm", "label": "즉시확정", "icon": "⚡" },
+        { "type": "e_ticket", "label": "e-티켓", "icon": "📱" },
+        { "type": "free_cancel", "label": "24시간 전 무료 취소", "icon": "↩️" }
+      ]
+    },
+    "highlights": {
+      "title": "이 체험의 매력",
+      "items": [
+        { "icon": "🎨", "text": "70개 이상 작품이 경계 없이 이어지는 몰입형 디지털 아트 공간" },
+        { "icon": "🤳", "text": "작품 속을 걸으며 인터랙티브 체험 — 터치하면 꽃이 피고 나비가 날아오름" },
+        { "icon": "📸", "text": "SNS 인생샷 성지, 어디를 찍어도 작품이 되는 포토존" },
+        { "icon": "🆕", "text": "2024년 아자부다이 힐스에 새롭게 오픈, 전작 대비 2배 규모" }
+      ]
+    },
+    "imageGrid": {
+      "title": "작품 미리보기",
+      "images": [
+        { "url": "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?w=600&q=80", "alt": "팀랩 꽃 디지털 아트", "caption": "끊임없이 변화하는 꽃의 숲" },
+        { "url": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600&q=80", "alt": "팀랩 빛 설치 작품", "caption": "빛의 조각들이 만드는 무한 공간" },
+        { "url": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80", "alt": "인터랙티브 디지털 아트", "caption": "관람객과 상호작용하는 작품들" }
+      ],
+      "layout": "carousel"
+    },
+    "itinerary": {
+      "title": "추천 관람 동선",
+      "type": "timeline",
+      "stops": [
+        { "title": "입장 & 안내", "description": "QR코드로 입장 후 간단한 관람 안내를 받습니다. 신발을 벗고 맨발로 체험하는 구역이 있으니 참고하세요.", "duration": "약 10분" },
+        { "title": "경계 없는 세계", "description": "메인 전시 공간. 벽과 바닥, 천장까지 360도로 펼쳐지는 작품 속을 자유롭게 거닐며 감상합니다.", "duration": "약 30분" },
+        { "title": "운동의 숲 & 미래의 유원지", "description": "몸을 움직이며 체험하는 인터랙티브 에리어. 아이들도 함께 즐길 수 있는 공간입니다.", "duration": "약 20분" },
+        { "title": "EN TEA HOUSE", "description": "차 한 잔을 올리면 찻잔 안에 꽃이 피어나는 특별한 티 체험. 별도 요금(500엔).", "duration": "약 15분" },
+        { "title": "램프의 숲", "description": "무한 거울 방에 수백 개의 램프가 색을 바꾸며 빛나는 하이라이트 작품. 인생샷 필수 포인트.", "duration": "약 10분" }
+      ],
+      "totalDuration": "약 1시간 30분 ~ 2시간"
+    },
+    "overview": {
+      "title": "상품 소개",
+      "paragraphs": [
+        "팀랩 보더리스(teamLab Borderless)는 도쿄 아자부다이 힐스에 위치한 세계 최초의 몰입형 디지털 아트 뮤지엄입니다. 70개 이상의 작품이 방과 방 사이의 경계 없이 서로 넘나들며, 관람객의 움직임에 따라 실시간으로 변화합니다.",
+        "2024년 새로운 공간에서 재개관하며 이전 오다이바 시절 대비 약 2배 규모로 확장되었습니다. 새로 추가된 작품들과 함께 '경계 없는 세계', '운동의 숲', 'EN TEA HOUSE', '램프의 숲' 등 시그니처 에리어를 더욱 풍성하게 경험할 수 있어요.",
+        "사전 예약제로 운영되어 관람 인원이 제한되며, 한 번 입장하면 시간 제한 없이 자유롭게 감상할 수 있습니다. 평균 관람 시간은 약 1시간 30분~2시간이지만, 작품에 빠져들면 3시간도 금방 지나갑니다."
+      ]
+    },
+    "inclusions": {
+      "title": "포함 / 불포함",
+      "included": [
+        { "text": "팀랩 보더리스 입장권 1매", "detail": "지정 날짜·시간대 입장" },
+        { "text": "전 에리어 자유 관람", "detail": "시간 제한 없음" }
+      ],
+      "excluded": [
+        { "text": "EN TEA HOUSE 음료", "tip": "현장에서 500엔에 별도 구매" },
+        { "text": "주차 요금", "tip": "대중교통 이용 권장 (도보 도착 가능)" },
+        { "text": "개인 물품 보관함", "tip": "무료 물품 보관함 있음 (100엔 반환식)" }
+      ]
+    },
+    "meetingPoint": {
+      "title": "찾아가는 길",
+      "type": "meeting",
+      "address": "도쿄도 미나토구 아자부다이 1-2-4 아자부다이 힐스 가든 플라자 B B1층",
+      "description": "도쿄 메트로 히비야선 '가미야초(神谷町)역' 5번 출구에서 도보 3분. 아자부다이 힐스 가든 플라자 B 건물 지하 1층에 입구가 있습니다.",
+      "tips": [
+        "도에이 오에도선 '아카바네바시(赤羽橋)역' 도보 8분도 이용 가능",
+        "주차장이 있지만 주말에는 혼잡하므로 대중교통 추천"
+      ]
+    },
+    "usageGuide": {
+      "title": "이용 방법",
+      "steps": [
+        { "step": 1, "title": "예약 & e-티켓 수신", "description": "원하는 날짜와 입장 시간대를 선택해 예약합니다. 결제 즉시 QR코드 e-티켓이 이메일로 발송됩니다." },
+        { "step": 2, "title": "현장 도착", "description": "예약한 시간대에 아자부다이 힐스 가든 플라자 B B1층 입구로 이동합니다." },
+        { "step": 3, "title": "QR코드 입장", "description": "입구에서 스마트폰의 QR코드를 스캔하면 입장됩니다. 별도 교환 절차 없음." },
+        { "step": 4, "title": "자유 관람", "description": "경계 없는 디지털 아트 세계를 마음껏 탐험하세요. 시간 제한 없이 관람 가능합니다." }
+      ]
+    },
+    "reviews": {
+      "title": "이용자 리뷰",
+      "score": 4.8,
+      "count": 1104,
+      "summary": {
+        "positive": ["압도적인 몰입감", "인생샷 보장", "리뉴얼 후 더 넓어짐"],
+        "negative": ["인기 시간대 예약 어려움", "어두운 공간이라 어린 아이에게 무서울 수 있음"]
+      },
+      "featured": [
+        {
+          "author": "digital_art_fan",
+          "rating": 5,
+          "text": "오다이바 시절에도 갔었는데, 아자부다이 힐스 새 공간은 차원이 달라요. 램프의 숲은 진짜 다른 세계에 온 느낌... 2시간이 10분처럼 지나갔습니다. 도쿄 여행 필수 코스!",
+          "date": "2026-03-05"
+        },
+        {
+          "author": "couple_trip_kr",
+          "rating": 5,
+          "text": "커플 여행으로 방문했는데 정말 환상적이었어요. 꽃이 피어나는 작품 앞에서 찍은 사진이 인생샷이 됐습니다. EN TEA HOUSE도 꼭 가보세요, 찻잔에 꽃이 피는 게 너무 예뻐요.",
+          "date": "2026-02-22"
+        }
+      ]
+    },
+    "notice": {
+      "title": "유의사항",
+      "items": [
+        { "type": "info", "text": "운영시간: 오전 10시~오후 9시 (입장 마감 오후 8시). 월요일 휴관." },
+        { "type": "info", "text": "일부 에리어는 맨발로 체험합니다. 양말도 벗어야 하니 참고하세요." },
+        { "type": "warning", "text": "플래시 촬영, 삼각대·셀카봉 사용은 금지입니다. 스마트폰 일반 촬영은 자유." },
+        { "type": "tip", "text": "어두운 옷보다 밝은 색(흰색, 파스텔) 옷을 입으면 작품이 몸에 투영되어 더 아름다운 사진을 찍을 수 있어요." }
+      ]
+    },
+    "faq": {
+      "title": "자주 묻는 질문",
+      "items": [
+        {
+          "question": "유모차를 가지고 입장할 수 있나요?",
+          "answer": "유모차는 입구에 보관해야 합니다. 무료 물품 보관 공간이 마련되어 있어요. 아기띠 사용은 가능합니다."
+        },
+        {
+          "question": "관람 시간 제한이 있나요?",
+          "answer": "한 번 입장하면 시간 제한 없이 폐관 시간(오후 9시)까지 자유롭게 관람할 수 있습니다."
+        },
+        {
+          "question": "예약한 시간에 늦으면 어떻게 되나요?",
+          "answer": "예약 시간대 이후에도 당일 내에 입장 가능하지만, 혼잡 시 대기가 발생할 수 있습니다. 가급적 예약 시간에 맞춰 방문해 주세요."
+        }
+      ]
+    },
+    "socialProof": {
+      "todayBookings": 62,
+      "recentViews": 428
+    },
+    "relatedProducts": [],
+    "cta": {
+      "price": { "current": 45000, "original": null, "currency": "₩", "unit": "1인" },
+      "buttonText": "날짜·시간 선택하고 예약하기"
+    }
+  }
+}

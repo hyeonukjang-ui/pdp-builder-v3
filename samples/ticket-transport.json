@@ -1,0 +1,128 @@
+{
+  "category": "TICKET_TRANSPORT",
+  "blocks": {
+    "hero": {
+      "image": { "url": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80", "alt": "도쿄 지하철 역사와 열차" },
+      "badges": [
+        { "type": "instant_confirm", "label": "즉시확정" },
+        { "type": "e_ticket", "label": "e-티켓" }
+      ],
+      "title": "도쿄 스이카(Suica) 교통카드",
+      "subtitle": "JR · 지하철 · 버스 · 편의점까지 한 장으로",
+      "rating": { "score": 4.6, "count": 2847 },
+      "price": { "current": 29000, "original": null, "currency": "₩", "unit": "1매" }
+    },
+    "trustBadges": {
+      "badges": [
+        { "type": "instant_confirm", "label": "즉시확정", "icon": "⚡" },
+        { "type": "e_ticket", "label": "e-티켓", "icon": "📱" },
+        { "type": "free_cancel", "label": "사용 전 무료 취소", "icon": "↩️" }
+      ]
+    },
+    "highlights": {
+      "title": "이 교통카드의 매력",
+      "items": [
+        { "icon": "🚃", "text": "JR, 도쿄 메트로, 도에이 등 도쿄 전 노선 + 수도권 전역 호환" },
+        { "icon": "🏪", "text": "편의점·자판기·코인라커 등 전자결제 가맹점 100만 곳 이상에서 사용" },
+        { "icon": "💴", "text": "초기 충전금 1,500엔 포함, 역 내 충전기에서 1,000엔 단위로 간편 충전" },
+        { "icon": "✈️", "text": "나리타/하네다 공항 수령으로 도착 즉시 이동 가능" }
+      ]
+    },
+    "usageGuide": {
+      "title": "이용 방법",
+      "steps": [
+        { "step": 1, "title": "예약 & e-티켓 수신", "description": "결제 즉시 교환 바우처가 이메일로 발송됩니다." },
+        { "step": 2, "title": "공항 수령", "description": "나리타공항 제1·제2터미널 지정 카운터에서 바우처를 제시하고 Suica 카드를 수령합니다." },
+        { "step": 3, "title": "충전 (필요 시)", "description": "역사 내 충전기(チャージ機)에서 현금으로 충전합니다. 1,000엔 단위." },
+        { "step": 4, "title": "탑승 & 결제", "description": "개찰구에 카드를 터치하면 자동 결제됩니다. 편의점 등에서도 동일하게 사용하세요." }
+      ]
+    },
+    "overview": {
+      "title": "상품 소개",
+      "paragraphs": [
+        "도쿄 여행의 필수 아이템, Suica 교통카드입니다. JR 야마노테선, 도쿄 메트로, 도에이 지하철은 물론 버스와 모노레일까지 수도권 전역의 대중교통을 한 장으로 이용할 수 있어요.",
+        "교통뿐 아니라 편의점(세븐일레븐, 패밀리마트, 로손), 자판기, 코인라커, 일부 음식점에서도 전자결제가 가능합니다. 현금 준비 없이 카드 한 장이면 도쿄 생활이 됩니다.",
+        "나리타공항 도착 즉시 수령할 수 있어 공항에서 시내까지 이동부터 바로 사용 가능합니다. 초기 충전금 1,500엔이 포함되어 있으며, 잔액이 부족하면 역 충전기에서 간편하게 충전하세요."
+      ]
+    },
+    "meetingPoint": {
+      "title": "수령 장소",
+      "type": "pickup",
+      "address": "나리타공항 제1터미널 1층 도착 로비 HIS 카운터 / 제2터미널 1층 도착 로비 HIS 카운터",
+      "description": "입국 심사 통과 후 1층 도착 로비로 나오면 HIS 카운터 간판이 보입니다. 바우처와 여권을 제시하면 즉시 수령 가능합니다.",
+      "tips": [
+        "운영시간: 오전 7시~오후 9시",
+        "하네다공항 수령도 가능합니다 (국제선 터미널 2층 HIS 카운터)"
+      ]
+    },
+    "inclusions": {
+      "title": "포함 / 불포함",
+      "included": [
+        { "text": "Suica 교통카드 1매", "detail": "Welcome Suica (유효기간 28일)" },
+        { "text": "초기 충전금 1,500엔 포함" }
+      ],
+      "excluded": [
+        { "text": "추가 충전 비용", "tip": "역 내 충전기에서 현금으로 충전 (1,000엔 단위)" },
+        { "text": "신칸센·특급열차 요금", "tip": "별도 특급권 필요" }
+      ]
+    },
+    "reviews": {
+      "title": "이용자 리뷰",
+      "score": 4.6,
+      "count": 2847,
+      "summary": {
+        "positive": ["공항 수령이 편리함", "충전 후 어디서든 사용 가능", "환불 절차 간단"],
+        "negative": ["잔액 환불 시 수수료 220엔 발생", "애플페이 연동 안 됨"]
+      },
+      "featured": [
+        {
+          "author": "tokyo_first",
+          "rating": 5,
+          "text": "나리타공항 도착하자마자 바로 받아서 스카이라이너 탔어요. 편의점에서도 결제되니까 현금 거의 안 썼습니다. 도쿄 여행 필수템!",
+          "date": "2026-03-01"
+        },
+        {
+          "author": "japan_trip_22",
+          "rating": 4,
+          "text": "수령 과정이 정말 간단해요. 다만 28일 유효기간이 있어서 장기 체류자는 참고하세요. 충전금 1,500엔이면 공항에서 시내까지 딱 맞습니다.",
+          "date": "2026-02-14"
+        }
+      ]
+    },
+    "notice": {
+      "title": "유의사항",
+      "items": [
+        { "type": "info", "text": "Welcome Suica의 유효기간은 수령일로부터 28일입니다." },
+        { "type": "info", "text": "카드 반납 시 잔액 환불이 가능하며, 수수료 220엔이 차감됩니다." },
+        { "type": "warning", "text": "Apple Pay / Google Pay 연동은 불가합니다. 실물 카드로만 사용하세요." },
+        { "type": "tip", "text": "도쿄 메트로 24시간권과 비교해 3일 이상 체류 시 Suica가 더 경제적입니다." }
+      ]
+    },
+    "faq": {
+      "title": "자주 묻는 질문",
+      "items": [
+        {
+          "question": "하네다공항에서도 수령할 수 있나요?",
+          "answer": "네, 하네다공항 국제선 터미널 2층 HIS 카운터에서도 동일하게 수령 가능합니다. 운영시간은 오전 7시~오후 11시입니다."
+        },
+        {
+          "question": "잔액이 부족하면 개찰구에서 막히나요?",
+          "answer": "잔액이 운임보다 부족하면 개찰구를 통과할 수 없습니다. 역 내 정산기(のりこし精算機)에서 부족분을 충전하면 됩니다."
+        },
+        {
+          "question": "오사카에서도 사용할 수 있나요?",
+          "answer": "네, Suica는 전국 호환 교통카드로 오사카(ICOCA 권역), 교토, 나고야 등 주요 도시에서도 사용 가능합니다."
+        }
+      ]
+    },
+    "socialProof": {
+      "todayBookings": 83,
+      "recentViews": 541
+    },
+    "relatedProducts": [],
+    "cta": {
+      "price": { "current": 29000, "original": null, "currency": "₩", "unit": "1매" },
+      "buttonText": "수령일 선택하고 예약하기"
+    }
+  }
+}

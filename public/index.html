@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품소개 자동 생성 도구</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="builder.css">
+<link rel="stylesheet" href="/intro-blocks/intro.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__header">
+        <h1 class="sidebar__title">상품소개 자동 생성</h1>
+      </div>
+
+      <div class="sidebar__tabs">
+        <button class="sidebar__tab active" data-mode="url">URL 입력</button>
+        <button class="sidebar__tab" data-mode="sample">샘플 데이터</button>
+      </div>
+
+      <!-- URL 입력 -->
+      <div class="sidebar__panel" id="panelUrl">
+        <label class="input-label" for="productUrl">마이리얼트립 상품 URL</label>
+        <input class="input-field" id="productUrl" type="url" placeholder="https://myrealtrip.com/offers/12345" />
+        <button class="btn btn--primary btn--full" id="btnExtract">데이터 추출</button>
+      </div>
+
+      <!-- 샘플 데이터 -->
+      <div class="sidebar__panel hidden" id="panelSample">
+        <label class="input-label">카테고리 선택</label>
+        <select class="input-select" id="sampleSelect">
+          <option value="">선택하세요</option>
+          <option value="tour">가이드 투어</option>
+          <option value="ticket-theme">티켓 - 테마파크</option>
+          <option value="ticket-transport">티켓 - 교통</option>
+          <option value="ticket-citypass">티켓 - 시티패스</option>
+          <option value="ticket-experience">티켓 - 체험</option>
+          <option value="activity">액티비티</option>
+          <option value="service">서비스</option>
+          <option value="semi-package">세미패키지</option>
+        </select>
+        <button class="btn btn--primary btn--full" id="btnLoadSample">샘플 불러오기</button>
+      </div>
+
+      <!-- 카테고리 오버라이드 -->
+      <div class="sidebar__section" id="categorySection" style="display:none;">
+        <label class="input-label">카테고리</label>
+        <select class="input-select" id="categoryOverride">
+          <option value="">자동 감지</option>
+          <option value="TOUR">가이드 투어</option>
+          <option value="TICKET_THEME">티켓 - 테마파크</option>
+          <option value="TICKET_TRANSPORT">티켓 - 교통</option>
+          <option value="TICKET_CITYPASS">티켓 - 시티패스</option>
+          <option value="TICKET_EXPERIENCE">티켓 - 체험</option>
+          <option value="ACTIVITY">액티비티</option>
+          <option value="SERVICE">서비스</option>
+          <option value="SEMI_PACKAGE">세미패키지</option>
+        </select>
+        <button class="btn btn--accent btn--full" id="btnGenerateIntro" style="display:none;">상품소개 생성</button>
+      </div>
+
+      <div class="sidebar__status" id="status"></div>
+      <div class="sidebar__meta" id="renderMeta" style="display:none;">
+        <h3>렌더링 결과</h3>
+        <div id="metaContent"></div>
+      </div>
+    </aside>
+
+    <main class="preview-area">
+      <div class="preview-toolbar">
+        <div class="preview-toolbar__view">
+          <button class="view-btn active" data-width="375">모바일</button>
+          <button class="view-btn" data-width="768">태블릿</button>
+          <button class="view-btn" data-width="100%">데스크톱</button>
+        </div>
+        <button class="btn btn--edit" id="btnEditMode">편집 모드</button>
+        <button class="btn btn--ghost" id="btnSaveSnapshot" title="JSON 스냅샷 저장">저장</button>
+        <label class="btn btn--ghost" id="btnLoadSnapshotLabel" title="JSON 스냅샷 불러오기" style="cursor:pointer;">불러오기<input type="file" id="btnLoadSnapshot" accept=".json" style="display:none;"></label>
+        <button class="btn btn--ghost" id="btnExportHtml">HTML 내보내기</button>
+        <button class="btn btn--ghost" id="btnTemplateViewer">템플릿 모듈</button>
+      </div>
+      <div class="preview-frame" id="previewFrame">
+        <div class="preview-container" id="previewContainer">
+          <div class="preview-empty"><p>URL을 입력하거나 샘플을 선택하세요</p></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

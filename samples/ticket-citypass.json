@@ -1,0 +1,146 @@
+{
+  "category": "TICKET_CITYPASS",
+  "blocks": {
+    "hero": {
+      "image": { "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80", "alt": "에펠탑과 파리 시내 전경" },
+      "badges": [
+        { "type": "best_price", "label": "최저가 보장" },
+        { "type": "e_ticket", "label": "e-티켓" }
+      ],
+      "title": "파리 뮤지엄 패스 (2일권)",
+      "subtitle": "루브르 · 오르세 · 베르사유 등 60곳 이상 자유 입장",
+      "rating": { "score": 4.5, "count": 892 },
+      "price": { "current": 89000, "original": null, "currency": "₩", "unit": "1인" }
+    },
+    "trustBadges": {
+      "badges": [
+        { "type": "best_price", "label": "최저가 보장", "icon": "💰" },
+        { "type": "e_ticket", "label": "e-티켓", "icon": "📱" },
+        { "type": "free_cancel", "label": "사용 전 무료 취소", "icon": "↩️" }
+      ]
+    },
+    "highlights": {
+      "title": "이 패스의 매력",
+      "items": [
+        { "icon": "🏛️", "text": "루브르, 오르세, 베르사유 등 파리·근교 60곳 이상 미술관·박물관 자유 입장" },
+        { "icon": "💶", "text": "개별 구매 대비 최대 45% 절약, 3곳만 방문해도 본전" },
+        { "icon": "⏭️", "text": "일부 인기 시설에서 매표소 줄 없이 패스트트랙 입장 가능" },
+        { "icon": "📅", "text": "연속 2일(48시간) 유효, 원하는 시설을 자유롭게 조합" }
+      ]
+    },
+    "comparison": {
+      "title": "개별 구매 vs 패스 비교",
+      "items": [
+        { "name": "루브르 박물관", "individualPrice": 22000, "included": true },
+        { "name": "오르세 미술관", "individualPrice": 20000, "included": true },
+        { "name": "베르사유 궁전", "individualPrice": 25000, "included": true },
+        { "name": "오랑주리 미술관", "individualPrice": 16000, "included": true },
+        { "name": "퐁피두 센터", "individualPrice": 19000, "included": true },
+        { "name": "개선문 전망대", "individualPrice": 18000, "included": true }
+      ],
+      "totalIndividual": 120000,
+      "packagePrice": 89000,
+      "savings": 31000
+    },
+    "imageGrid": {
+      "title": "파리 명소 미리보기",
+      "images": [
+        { "url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80", "alt": "루브르 박물관 유리 피라미드", "caption": "루브르 박물관 — 세계 최대 미술관" },
+        { "url": "https://images.unsplash.com/photo-1541264161754-445bbdd7de52?w=600&q=80", "alt": "오르세 미술관 내부", "caption": "오르세 미술관 — 인상주의 걸작의 보고" },
+        { "url": "https://images.unsplash.com/photo-1551410224-699683e15636?w=600&q=80", "alt": "베르사유 궁전 정원", "caption": "베르사유 궁전 — 프랑스 왕실의 영화" }
+      ],
+      "layout": "carousel"
+    },
+    "overview": {
+      "title": "상품 소개",
+      "paragraphs": [
+        "파리 뮤지엄 패스 2일권 한 장이면 루브르 박물관, 오르세 미술관, 베르사유 궁전을 포함한 60곳 이상의 미술관·박물관·유적지에 자유롭게 입장할 수 있습니다. 매표소에서 매번 티켓을 구매할 필요 없이 패스만 보여주면 됩니다.",
+        "파리의 주요 미술관 3곳만 방문해도 개별 입장료(약 67,000원)보다 저렴합니다. 오르세의 인상주의 컬렉션, 퐁피두 센터의 현대미술, 로댕 미술관의 조각 정원까지 — 예술의 도시 파리를 가장 경제적으로 만나는 방법이에요.",
+        "연속 2일(48시간) 동안 유효하며, 첫 사용 시점부터 시간이 계산됩니다. 같은 시설을 한 번만 입장할 수 있지만 60곳 이상의 선택지가 있으니 이틀 동안 마음껏 파리의 문화유산을 탐험하세요."
+      ]
+    },
+    "inclusions": {
+      "title": "포함 / 불포함",
+      "included": [
+        { "text": "파리 뮤지엄 패스 2일권 (48시간)", "detail": "60곳 이상 미술관·박물관 입장" },
+        { "text": "루브르 박물관 입장" },
+        { "text": "오르세 미술관 입장" },
+        { "text": "베르사유 궁전 입장", "detail": "정원 포함" },
+        { "text": "개선문 전망대 입장" },
+        { "text": "퐁피두 센터 입장" }
+      ],
+      "excluded": [
+        { "text": "에펠탑 입장", "tip": "뮤지엄 패스에 포함되지 않음, 별도 예매 필요" },
+        { "text": "파리 시내 교통비", "tip": "메트로·버스 별도 (Navigo Easy 카드 추천)" },
+        { "text": "특별 기획전 입장료", "tip": "일부 미술관의 기획전은 별도 티켓 필요" }
+      ]
+    },
+    "usageGuide": {
+      "title": "이용 방법",
+      "steps": [
+        { "step": 1, "title": "예약 & 바우처 수신", "description": "결제 후 이메일로 교환 바우처가 발송됩니다." },
+        { "step": 2, "title": "패스 교환", "description": "파리 시내 지정 교환소(빅버스 카운터 등)에서 바우처를 실물 패스로 교환합니다." },
+        { "step": 3, "title": "첫 사용", "description": "원하는 시설의 입구에서 패스 뒷면에 날짜를 기입하고 입장합니다. 이 시점부터 48시간 유효." },
+        { "step": 4, "title": "자유 입장", "description": "유효기간 내 포함된 시설을 자유롭게 방문하세요. 각 시설 1회 입장 가능." }
+      ]
+    },
+    "reviews": {
+      "title": "이용자 리뷰",
+      "score": 4.5,
+      "count": 892,
+      "summary": {
+        "positive": ["가성비 최고", "매표소 줄 안 서도 됨", "선택지가 다양함"],
+        "negative": ["인기 미술관은 사전 예약 필요", "에펠탑 미포함이 아쉬움"]
+      },
+      "featured": [
+        {
+          "author": "art_lover_kr",
+          "rating": 5,
+          "text": "2일 동안 루브르, 오르세, 오랑주리, 퐁피두, 로댕 미술관까지 5곳 방문했어요. 개별로 샀으면 10만원 넘었을 텐데 패스 하나로 해결! 루브르는 패스트트랙으로 바로 입장해서 시간도 절약됐습니다.",
+          "date": "2026-02-20"
+        },
+        {
+          "author": "paris_2026",
+          "rating": 4,
+          "text": "가성비는 확실히 좋은데, 루브르랑 오르세는 뮤지엄 패스가 있어도 사전 시간대 예약을 해야 해요. 이 부분만 미리 알았으면 좋겠어요. 그래도 베르사유까지 커버되니 강추합니다.",
+          "date": "2026-01-15"
+        }
+      ]
+    },
+    "notice": {
+      "title": "유의사항",
+      "items": [
+        { "type": "info", "text": "패스는 첫 사용일로부터 연속 48시간 유효합니다. 날짜를 건너뛰어 사용할 수 없습니다." },
+        { "type": "warning", "text": "루브르 박물관, 오르세 미술관은 뮤지엄 패스 소지자도 온라인 시간대 예약이 필수입니다." },
+        { "type": "info", "text": "매주 화요일은 다수의 미술관이 휴관입니다. 일정 계획 시 참고하세요." },
+        { "type": "tip", "text": "첫째 날 오후에 패스를 처음 사용하면 둘째 날 오후까지 유효하므로, 실질적으로 2일 넉넉하게 쓸 수 있어요." }
+      ]
+    },
+    "faq": {
+      "title": "자주 묻는 질문",
+      "items": [
+        {
+          "question": "에펠탑도 뮤지엄 패스로 입장할 수 있나요?",
+          "answer": "아니요, 에펠탑은 뮤지엄 패스에 포함되지 않습니다. 에펠탑은 별도로 공식 사이트에서 예매해야 합니다."
+        },
+        {
+          "question": "아이도 패스가 필요한가요?",
+          "answer": "만 18세 미만은 대부분의 국립 미술관·박물관에 무료 입장이 가능합니다. 여권(나이 증명)을 지참하세요."
+        },
+        {
+          "question": "패스 교환소가 어디에 있나요?",
+          "answer": "파리 시내 빅버스 카운터(오페라 근처), 파리 관광안내소(시청 앞) 등에서 교환 가능합니다. 교환소 위치와 운영시간은 바우처에 상세히 안내되어 있어요."
+        }
+      ]
+    },
+    "socialProof": {
+      "todayBookings": 29,
+      "recentViews": 187
+    },
+    "relatedProducts": [],
+    "cta": {
+      "price": { "current": 89000, "original": null, "currency": "₩", "unit": "1인" },
+      "buttonText": "사용 시작일 선택하고 예약하기"
+    }
+  }
+}

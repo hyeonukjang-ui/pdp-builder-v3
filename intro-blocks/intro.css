@@ -1,0 +1,63 @@
+/* intro-blocks/intro.css — 세로 스크롤 상품소개 페이지 레이아웃 */
+
+@import url('./modules.css');
+
+/* ================================================================
+   Page Container
+   ================================================================ */
+.intro-page {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================================================================
+   Section Wrapper
+   ================================================================ */
+.intro-section {
+  width: 100%;
+  position: relative;
+}
+
+/* ================================================================
+   Empty State
+   ================================================================ */
+.intro-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: #9CA3AF;
+  font-size: 15px;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* ================================================================
+   Edit Mode
+   ================================================================ */
+.intro-section[data-edit-mode="true"]:hover {
+  outline: 2px dashed var(--intro-accent, #2B96ED);
+  outline-offset: -2px;
+}
+
+.intro-section [data-editable]:hover {
+  outline: 1px dashed rgba(43, 150, 237, 0.5);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+/* ================================================================
+   Responsive — 태블릿/데스크톱
+   ================================================================ */
+@media (min-width: 768px) {
+  .intro-page {
+    max-width: 480px;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+}
