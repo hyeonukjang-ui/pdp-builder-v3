@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: pdp-design-tf
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: AI_MODEL_COPY
+        value: claude-sonnet-4-20250514
+      - key: USER_AGENT
+        value: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+      - key: GOOGLE_API_KEY
+        sync: false
