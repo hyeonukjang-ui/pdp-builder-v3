@@ -49,17 +49,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function bindEvents() {
-  // 탭 전환
-  document.querySelectorAll('.sidebar__tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.sidebar__tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const mode = tab.dataset.mode;
-      $('#panelUrl').classList.toggle('hidden', mode !== 'url');
-      $('#panelSample').classList.toggle('hidden', mode !== 'sample');
-    });
-  });
-
   // 뷰 토글
   document.querySelectorAll('.view-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -71,16 +60,32 @@ function bindEvents() {
   });
 
   $('#btnExtract').addEventListener('click', handleExtract);
-  $('#btnLoadSample').addEventListener('click', handleLoadSample);
   $('#btnGenerateIntro').addEventListener('click', handleGenerateIntro);
   $('#btnEditMode').addEventListener('click', handleToggleEditMode);
-  $('#btnExportHtml').addEventListener('click', handleExportHtml);
-  $('#btnSaveSnapshot').addEventListener('click', handleSaveSnapshot);
   $('#btnLoadSnapshot').addEventListener('change', (e) => {
     if (e.target.files[0]) handleLoadSnapshot(e.target.files[0]);
     e.target.value = '';
   });
   $('#btnTemplateViewer').addEventListener('click', handleOpenTemplateViewer);
+
+  // 저장 드롭다운
+  const saveBtn = $('#btnSave');
+  const saveMenu = $('#saveMenu');
+  saveBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    saveMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', () => saveMenu.classList.remove('open'));
+  saveMenu.addEventListener('click', (e) => {
+    const item = e.target.closest('[data-action]');
+    if (!item) return;
+    saveMenu.classList.remove('open');
+    const action = item.dataset.action;
+    if (action === 'jpg-full') handleExportJpgFull();
+    else if (action === 'jpg-split') handleExportJpgSplit();
+    else if (action === 'json') handleSaveSnapshot();
+    else if (action === 'html') handleExportHtml();
+  });
 }
 
 // ─── 데이터 추출 ─────────────────────────────────────────────
@@ -117,33 +122,6 @@ async function handleExtract() {
     setStatus(`✕ ${err.message}`, 'error');
   } finally {
     $('#btnExtract').disabled = false;
-  }
-}
-
-// ─── 샘플 로드 ──────────────────────────────────────────────
-async function handleLoadSample() {
-  const selected = $('#sampleSelect').value;
-  if (!selected) return setStatus('카테고리를 선택하세요.', 'error');
-
-  setStatus('<span class="spinner"></span>샘플 로딩 중...', 'loading');
-
-  try {
-    const res = await fetch(`/samples/${selected}.json`);
-    if (!res.ok) throw new Error(`샘플 파일을 찾을 수 없습니다: ${selected}.json`);
-    const sampleData = await res.json();
-
-    state.rawData = sampleData;
-    state.category = sampleData.category;
-
-    $('#categorySection').style.display = 'block';
-    if (sampleData.category) {
-      $('#categoryOverride').value = sampleData.category;
-    }
-    $('#btnGenerateIntro').style.display = 'block';
-
-    setStatus(`✓ 샘플 로딩 완료: ${sampleData.category}`, 'success');
-  } catch (err) {
-    setStatus(`✕ ${err.message}`, 'error');
   }
 }
 
@@ -432,7 +410,8 @@ function handleAddModuleItem(blockIndex, blockType) {
 
 // ─── 편집 모드 ───────────────────────────────────────────────
 function handleToggleEditMode() {
-  if (!state.introData) {
+  // 프리뷰에 콘텐츠가 없으면 편집 불가
+  if (!previewContainer.innerHTML || previewContainer.querySelector('.preview-empty')) {
     return setStatus('먼저 상품소개를 생성하세요.', 'error');
   }
 
@@ -719,6 +698,107 @@ function applyIntroImage(blockIndex, newUrl, imgElement, placeholderElement) {
       e.stopPropagation();
       openIntroImageModal(blockIndex, img, null);
     });
+  }
+}
+
+// ─── 이미지 프록시 변환 (html2canvas CORS 우회) ──────────────
+async function convertImagesToDataUrls(container) {
+  const imgs = container.querySelectorAll('img');
+  const tasks = [];
+
+  for (const img of imgs) {
+    const src = img.src;
+    if (!src || src.startsWith('data:')) continue;
+    // 로컬 이미지는 스킵
+    if (src.startsWith(location.origin)) continue;
+
+    tasks.push(
+      fetch(`/api/proxy-image?url=${encodeURIComponent(src)}`)
+        .then(res => {
+          if (!res.ok) throw new Error('proxy failed');
+          return res.blob();
+        })
+        .then(blob => new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => { img.src = reader.result; resolve(); };
+          reader.readAsDataURL(blob);
+        }))
+        .catch(() => { /* 실패 시 원본 유지 */ })
+    );
+  }
+
+  if (tasks.length > 0) await Promise.all(tasks);
+}
+
+// ─── JPG 내보내기 ────────────────────────────────────────────
+async function handleExportJpgFull() {
+  const page = previewContainer.querySelector('.intro-page');
+  if (!page) return setStatus('내보낼 콘텐츠가 없습니다.', 'error');
+
+  setStatus('<span class="spinner"></span>이미지 준비 중...', 'loading');
+  try {
+    await convertImagesToDataUrls(page);
+    setStatus('<span class="spinner"></span>JPG 생성 중...', 'loading');
+    const canvas = await html2canvas(page, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      width: page.scrollWidth,
+      height: page.scrollHeight,
+    });
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `intro-${state.category || 'export'}-full-${Date.now()}.jpg`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('✓ JPG 전체 페이지 다운로드 완료', 'success');
+    }, 'image/jpeg', 0.92);
+  } catch (err) {
+    setStatus(`✕ JPG 생성 실패: ${err.message}`, 'error');
+  }
+}
+
+async function handleExportJpgSplit() {
+  const page = previewContainer.querySelector('.intro-page');
+  if (!page) return setStatus('내보낼 콘텐츠가 없습니다.', 'error');
+
+  const sections = page.querySelectorAll('.intro-section');
+  if (!sections.length) return setStatus('섹션이 없습니다.', 'error');
+
+  setStatus('<span class="spinner"></span>이미지 준비 중...', 'loading');
+  try {
+    await convertImagesToDataUrls(page);
+    setStatus(`<span class="spinner"></span>JPG 분할 생성 중... (${sections.length}개 섹션)`, 'loading');
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      const blockType = section.dataset.blockType || `section-${i}`;
+      const label = INTRO_BLOCK_LABELS[blockType] || blockType;
+
+      const canvas = await html2canvas(section, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        width: section.scrollWidth,
+        height: section.scrollHeight,
+      });
+
+      await new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `intro-${state.category || 'export'}-${String(i + 1).padStart(2, '0')}-${blockType}-${Date.now()}.jpg`;
+          a.click();
+          URL.revokeObjectURL(url);
+          resolve();
+        }, 'image/jpeg', 0.92);
+      });
+    }
+    setStatus(`✓ ${sections.length}개 섹션 JPG 다운로드 완료`, 'success');
+  } catch (err) {
+    setStatus(`✕ JPG 분할 생성 실패: ${err.message}`, 'error');
   }
 }
 

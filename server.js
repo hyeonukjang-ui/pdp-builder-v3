@@ -205,6 +205,29 @@ app.post('/api/estimate-images', (req, res) => {
   res.json(estimateImageCost({ rawData, count: count || 3 }));
 });
 
+// ─── GET /api/proxy-image ────────────────────────────────────
+// 외부 이미지를 프록시하여 CORS 우회 (html2canvas 캡처용)
+app.get('/api/proxy-image', async (req, res) => {
+  const { url } = req.query;
+  if (!url) return res.status(400).json({ error: 'url 파라미터가 필요합니다.' });
+
+  try {
+    const response = await fetch(url, {
+      headers: { 'User-Agent': process.env.USER_AGENT || 'Mozilla/5.0' },
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    const buffer = Buffer.from(await response.arrayBuffer());
+
+    res.set('Content-Type', contentType);
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.send(buffer);
+  } catch (err) {
+    res.status(502).json({ error: 'IMAGE_PROXY_FAILED', message: err.message });
+  }
+});
+
 // ─── 에러 핸들러 ─────────────────────────────────────────────
 app.use((err, req, res, _next) => {
   console.error('[server] 에러:', err);
