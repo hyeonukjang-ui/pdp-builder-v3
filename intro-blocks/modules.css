@@ -418,81 +418,67 @@
 }
 
 /* ================================================================
-   Module: Timeline (.mod-timeline)
-   세로 타임라인 + Day 뱃지
+   Module: Program List (.mod-program-list)
+   타임라인: 세로 스택, 라벨뱃지 + 제목 + 소요시간 + 설명
    ================================================================ */
-.mod-timeline {
-  padding: 0 20px 32px;
+.mod-program-list {
+  padding: 0 20px 24px;
+  background: #fff;
 }
 
-.mod-timeline__item {
-  display: flex;
-  gap: 16px;
-  position: relative;
-  padding-bottom: 20px;
+.mod-program__item {
+  padding: 16px 0;
 }
 
-.mod-timeline__item:last-child { padding-bottom: 0; }
-
-.mod-timeline__item:not(:last-child)::before {
-  content: '';
-  position: absolute;
-  left: 17px;
-  top: 36px;
-  bottom: 0;
-  width: 2px;
-  background: #E5E7EB;
+.mod-program__item--border {
+  border-top: 1px solid #E5E7EB;
 }
 
-.mod-timeline__badge {
-  flex: 0 0 36px;
-  height: 36px;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 700;
+.mod-program__header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1;
-  color: #fff;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
 }
 
-.mod-timeline__badge--guided { background: #2B96ED; }
-.mod-timeline__badge--free { background: #F59E0B; }
-.mod-timeline__badge--travel { background: #6B7280; }
-
-.mod-timeline__content {
-  flex: 1;
-  padding-top: 6px;
-}
-
-.mod-timeline__title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1D2229;
-  margin: 0 0 4px;
-}
-
-.mod-timeline__summary {
-  font-size: 14px;
-  color: #6B7280;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.mod-timeline__type {
+.mod-program__label {
   display: inline-block;
-  margin-top: 6px;
   font-size: 11px;
   font-weight: 600;
+  background: #EFF6FF;
+  color: #2B96ED;
   padding: 2px 8px;
-  border-radius: 4px;
-  letter-spacing: 0.3px;
+  border-radius: 5px;
+  flex-shrink: 0;
 }
 
-.mod-timeline__type--guided { background: #EBF5FF; color: #2B96ED; }
-.mod-timeline__type--free { background: #FEF3C7; color: #D97706; }
-.mod-timeline__type--travel { background: #F3F4F6; color: #6B7280; }
+.mod-program__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.mod-program__duration {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  background: #F3F4F6;
+  color: #6B7280;
+  padding: 2px 8px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.mod-program__desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #4B5563;
+  margin: 0;
+}
 
 /* ================================================================
    Module: Stat Row (.mod-stat-row)

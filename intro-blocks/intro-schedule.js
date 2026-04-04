@@ -1,17 +1,6 @@
-// intro-blocks/intro-schedule.js — 일정 미리보기 타임라인 블록 (시간 필드 포함)
+// intro-blocks/intro-schedule.js — 타임라인 (Program List): 세로 스택 구조
 import { registerBlock } from '../engine/block-registry.js';
 import { escapeHtml } from './utils.js';
-
-function getDayType(type) {
-  if (type === 'guided' || type === 'free' || type === 'travel') return type;
-  return 'guided';
-}
-
-const TYPE_LABELS = {
-  guided: '가이드 투어',
-  free: '자유 일정',
-  travel: '이동',
-};
 
 const renderer = {
   validate(data) {
@@ -19,32 +8,27 @@ const renderer = {
   },
 
   render(data, ctx) {
-    const { title, days, totalDuration } = data;
+    const { title, days } = data;
 
-    const totalBadge = totalDuration
-      ? ` <span class="mod-badges__item">\u23F1 ${escapeHtml(totalDuration)}</span>`
-      : '';
+    const itemsHtml = days.map((d, i) => {
+      const label = d.label || `Day ${d.day || i + 1}`;
+      const duration = d.duration || d.time || '';
 
-    const daysHtml = days.map(d => {
-      const type = getDayType(d.type);
-      const typeLabel = TYPE_LABELS[type] || '';
-
-      return `<div class="mod-timeline__item">
-    <div class="mod-timeline__badge mod-timeline__badge--${type}">D${Number(d.day)}</div>
-    <div class="mod-timeline__content">
-      <h4 class="mod-timeline__title" data-editable="day-title">${escapeHtml(d.title)}</h4>
-      ${d.time ? `<span class="mod-timeline__time">${escapeHtml(d.time)}</span>` : ''}
-      ${d.summary ? `<p class="mod-timeline__summary" data-editable="day-summary">${escapeHtml(d.summary)}</p>` : ''}
-      ${typeLabel ? `<span class="mod-timeline__type mod-timeline__type--${type}">${typeLabel}</span>` : ''}
-    </div>
-  </div>`;
+      return `<div class="mod-program__item${i > 0 ? ' mod-program__item--border' : ''}">
+  <div class="mod-program__header">
+    <span class="mod-program__label">${escapeHtml(label)}</span>
+    <h3 class="mod-program__title" data-editable="days.${i}.title">${escapeHtml(d.title)}</h3>
+    ${duration ? `<span class="mod-program__duration">${escapeHtml(duration)}</span>` : ''}
+  </div>
+  ${d.summary ? `<p class="mod-program__desc" data-editable="days.${i}.summary">${escapeHtml(d.summary)}</p>` : ''}
+</div>`;
     }).join('\n');
 
-    return `<section class="mod-text">
-  <h2 class="mod-text__title" data-editable="title">${escapeHtml(title)}${totalBadge}</h2>
-</section>
-<div class="mod-timeline">
-  ${daysHtml}
+    return `<div class="mod-text">
+  <h2 class="mod-text__title" data-editable="title">${escapeHtml(title)}</h2>
+</div>
+<div class="mod-program-list">
+  ${itemsHtml}
 </div>`;
   },
 };
