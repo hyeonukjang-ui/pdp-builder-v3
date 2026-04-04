@@ -1,4 +1,4 @@
-// intro-blocks/intro-card-grid.js — 카드 그리드 블록 (2열 이미지 카드 + 태그)
+// intro-blocks/intro-card-grid.js — 세로 나열 카드: 제목 → 설명 → 이미지 (최대 3개)
 import { registerBlock } from '../engine/block-registry.js';
 import { escapeHtml } from './utils.js';
 
@@ -9,35 +9,30 @@ const renderer = {
 
   render(data, ctx) {
     const { title, items } = data;
+    const visibleItems = items.slice(0, 3);
 
-    const cardsHtml = items.map((card, i) => {
+    const cardsHtml = visibleItems.map((card, i) => {
       const hasImage = card.image?.url;
-      const tagHtml = card.tag
-        ? `<span class="mod-card-grid__tag">${escapeHtml(card.tag)}</span>`
-        : '';
 
       const imageHtml = hasImage
-        ? `<img class="mod-card-grid__img" src="${escapeHtml(card.image.url)}" alt="${escapeHtml(card.image.alt || card.title)}" loading="lazy" />`
-        : `<div class="mod-card-grid__placeholder"></div>`;
+        ? `<img class="mod-vcard__img" src="${escapeHtml(card.image.url)}" alt="${escapeHtml(card.image.alt || card.title)}" loading="lazy" />`
+        : `<div class="mod-vcard__img mod-vcard__placeholder">📷 이미지를 추가하세요</div>`;
 
-      return `<div class="mod-card-grid__card" data-item-index="${i}">
-        <div class="mod-card-grid__image-wrap">
-          ${imageHtml}
-          ${tagHtml}
-        </div>
-        <div class="mod-card-grid__body">
-          <h4 class="mod-card-grid__title" data-editable="card-title">${escapeHtml(card.title)}</h4>
-          ${card.subtitle ? `<p class="mod-card-grid__subtitle" data-editable="card-subtitle">${escapeHtml(card.subtitle)}</p>` : ''}
-        </div>
-      </div>`;
+      return `<div class="mod-vcard__item">
+  <h3 class="mod-vcard__title" data-editable="items.${i}.title">${escapeHtml(card.title)}</h3>
+  ${card.subtitle ? `<p class="mod-vcard__desc" data-editable="items.${i}.subtitle">${escapeHtml(card.subtitle)}</p>` : ''}
+  <div class="mod-vcard__img-wrap">
+    ${imageHtml}
+  </div>
+</div>`;
     }).join('\n');
 
     const titleHtml = title
-      ? `<section class="mod-text"><h2 class="mod-text__title" data-editable="title">${escapeHtml(title)}</h2></section>`
+      ? `<div class="mod-text"><h2 class="mod-text__title" data-editable="title">${escapeHtml(title)}</h2></div>`
       : '';
 
     return `${titleHtml}
-<div class="mod-card-grid">
+<div class="mod-vcard-list">
   ${cardsHtml}
 </div>`;
   },
