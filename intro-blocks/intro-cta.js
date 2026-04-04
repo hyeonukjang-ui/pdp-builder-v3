@@ -1,34 +1,36 @@
-// intro-blocks/intro-cta.js — 마무리 CTA: 감성 이미지 + CTA 문구
+// intro-blocks/intro-cta.js — 상품 추천: "이런 상품은 어때요?" 카드 리스트
 import { registerBlock } from '../engine/block-registry.js';
 import { escapeHtml } from './utils.js';
 
 const renderer = {
   validate(data) {
-    return !!(data && data.headline && data.buttonText);
+    return !!(data && data.items?.length >= 1);
   },
 
   render(data, ctx) {
-    const { image, headline, buttonText, subText } = data;
-    const hasImage = image?.url;
+    const { title, items } = data;
+    const heading = title || '이런 상품은 어때요?';
 
-    // 이미지 있음 → mod-hero 배경 + 중앙 CTA 오버레이
-    if (hasImage) {
-      return `<div class="mod-hero">
-  <img class="mod-hero__img" src="${escapeHtml(image.url)}" alt="${escapeHtml(image.alt || headline)}" />
-  <div class="mod-hero__overlay"></div>
-  <div class="mod-hero__content mod-hero__content--center">
-    <h2 class="mod-cta__headline" data-editable="headline">${escapeHtml(headline)}</h2>
-    <span class="mod-cta__button" data-editable="buttonText">${escapeHtml(buttonText)}</span>
-    ${subText ? `<p class="mod-cta__subtext" data-editable="subText">${escapeHtml(subText)}</p>` : ''}
+    const cardsHtml = items.map((item, i) => {
+      const imgHtml = item.image?.url
+        ? `<img class="mod-recommend__img" src="${escapeHtml(item.image.url)}" alt="${escapeHtml(item.title || '')}">`
+        : `<div class="mod-recommend__img mod-recommend__img--empty">📦</div>`;
+
+      return `<a class="mod-recommend__card" ${item.url ? `href="${escapeHtml(item.url)}" target="_blank"` : ''}>
+  ${imgHtml}
+  <div class="mod-recommend__body">
+    <p class="mod-recommend__title" data-editable="items.${i}.title">${escapeHtml(item.title || '상품명')}</p>
+    ${item.price ? `<p class="mod-recommend__price" data-editable="items.${i}.price">${escapeHtml(item.price)}</p>` : ''}
+    ${item.desc ? `<p class="mod-recommend__desc" data-editable="items.${i}.desc">${escapeHtml(item.desc)}</p>` : ''}
   </div>
-</div>`;
-    }
+</a>`;
+    }).join('\n');
 
-    // 이미지 없음 → mod-cta 액센트 배경
-    return `<div class="mod-cta">
-  <h2 class="mod-cta__headline" data-editable="headline">${escapeHtml(headline)}</h2>
-  <span class="mod-cta__button" data-editable="buttonText">${escapeHtml(buttonText)}</span>
-  ${subText ? `<p class="mod-cta__subtext" data-editable="subText">${escapeHtml(subText)}</p>` : ''}
+    return `<div class="mod-text">
+  <h3 class="mod-text__title" data-editable="title">${escapeHtml(heading)}</h3>
+</div>
+<div class="mod-recommend">
+  ${cardsHtml}
 </div>`;
   },
 };

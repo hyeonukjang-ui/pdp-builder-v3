@@ -13,7 +13,11 @@ const renderer = {
     const colClass = columns === 4 ? 'mod-icon-grid--4col' : '';
 
     const gridHtml = items.map((item, i) => {
-      return `<div class="mod-icon-grid__item">
+      const imgHtml = item.image && item.image.url
+        ? `<div class="mod-icon-grid__img"><img src="${escapeHtml(item.image.url)}" alt="${escapeHtml(item.label || '')}"></div>`
+        : '';
+      return `<div class="mod-icon-grid__item${imgHtml ? ' mod-icon-grid__item--has-img' : ''}">
+    ${imgHtml}
     <span class="mod-icon-grid__icon">${escapeHtml(item.icon)}</span>
     <span class="mod-icon-grid__label" data-editable="items.${i}.label">${escapeHtml(item.label)}</span>
     ${item.description ? `<span class="mod-icon-grid__desc" data-editable="items.${i}.description">${escapeHtml(item.description)}</span>` : ''}

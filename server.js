@@ -260,3 +260,77 @@ app.use((err, req, res, _next) => {
 app.listen(PORT, () => {
   console.log(`[server] http://localhost:${PORT} 에서 실행 중`);
 });
+
+// ─── POST /api/render ────────────────────────────────────────
+// productData를 받아서 렌더링된 HTML을 반환한다.
+app.post('/api/render', async (req, res, next) => {
+  try {
+    const { productData } = req.body;
+    if (!productData) {
+      return res.status(400).json({ error: 'productData 필드가 필요합니다.' });
+    }
+
+    const { renderPDP } = await import('./engine/pdp-engine.js');
+    // 블록 렌더러 로드
+    await import('./blocks/hero.js');
+    await import('./blocks/highlights.js');
+    await import('./blocks/overview.js');
+    await import('./blocks/itinerary.js');
+    await import('./blocks/imageGrid.js');
+    await import('./blocks/inclusions.js');
+    await import('./blocks/optionTable.js');
+    await import('./blocks/usageGuide.js');
+    await import('./blocks/faq.js');
+    await import('./blocks/recommendFor.js');
+    await import('./blocks/guideProfile.js');
+    await import('./blocks/notice.js');
+    await import('./blocks/meetingPoint.js');
+    await import('./blocks/reviews.js');
+    await import('./blocks/socialProof.js');
+    await import('./blocks/relatedProducts.js');
+    await import('./blocks/cta.js');
+    await import('./blocks/comparison.js');
+    await import('./blocks/hotelInfo.js');
+
+    const result = renderPDP(productData);
+    
+    // 전체 HTML 페이지로 감싸기
+    const fullHtml = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root {
+  --pdp-font: 'Pretendard Variable', 'Pretendard', -apple-system, sans-serif;
+  --pdp-text: #1D2229;
+  --pdp-text-secondary: #6B7280;
+  --pdp-primary: #2B96ED;
+  --pdp-primary-light: #F0F9FF;
+  --pdp-border: #E5E7EB;
+  --pdp-success: #059669;
+  --pdp-danger: #EF4444;
+  --pdp-content-padding: 20px;
+  --pdp-section-gap: 32px;
+  --pdp-radius-sm: 8px;
+  --pdp-radius-md: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--pdp-font); background: #fff; color: var(--pdp-text); max-width: 390px; margin: 0 auto; }
+img { max-width: 100%; }
+.pdp-section { padding: 20px; padding-top: 32px; padding-bottom: 32px; }
+.pdp-section__title { font-size: 18px; font-weight: 700; color: #1D2229; margin-bottom: 16px; letter-spacing: -0.02em; }
+</style>
+</head>
+<body>
+${result.html}
+</body>
+</html>`;
+
+    res.json({ success: true, html: fullHtml, renderedBlocks: result.renderedBlocks, skippedBlocks: result.skippedBlocks });
+  } catch (err) {
+    next(err);
+  }
+});
