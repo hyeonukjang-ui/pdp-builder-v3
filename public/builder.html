@@ -291,10 +291,11 @@ function startGenerate(){showV('loading');document.getElementById('loadTitle').t
     // 히어로에 뱃지 자동 삽입
     var hookBlock=data.introData.introBlocks.find(function(b){return b.blockType==='intro-hook'});
     if(hookBlock){
-      var badges=[];var rd=S.rawData||{};
-      if(rd.instantConfirm)badges.push('⚡ 즉시확정');
-      if(rd.rating&&rd.rating.score)badges.push('⭐ '+rd.rating.score+(rd.rating.reviewCount?' ('+rd.rating.reviewCount+'개)':''));
-      var tags=(rd.tags||[]).slice(0,3);tags.forEach(function(t){if(t&&badges.length<5)badges.push(t)});
+      var badges=[];var seen={};var rd=S.rawData||{};
+      function addBadge(b){if(!b||badges.length>=3)return;var key=b.replace(/[⚡⭐\s]/g,'').toLowerCase();if(seen[key])return;seen[key]=true;badges.push(b)}
+      if(rd.instantConfirm)addBadge('⚡ 즉시확정');
+      if(rd.rating&&rd.rating.score)addBadge('⭐ '+rd.rating.score+(rd.rating.reviewCount?' ('+rd.rating.reviewCount+'개)':''));
+      (rd.tags||[]).forEach(function(t){addBadge(t)});
       if(badges.length)hookBlock.data.badges=badges;
     }
     var recipeForLabel=(RECIPES[S.category||'TOUR']||RECIPES.TOUR);
