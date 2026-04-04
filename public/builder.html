@@ -107,7 +107,7 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
 </head>
 <body>
 <div id="entryView"><div class="ec">
-  <div class="eh"><div class="ebadge">🛠️ AI PDP Builder</div><h1 class="etitle">상세페이지 빌더</h1><p class="edesc">상품 링크를 입력하면 AI가 매거진형 상세페이지를 자동 생성합니다</p></div>
+  <div class="eh"><div class="ebadge">🛠️ AI PDP Builder</div><h1 class="etitle">상세페이지 빌더</h1><p class="edesc">상품 링크를 입력하면 상품 링크만 입력하면 상세페이지를 자동으로 제작합니다</p></div>
   <div class="ecard"><div class="ech"><div class="eci bl">🔗</div><div><div class="ect">상품 링크로 생성</div><div class="ecd">마이리얼트립 상품 URL 또는 ID를 입력하세요</div></div></div>
     <div class="ecb"><input class="inp" id="pidInput" placeholder="https://experiences.myrealtrip.com/products/..." onkeydown="if(event.key==='Enter')doSearch()"><button class="btn bp" onclick="doSearch()">생성 시작</button></div>
     <div class="err" id="searchErr"></div></div>
@@ -279,7 +279,7 @@ function showDetected(){
   document.getElementById('catGrid').innerHTML=CATS.map(function(c){return'<div class="cat-btn'+(c.id===S.category?' sel':'')+'" data-cat="'+c.id+'"><div class="ci">'+c.ic+'</div><div class="cn">'+c.n+'</div></div>'}).join('');
   renderD2(S.category);updateDetectedHeader();showV('detected');
 }
-function startGenerate(){showV('loading');document.getElementById('loadTitle').textContent='AI 상세페이지 생성 중';document.getElementById('loadSteps').innerHTML='<div class="lst ac"><span style="width:22px;text-align:center">⏳</span><span style="font-size:14px">Claude가 매거진형 상세페이지를 작성 중...</span></div>';var _s=Date.now();var _iv=setInterval(function(){var el=document.getElementById('aiTimer');if(el)el.textContent=Math.floor((Date.now()-_s)/1000)+'초 경과'},1000);
+function startGenerate(){showV('loading');document.getElementById('loadTitle').textContent='AI 상세페이지 생성 중';document.getElementById('loadSteps').innerHTML='<div class="lst ac"><span style="width:22px;text-align:center">⏳</span><span style="font-size:14px">상세페이지를 제작하고 있습니다...</span></div>';var _s=Date.now();var _iv=setInterval(function(){var el=document.getElementById('aiTimer');if(el)el.textContent=Math.floor((Date.now()-_s)/1000)+'초 경과'},1000);
   fetch(API_BASE+'/api/generate-intro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({rawData:S.rawData,category:S.category})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(data){clearInterval(_iv);if(!data.introData||!data.introData.introBlocks)throw new Error('생성 데이터 없음');var imgs=S.rawData.images||[];if(imgs.length)assignImgs(data.introData.introBlocks,imgs);
     // 히어로에 뱃지 자동 삽입
     var hookBlock=data.introData.introBlocks.find(function(b){return b.blockType==='intro-hook'});
