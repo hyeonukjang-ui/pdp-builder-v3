@@ -165,6 +165,37 @@
 
 .mod-text__body:last-child { margin-bottom: 0; }
 
+/* Table */
+.mod-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.mod-table__th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  background: #F9FAFB;
+  border-bottom: 2px solid #E5E7EB;
+}
+
+.mod-table__cell {
+  padding: 12px;
+  border-bottom: 1px solid #F3F4F6;
+  color: #374151;
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+.mod-table__name {
+  font-weight: 600;
+  color: #1D2229;
+  white-space: nowrap;
+}
+
 .mod-text__img-wrap {
   margin-top: 12px;
   border-radius: 12px;
