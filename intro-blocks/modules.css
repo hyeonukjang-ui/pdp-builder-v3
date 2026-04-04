@@ -129,6 +129,40 @@
   word-break: keep-all;
 }
 
+/* FAQ Q&A */
+.mod-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mod-faq__item {
+  padding: 14px 0;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.mod-faq__item:first-child {
+  padding-top: 0;
+}
+
+.mod-faq__item:last-child {
+  border-bottom: none;
+}
+
+.mod-faq__q {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1D2229;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.mod-faq__a {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.6;
+}
+
 .mod-text__body:last-child { margin-bottom: 0; }
 
 /* ================================================================
