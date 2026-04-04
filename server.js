@@ -143,7 +143,7 @@ app.post('/api/batch', async (req, res, next) => {
 // 상품소개 전용 블록 카피를 AI로 생성한다.
 app.post('/api/generate-intro', async (req, res, next) => {
   try {
-    const { rawData, category } = req.body;
+    const { rawData, category, depth2 } = req.body;
 
     if (!rawData) {
       return res.status(400).json({
@@ -155,6 +155,7 @@ app.post('/api/generate-intro', async (req, res, next) => {
     const result = await generateIntroBlocks({
       rawData,
       category: category || 'TOUR',
+      depth2: depth2 || null,
       recipe: req.body.recipe || null,
     });
 
