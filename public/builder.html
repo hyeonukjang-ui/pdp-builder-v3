@@ -312,7 +312,8 @@ var IP=['intro-hook','intro-image','intro-experience'];
 function assignImgs(blocks,images){var idx=0;
   // 1) 기존 블록 레벨 이미지 배분
   for(var p=0;p<IP.length;p++){if(idx>=images.length)break;for(var i=0;i<blocks.length;i++){if(idx>=images.length)break;if(blocks[i].blockType!==IP[p])continue;if(blocks[i].data.image&&blocks[i].data.image.url)continue;blocks[i].data.image={url:images[idx].url,alt:images[idx].alt||''};idx++}}
-  // 하이라이트는 아이콘+텍스트 전용 — 이미지 자동배분 안 함}
+  // 하이라이트는 아이콘+텍스트 전용 — 이미지 자동배분 안 함
+}
 // ── 이미지 피커 ──
 var _imgPickerCb=null;
 function openImgPicker(itemIdx){
