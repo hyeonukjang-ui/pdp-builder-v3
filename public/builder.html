@@ -296,7 +296,9 @@ function renderEdit(){var ep=document.getElementById('eP'),ac=document.getElemen
     if(d.faq&&d.faq.length){
       h+=fg('제목','<input class="inp" value="'+esc(d.title)+'" oninput="ud(\'title\',this.value)">')+'<label class="fl">Q&A</label>'+(d.faq||[]).map(function(x,i){return'<div class="ri"><div class="rf"><input class="inp" value="'+esc(x.q)+'" oninput="uAI(\'faq\','+i+',\'q\',this.value)" placeholder="질문" style="font-weight:600"><input class="inp" value="'+esc(x.a)+'" oninput="uAI(\'faq\','+i+',\'a\',this.value)" placeholder="답변"></div><button class="rrm" onclick="rAI(\'faq\','+i+')">✕</button></div>'}).join('')+'<button class="rad" onclick="aAI(\'faq\',{q:\'\',a:\'\'})">+ Q&A 추가</button>'
     }else{
-      h+=fg('제목','<input class="inp" value="'+esc(d.title)+'" oninput="ud(\'title\',this.value)">')+fg('부제목','<input class="inp" value="'+esc(d.subtitle)+'" oninput="ud(\'subtitle\',this.value)">')+fg('본문','<textarea class="inp" style="min-height:140px" oninput="udP(this.value)">'+esc((d.paragraphs||[]).join('\n\n'))+'</textarea>')
+      var tImgUrl=d.image&&d.image.url;
+      var tImgHtml=tImgUrl?'<div style="margin-top:6px;position:relative;border-radius:8px;overflow:hidden"><img src="'+esc(tImgUrl)+'" style="width:100%;height:100px;object-fit:cover;display:block;cursor:pointer" onclick="triggerTextImg()"><button style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.5);color:#fff;border:none;border-radius:4px;padding:2px 6px;font-size:10px;cursor:pointer" onclick="rmTextImg()">✕</button></div>':'<button class="rad" style="margin-top:6px" onclick="triggerTextImg()">📷 이미지 추가</button>';
+      h+=fg('제목','<input class="inp" value="'+esc(d.title)+'" oninput="ud(\'title\',this.value)">')+fg('부제목','<input class="inp" value="'+esc(d.subtitle)+'" oninput="ud(\'subtitle\',this.value)">')+fg('본문','<textarea class="inp" style="min-height:140px" oninput="udP(this.value)">'+esc((d.paragraphs||[]).join('\n\n'))+'</textarea>')+tImgHtml
     }
   }
   else if(t==='intro-highlights'){h+=fg('항목',(d.items||[]).map(function(x,i){return'<div class="ri"><div class="rf"><div style="display:flex;gap:4px"><input class="inp" style="width:50px;text-align:center" value="'+esc(x.icon)+'" oninput="uAI(\'items\','+i+',\'icon\',this.value)" placeholder="아이콘"><input class="inp" value="'+esc(x.label)+'" oninput="uAI(\'items\','+i+',\'label\',this.value)" style="flex:1" placeholder="라벨"></div><input class="inp" value="'+esc(x.description)+'" oninput="uAI(\'items\','+i+',\'description\',this.value)" placeholder="설명"></div><button class="rrm" onclick="rAI(\'items\','+i+')">✕</button></div>'}).join('')+'<button class="rad" onclick="aAI(\'items\',{icon:\'✨\',label:\'새 항목\',description:\'\'})">+ 추가</button>')}
@@ -383,6 +385,13 @@ function closeImgPicker(){document.getElementById('imgPickerModal').classList.re
 function applyImgUrl(){var url=document.getElementById('imgUrlInput').value.trim();if(!url)return;if(_imgPickerCb){_imgPickerCb(url);closeImgPicker()}}
 document.getElementById('imgPickerFile').addEventListener('change',function(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){if(_imgPickerCb){_imgPickerCb(ev.target.result);closeImgPicker()}};reader.readAsDataURL(file);e.target.value=''});
 function rmHlImg(i){var s=ga();if(!s||!s.data.items||!s.data.items[i])return;saveU();s.data.items[i].image=null;render()}
+function triggerTextImg(){
+  var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
+  if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다. 파일을 직접 업로드하세요.</p>'}
+  else{grid.innerHTML=imgs.map(function(img,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(img.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
+  _imgPickerCb=function(url){var s=ga();if(!s)return;saveU();if(!s.data.image)s.data.image={};s.data.image={url:url,alt:''};render()};
+  document.getElementById('imgPickerModal').classList.add('show')}
+function rmTextImg(){var s=ga();if(!s)return;saveU();s.data.image=null;render()}
 function openCardImg(itemIdx){
   var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
   if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다. 파일을 직접 업로드하세요.</p>'}

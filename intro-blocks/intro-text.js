@@ -1,4 +1,4 @@
-// intro-blocks/intro-text.js — Text section block: 제목 + 본문 단락 / FAQ 모드
+// intro-blocks/intro-text.js — Text section block: 제목 + 본문 + 선택적 이미지 / FAQ 모드
 import { registerBlock } from '../engine/block-registry.js';
 import { escapeHtml } from './utils.js';
 
@@ -8,10 +8,15 @@ const renderer = {
   },
 
   render(data, ctx) {
-    const { title, subtitle, paragraphs, faq, background } = data;
+    const { title, subtitle, paragraphs, faq, image, background } = data;
     const bgClass = background === 'gray' ? 'mod-text--gray' : 'mod-text--white';
 
-    // FAQ 모드: Q&A 아코디언 형태
+    // 이미지: 있을 때만 노출
+    const imageHtml = image?.url
+      ? `<div class="mod-text__img-wrap"><img class="mod-text__img" src="${escapeHtml(image.url)}" alt="${escapeHtml(image.alt || title || '')}" loading="lazy"></div>`
+      : '';
+
+    // FAQ 모드
     if (faq && faq.length) {
       const faqHtml = faq.map((item, i) =>
         `<div class="mod-faq__item">
@@ -33,6 +38,7 @@ const renderer = {
   ${title ? `<h3 class="mod-text__title" data-editable="title">${escapeHtml(title)}</h3>` : ''}
   ${subtitle ? `<p class="mod-text__subtitle" data-editable="subtitle">${escapeHtml(subtitle)}</p>` : ''}
   ${(paragraphs || []).map((p, i) => `<p class="mod-text__body" data-editable="paragraphs.${i}">${escapeHtml(p)}</p>`).join('\n  ')}
+  ${imageHtml}
 </div>`;
   },
 };
