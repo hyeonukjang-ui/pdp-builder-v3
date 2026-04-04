@@ -208,9 +208,33 @@ app.post('/api/estimate-images', (req, res) => {
 
 // ─── GET /api/proxy-image ────────────────────────────────────
 // 외부 이미지를 프록시하여 CORS 우회 (html2canvas 캡처용)
+// SSRF 방지: 허용 도메인만 프록시
+const ALLOWED_IMAGE_HOSTS = [
+  'cloudfront.net',
+  'myrealtrip.com',
+  'mrt-images-prod',
+  'd2ur7st6jjikze.cloudfront.net', // MRT CDN
+  'd3b9eqgmobbqho.cloudfront.net', // MRT CDN
+  'scdn.myrealtrip.com',
+];
+
+function isAllowedImageUrl(rawUrl) {
+  try {
+    const parsed = new URL(rawUrl);
+    if (!['http:', 'https:'].includes(parsed.protocol)) return false;
+    return ALLOWED_IMAGE_HOSTS.some((host) => parsed.hostname.endsWith(host) || parsed.hostname.includes(host));
+  } catch {
+    return false;
+  }
+}
+
 app.get('/api/proxy-image', async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: 'url 파라미터가 필요합니다.' });
+
+  if (!isAllowedImageUrl(url)) {
+    return res.status(403).json({ error: 'FORBIDDEN', message: '허용되지 않은 이미지 도메인입니다.' });
+  }
 
   try {
     const response = await fetch(url, {
