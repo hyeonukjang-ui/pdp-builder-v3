@@ -253,39 +253,6 @@ app.get('/api/proxy-image', async (req, res) => {
   }
 });
 
-// ─── 에러 핸들러 ─────────────────────────────────────────────
-app.use((err, req, res, _next) => {
-  console.error('[server] 에러:', err);
-
-  // Anthropic API 에러
-  if (err.status && err.type) {
-    return res.status(502).json({
-      error: 'AI_API_ERROR',
-      message: `AI 서비스 에러: ${err.message}`,
-      detail: err.type,
-    });
-  }
-
-  // 추출 실패
-  if (err.code === 'EXTRACT_FAILED') {
-    return res.status(422).json({
-      error: 'EXTRACT_FAILED',
-      message: err.message,
-      detail: err.detail || null,
-    });
-  }
-
-  // 기타 서버 에러
-  res.status(500).json({
-    error: 'INTERNAL_ERROR',
-    message: '서버 내부 에러가 발생했습니다.',
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`[server] http://localhost:${PORT} 에서 실행 중`);
-});
-
 // ─── POST /api/render ────────────────────────────────────────
 // productData를 받아서 렌더링된 HTML을 반환한다.
 app.post('/api/render', async (req, res, next) => {
@@ -318,7 +285,7 @@ app.post('/api/render', async (req, res, next) => {
     await import('./blocks/hotelInfo.js');
 
     const result = renderPDP(productData);
-    
+
     // 전체 HTML 페이지로 감싸기
     const fullHtml = `<!DOCTYPE html>
 <html lang="ko">
@@ -358,4 +325,37 @@ ${result.html}
   } catch (err) {
     next(err);
   }
+});
+
+// ─── 에러 핸들러 ─────────────────────────────────────────────
+app.use((err, req, res, _next) => {
+  console.error('[server] 에러:', err);
+
+  // Anthropic API 에러
+  if (err.status && err.type) {
+    return res.status(502).json({
+      error: 'AI_API_ERROR',
+      message: `AI 서비스 에러: ${err.message}`,
+      detail: err.type,
+    });
+  }
+
+  // 추출 실패
+  if (err.code === 'EXTRACT_FAILED') {
+    return res.status(422).json({
+      error: 'EXTRACT_FAILED',
+      message: err.message,
+      detail: err.detail || null,
+    });
+  }
+
+  // 기타 서버 에러
+  res.status(500).json({
+    error: 'INTERNAL_ERROR',
+    message: '서버 내부 에러가 발생했습니다.',
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`[server] http://localhost:${PORT} 에서 실행 중`);
 });
