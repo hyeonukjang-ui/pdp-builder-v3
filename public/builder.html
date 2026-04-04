@@ -301,12 +301,11 @@ function startGenerate(){showV('loading');document.getElementById('loadTitle').t
     var recipeForLabel=(RECIPES[S.category||'TOUR']||RECIPES.TOUR);
     var usedRecIdx={};
     S.secs=data.introData.introBlocks.map(function(b){
-      var lbl=(R[b.blockType]||{}).l||b.blockType;
-      // 레시피에서 같은 blockType의 아직 안 쓴 항목을 순서대로 찾기
+      var lbl=(R[b.blockType]||{}).l||b.blockType;var matchedRec=null;
       for(var ri=0;ri<recipeForLabel.length;ri++){
-        if(recipeForLabel[ri].t===b.blockType&&!usedRecIdx[ri]){usedRecIdx[ri]=true;lbl=recipeForLabel[ri].l;break}
+        if(recipeForLabel[ri].t===b.blockType&&!usedRecIdx[ri]){usedRecIdx[ri]=true;matchedRec=recipeForLabel[ri];lbl=matchedRec.l;break}
       }
-      var ic=rl?rl.ic:(R[b.blockType]||{}).i||'📄';
+      var ic=matchedRec?matchedRec.ic:(R[b.blockType]||{}).i||'📄';
       return{id:gid(),type:b.blockType,label:lbl,ic:ic,data:b.data,ai:true,cf:false}
     });S.act=null;showV('builder');render();toast('✅ 완성 ('+S.secs.length+'개 블록, '+Math.floor((Date.now()-_s)/1000)+'초)')}).catch(function(err){clearInterval(_iv);toast('생성 실패: '+err.message);showV('entry')})}
 var IP=['intro-hook','intro-image'];
