@@ -1,4 +1,4 @@
-// intro-blocks/intro-provider.js — 가이드 소개: 회사 이미지 + 가이드 리스트
+// intro-blocks/intro-provider.js — 가이드 소개: 프로필 이미지 + 가이드 리스트
 import { registerBlock } from '../engine/block-registry.js';
 import { escapeHtml } from './utils.js';
 
@@ -31,18 +31,10 @@ function renderGuide(g, i) {
 
 const renderer = {
   validate(data) {
-    // 기존 단일(name/role) 또는 새 배열(guides) 모두 지원
     return !!(data && (data.guides?.length || data.name));
   },
 
   render(data, ctx) {
-    const { companyImage } = data;
-
-    // 회사 이미지: 있을 때만 노출
-    const companyImgHtml = companyImage?.url
-      ? `<div class="mod-guide__company-img"><img src="${escapeHtml(companyImage.url)}" alt="회사/업체" loading="lazy"></div>`
-      : '';
-
     // guides 배열 또는 기존 단일 구조 호환
     let guides = data.guides;
     if (!guides || !guides.length) {
@@ -54,7 +46,6 @@ const renderer = {
     return `<div class="mod-text">
   <h3 class="mod-text__title">가이드 소개</h3>
 </div>
-${companyImgHtml}
 <div class="mod-guide">
   ${guidesHtml}
 </div>`;

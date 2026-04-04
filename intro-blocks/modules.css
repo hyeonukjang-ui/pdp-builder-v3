@@ -463,19 +463,6 @@
   margin: 8px 0 0;
 }
 
-.mod-guide__company-img {
-  padding: 0 20px 16px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.mod-guide__company-img img {
-  width: 100%;
-  border-radius: 12px;
-  display: block;
-  object-fit: cover;
-}
-
 .mod-guide__card {
   display: flex;
   gap: 14px;
