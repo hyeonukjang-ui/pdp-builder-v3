@@ -208,41 +208,6 @@
   line-height: 1.3;
 }
 
-.mod-icon-grid__item--has-img {
-  padding: 0;
-  overflow: hidden;
-  text-align: left;
-  align-items: stretch;
-}
-
-.mod-icon-grid__img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-}
-
-.mod-icon-grid__img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.mod-icon-grid__item--has-img .mod-icon-grid__icon,
-.mod-icon-grid__item--has-img .mod-icon-grid__label,
-.mod-icon-grid__item--has-img .mod-icon-grid__desc {
-  padding: 0 12px;
-  text-align: center;
-}
-
-.mod-icon-grid__item--has-img .mod-icon-grid__icon {
-  margin-top: 12px;
-}
-
-.mod-icon-grid__item--has-img .mod-icon-grid__desc {
-  padding-bottom: 14px;
-}
-
 /* ================================================================
    Module: Numbered Steps (.mod-steps)
    번호 스텝 리스트 + 연결선

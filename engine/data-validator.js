@@ -1,8 +1,10 @@
 // engine/data-validator.js
 
 const VALID_CATEGORIES = [
+  'TOUR', 'TICKET', 'ACTIVITY', 'CLASS', 'SNAPS', 'CONVENIENCE',
+  // 구 카테고리 (extractor 호환)
   'TICKET_THEME', 'TICKET_TRANSPORT', 'TICKET_CITYPASS', 'TICKET_EXPERIENCE',
-  'TOUR', 'SERVICE', 'ACTIVITY', 'SEMI_PACKAGE',
+  'SERVICE', 'SEMI_PACKAGE',
 ];
 
 // 전 카테고리 공통 필수 블록 (warning only — graceful skip)
