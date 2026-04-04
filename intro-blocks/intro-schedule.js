@@ -24,7 +24,7 @@ const renderer = {
       : '';
 
     const itemsHtml = days.map((d, i) => {
-      const pin = d.label || `D${i + 1}`;
+      const pin = '📍';
       const typeInfo = TYPE_LABELS[d.type] || null;
       const isLast = i === days.length - 1;
 
