@@ -1,36 +1,27 @@
-// intro-blocks/intro-cta.js — 상품 추천: "이런 상품은 어때요?" 카드 리스트
+// intro-blocks/intro-cta.js — 상품 추천: 이미지 + 오버레이 CTA
 import { registerBlock } from '../engine/block-registry.js';
 import { escapeHtml } from './utils.js';
 
 const renderer = {
   validate(data) {
-    return !!(data && data.items?.length >= 1);
+    return !!(data && data.title);
   },
 
   render(data, ctx) {
-    const { title, items } = data;
+    const { title, desc, image, url } = data;
     const heading = title || '이런 상품은 어때요?';
+    const hasImage = image?.url;
 
-    const cardsHtml = items.map((item, i) => {
-      const imgHtml = item.image?.url
-        ? `<img class="mod-recommend__img" src="${escapeHtml(item.image.url)}" alt="${escapeHtml(item.title || '')}">`
-        : `<div class="mod-recommend__img mod-recommend__img--empty">📦</div>`;
-
-      return `<a class="mod-recommend__card" ${item.url ? `href="${escapeHtml(item.url)}" target="_blank"` : ''}>
-  ${imgHtml}
-  <div class="mod-recommend__body">
-    <p class="mod-recommend__title" data-editable="items.${i}.title">${escapeHtml(item.title || '상품명')}</p>
-    ${item.price ? `<p class="mod-recommend__price" data-editable="items.${i}.price">${escapeHtml(item.price)}</p>` : ''}
-    ${item.desc ? `<p class="mod-recommend__desc" data-editable="items.${i}.desc">${escapeHtml(item.desc)}</p>` : ''}
+    return `<div class="mod-recommend-v2" ${url ? `onclick="window.open('${escapeHtml(url)}','_blank')"` : ''}>
+  ${hasImage
+    ? `<img class="mod-recommend-v2__img" src="${escapeHtml(image.url)}" alt="${escapeHtml(heading)}">`
+    : `<div class="mod-recommend-v2__img mod-recommend-v2__placeholder"></div>`}
+  <div class="mod-recommend-v2__overlay"></div>
+  <div class="mod-recommend-v2__content">
+    <h3 class="mod-recommend-v2__title" data-editable="title">${escapeHtml(heading)}</h3>
+    ${desc ? `<p class="mod-recommend-v2__desc" data-editable="desc">${escapeHtml(desc)}</p>` : ''}
+    <span class="mod-recommend-v2__btn">추천 상품 보러가기 →</span>
   </div>
-</a>`;
-    }).join('\n');
-
-    return `<div class="mod-text">
-  <h3 class="mod-text__title" data-editable="title">${escapeHtml(heading)}</h3>
-</div>
-<div class="mod-recommend">
-  ${cardsHtml}
 </div>`;
   },
 };
