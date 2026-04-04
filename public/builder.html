@@ -279,11 +279,21 @@ function render(){document.getElementById('bTi').textContent=S.prod?S.prod.title
   function libItem(ri){var t=ri.t,lbl=ri.l,ic=ri.ic||(R[t]||{}).i||'📄';return'<div class="lib-item" data-libtype="'+t+'" data-liblabel="'+esc(lbl)+'"><span class="li-icon">'+ic+'</span><span>'+lbl+'</span><span class="li-plus">+ 추가</span></div>'}
   // 레시피에 있는 블록
   var recHtml=recipe.map(libItem).join('');
+  // 항상 표시되는 범용 블록
+  var alwaysShow=[
+    {t:'intro-text',l:'텍스트',ic:'📝'},
+    {t:'intro-image',l:'이미지',ic:'📷'},
+    {t:'intro-divider',l:'구분선',ic:'➖'}
+  ];
+  var alwaysHtml=alwaysShow.map(libItem).join('');
   // 레시피에 없는 기타 블록
   var recTypes=recipe.map(function(ri){return ri.t});
-  var otherTypes=Object.keys(R).filter(function(t){return recTypes.indexOf(t)<0});
+  var alwaysTypes=alwaysShow.map(function(a){return a.t});
+  var otherTypes=Object.keys(R).filter(function(t){return recTypes.indexOf(t)<0&&alwaysTypes.indexOf(t)<0});
   var otherHtml=otherTypes.map(function(t){return{t:t,l:R[t].l}}).map(libItem).join('');
-  var html='';if(recHtml){html+='<div style="padding:6px 12px 4px;font-size:11px;font-weight:700;color:var(--brand);letter-spacing:.5px">'+catName(S.category||'TOUR')+' 추천</div>'+recHtml}if(otherHtml){html+='<div style="padding:'+(recHtml?'10px':'6px')+' 12px 4px;font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.5px">기타</div>'+otherHtml}
+  var html='';if(recHtml){html+='<div style="padding:6px 12px 4px;font-size:11px;font-weight:700;color:var(--brand);letter-spacing:.5px">'+catName(S.category||'TOUR')+' 추천</div>'+recHtml}
+  html+='<div style="padding:10px 12px 4px;font-size:11px;font-weight:700;color:var(--sec);letter-spacing:.5px">범용</div>'+alwaysHtml;
+  if(otherHtml){html+='<div style="padding:10px 12px 4px;font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.5px">기타</div>'+otherHtml}
   libEl.innerHTML=html;
   renderPreview();renderEdit()}
 function fg(l,inner){return'<div class="fg"><label class="fl">'+l+'</label>'+inner+'</div>'}
