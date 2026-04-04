@@ -1,7 +1,7 @@
 // intro-blocks/index.js — 모든 intro 블록 렌더러를 등록
 import './intro-hook.js';
 import './intro-experience.js';
-import './intro-spot.js';
+// import './intro-spot.js'; // 사용 안 됨 — 레시피에서 제거됨 (A-1)
 import './intro-cta.js';
 import './intro-provider.js';
 import './intro-safety.js';
