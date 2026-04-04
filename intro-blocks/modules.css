@@ -463,6 +463,31 @@
   margin: 8px 0 0;
 }
 
+.mod-guide__company-img {
+  padding: 0 20px 16px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.mod-guide__company-img img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  object-fit: cover;
+}
+
+.mod-guide__card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.mod-guide__card:last-child {
+  border-bottom: none;
+}
+
 /* ================================================================
    Module: Timeline (.mod-tl)
    좌측 핀 + 세로 연결선 + 우측 코스 정보
