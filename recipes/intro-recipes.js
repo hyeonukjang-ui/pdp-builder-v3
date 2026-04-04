@@ -2,11 +2,11 @@
 // SSoT: '투어 로직 수정' (gid=1347016114), '티켓 로직 수정' (gid=722898837)
 
 const INTRO_RECIPES = {
-  // 투어 로직 수정 시트 기준 (14개 섹션)
+  // 투어 로직 수정 시트 (14개)
   TOUR: [
     { block: 'intro-hook', required: true, label: '히어로 이미지' },
     { block: 'intro-text', required: true, label: '투어 소개' },
-    { block: 'intro-highlights', required: false, label: '하이라이트' },
+    { block: 'intro-highlights', required: true, label: '하이라이트' },
     { block: 'intro-experience', required: false, label: '추천 대상' },
     { block: 'intro-provider', required: false, label: '가이드 소개' },
     { block: 'intro-schedule', required: false, label: '타임라인' },
@@ -20,7 +20,7 @@ const INTRO_RECIPES = {
     { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
   ],
 
-  // 티켓 로직 수정 시트 기준 (15개 섹션)
+  // 티켓 로직 수정 시트 (15개)
   TICKET: [
     { block: 'intro-hook', required: true, label: '히어로 이미지' },
     { block: 'intro-text', required: true, label: '소개' },
@@ -36,7 +36,7 @@ const INTRO_RECIPES = {
     { block: 'intro-text', required: false, label: '위치·교통' },
     { block: 'intro-text', required: true, label: '공지/주의사항' },
     { block: 'intro-text', required: true, label: 'FAQ' },
-    { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
+    { block: 'intro-cta', required: true, label: '이런 상품은 어때요?' },
   ],
 
   ACTIVITY: [
