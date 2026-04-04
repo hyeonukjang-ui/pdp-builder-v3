@@ -28,7 +28,7 @@ const INTRO_RECIPES = {
     { block: 'intro-experience', required: true, label: '추천 대상', d2: { '입장권': '●', '공연': '●', '교통': '●', '시티패스': '●', '뷰티': '●', '미식': '●' } },
     { block: 'intro-howto', required: true, label: '이용방법', d2: { '입장권': '●', '공연': '●', '교통': '●', '시티패스': '●', '뷰티': '●', '미식': '●' } },
     { block: 'intro-card-grid', required: true, label: '어트랙션/포함시설', d2: { '입장권': '●', '공연': '—', '교통': '—', '시티패스': '●', '뷰티': '—', '미식': '—' } },
-    { block: 'intro-comparison', required: true, label: '비교표/절약계산', d2: { '입장권': '●', '공연': '—', '교통': '●', '시티패스': '●', '뷰티': '—', '미식': '—' } },
+    { block: 'intro-comparison', required: true, label: '비교표/절약계산', d2: { '입장권': '—', '공연': '—', '교통': '●', '시티패스': '●', '뷰티': '—', '미식': '—' } },
     { block: 'intro-schedule', required: true, label: '시간표', d2: { '입장권': '—', '공연': '●', '교통': '—', '시티패스': '—', '뷰티': '—', '미식': '—' } },
     { block: 'intro-program', required: true, label: '공연/메뉴 소개', d2: { '입장권': '—', '공연': '●', '교통': '—', '시티패스': '—', '뷰티': '●', '미식': '●' } },
     { block: 'intro-text', required: true, label: '노선·구간', d2: { '입장권': '—', '공연': '—', '교통': '●', '시티패스': '●', '뷰티': '—', '미식': '—' } },
