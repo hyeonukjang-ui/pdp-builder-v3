@@ -1,36 +1,45 @@
-// recipes/intro-recipes.js — 카테고리별 상품소개 블록 배치 순서 (세로 페이지용)
-// 기준: PDP 섹션 구조 분석 시트 (2026-03-30) Depth1별 빈도 순서
+// recipes/intro-recipes.js — 카테고리별 상품소개 블록 배치 순서
+// 기준: Google Sheets 투어/티켓 v3 섹션 매핑 (2026-04-04)
 
 const INTRO_RECIPES = {
-  // TOUR: 가이드투어, 크루즈·페리, 세미패키지 — 공통: HERO, INCLUDES, FAQ / 선택: TIMELINE, HIGHLIGHTS, GUIDE, MEETING_POINT 등
+  // 투어 v3: 가이드 투어 / 세미패키지
   TOUR: [
-    { block: 'intro-hook', required: true, label: 'HERO 이미지' },
-    { block: 'intro-highlights', required: false, label: '하이라이트/매력 포인트' },
+    { block: 'intro-hook', required: true, label: '히어로 + 뱃지(태그)' },
+    { block: 'intro-text', required: true, label: '투어 소개' },
+    { block: 'intro-highlights', required: true, label: '하이라이트 (아이콘)' },
     { block: 'intro-experience', required: false, label: '추천 대상' },
-    { block: 'intro-provider', required: false, label: '가이드 소개' },
-    { block: 'intro-schedule', required: false, label: '일정/타임라인' },
-    { block: 'intro-card-grid', required: false, label: '투어 코스/주요 스팟' },
+    { block: 'intro-provider', required: false, label: '가이드 소개 (48px 원형)' },
+    { block: 'intro-schedule', required: false, label: '타임라인' },
+    { block: 'intro-card-grid', required: false, label: '투어 코스/명소' },
     { block: 'intro-comparison', required: false, label: '요금·옵션표' },
     { block: 'intro-accommodation', required: false, label: '호텔 안내' },
     { block: 'intro-text', required: true, label: '포함·불포함' },
+    { block: 'intro-howto', required: true, label: '이용방법' },
+    { block: 'intro-text', required: true, label: '집합/픽업' },
+    { block: 'intro-text', required: true, label: '취소환불' },
+    { block: 'intro-text', required: true, label: 'FAQ' },
     { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
   ],
 
-  // TICKET: 입장권, 교통, 시티패스, 공연, 뷰티, 미식 — 공통: HERO, HOW_TO_USE, FAQ
+  // 티켓 v3: 입장권 / 공연 / 교통 / 시티패스 / 뷰티 / 미식
   TICKET: [
-    { block: 'intro-hook', required: true, label: 'HERO 이미지' },
-    { block: 'intro-highlights', required: false, label: '하이라이트/매력 포인트' },
+    { block: 'intro-hook', required: true, label: '히어로 + 뱃지' },
+    { block: 'intro-highlights', required: true, label: '하이라이트(아이콘+사진)' },
+    { block: 'intro-text', required: true, label: '소개' },
     { block: 'intro-howto', required: true, label: '이용방법' },
-    { block: 'intro-card-grid', required: false, label: '주요 어트랙션/포함 시설' },
-    { block: 'intro-comparison', required: false, label: '티켓 비교표/절약 계산' },
+    { block: 'intro-card-grid', required: false, label: '어트랙션/포함시설' },
+    { block: 'intro-comparison', required: false, label: '비교표/절약계산' },
     { block: 'intro-stat', required: false, label: '핵심 수치' },
     { block: 'intro-schedule', required: false, label: '시간표' },
     { block: 'intro-program', required: false, label: '공연/메뉴 소개' },
-    { block: 'intro-text', required: false, label: '포함·불포함/주의사항' },
+    { block: 'intro-text', required: false, label: '노선·구간' },
+    { block: 'intro-text', required: false, label: '위치·교통' },
+    { block: 'intro-text', required: true, label: '공지/주의사항' },
+    { block: 'intro-text', required: true, label: 'FAQ' },
     { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
   ],
 
-  // ACTIVITY: 수중, 그라운드, 수상, 스카이 — 공통: HERO, INCLUDES, HOW_TO_USE(75%), LOCATION(75%), FAQ
+  // ACTIVITY — 기존 유지
   ACTIVITY: [
     { block: 'intro-hook', required: true, label: 'HERO 이미지' },
     { block: 'intro-text', required: true, label: '상품 소개' },
@@ -43,7 +52,7 @@ const INTRO_RECIPES = {
     { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
   ],
 
-  // CLASS: 클래스, 키즈 해외 클래스 — 공통: HERO, CURRICULUM, HOW_TO_USE, INCLUDES, FAQ
+  // CLASS — 기존 유지
   CLASS: [
     { block: 'intro-hook', required: true, label: 'HERO 이미지' },
     { block: 'intro-text', required: false, label: '클래스/프로그램 소개' },
@@ -54,7 +63,7 @@ const INTRO_RECIPES = {
     { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
   ],
 
-  // SNAPS: 스냅촬영 — 공통: HERO, SERVICE_INTRO, VENUE_LIST, LOCATION, HOW_TO_USE, INCLUDES, FAQ
+  // SNAPS — 기존 유지
   SNAPS: [
     { block: 'intro-hook', required: true, label: 'HERO 이미지' },
     { block: 'intro-text', required: true, label: '서비스 소개' },
@@ -64,7 +73,7 @@ const INTRO_RECIPES = {
     { block: 'intro-cta', required: false, label: '이런 상품은 어때요?' },
   ],
 
-  // CONVENIENCE: 여행편의 6종 — 공통: HERO, HOW_TO_USE, FAQ
+  // CONVENIENCE — 기존 유지
   CONVENIENCE: [
     { block: 'intro-hook', required: true, label: 'HERO 이미지' },
     { block: 'intro-text', required: false, label: '상품/서비스 소개' },
