@@ -418,60 +418,93 @@
 }
 
 /* ================================================================
-   Module: Program List (.mod-program-list)
-   타임라인: 세로 스택, 라벨뱃지 + 제목 + 소요시간 + 설명
+   Module: Timeline (.mod-tl)
+   좌측 핀 + 세로 연결선 + 우측 코스 정보
    ================================================================ */
-.mod-program-list {
+.mod-tl {
   padding: 0 20px 24px;
   background: #fff;
 }
 
-.mod-program__item {
-  padding: 12px 0;
+.mod-tl__total {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2B96ED;
+  margin-left: 8px;
 }
 
-.mod-program__item--border {
-  border-top: 1px solid #E5E7EB;
+.mod-tl__item {
+  display: flex;
+  gap: 14px;
+  min-height: 72px;
 }
 
-.mod-program__row {
+.mod-tl__item--last {
+  min-height: auto;
+}
+
+.mod-tl__pin-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.mod-tl__pin {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #2B96ED;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 8px;
-  text-align: left;
-}
-
-.mod-program__label {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  background: #EFF6FF;
-  color: #2B96ED;
-  padding: 2px 8px;
-  border-radius: 5px;
+  justify-content: center;
   flex-shrink: 0;
-  white-space: nowrap;
+  z-index: 1;
 }
 
-.mod-program__duration {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  background: #F3F4F6;
-  color: #6B7280;
-  padding: 2px 8px;
-  border-radius: 5px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.mod-program__desc {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #4B5563;
+.mod-tl__line {
+  width: 2px;
   flex: 1;
+  background: #E5E7EB;
+  min-height: 16px;
+}
+
+.mod-tl__content {
+  flex: 1;
+  padding-bottom: 16px;
+  padding-top: 6px;
   min-width: 0;
 }
+
+.mod-tl__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.mod-tl__summary {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+
+.mod-tl__type {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
+.mod-tl__type--guided { background: #EFF6FF; color: #2B96ED; }
+.mod-tl__type--free { background: #FEF3C7; color: #D97706; }
+.mod-tl__type--travel { background: #F3F4F6; color: #6B7280; }
 
 /* ================================================================
    Module: Stat Row (.mod-stat-row)
