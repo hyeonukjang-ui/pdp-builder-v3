@@ -43,15 +43,21 @@ app.post('/api/extract', async (req, res, next) => {
       });
     }
 
+    // 숫자 ID만 입력 → URL로 변환
+    let finalUrl = url.trim();
+    if (/^\d+$/.test(finalUrl)) {
+      finalUrl = 'https://experiences.myrealtrip.com/products/' + finalUrl;
+    }
+
     const urlPattern = /myrealtrip\.com\/(offers|products)\/(\d+)/;
-    if (!urlPattern.test(url)) {
+    if (!urlPattern.test(finalUrl)) {
       return res.status(400).json({
         error: 'INVALID_URL',
-        message: '마이리얼트립 상품 URL 형식이 아닙니다. (예: https://myrealtrip.com/offers/12345 또는 https://experiences.myrealtrip.com/products/12345)',
+        message: '마이리얼트립 상품 URL 형식이 아닙니다. (예: https://myrealtrip.com/offers/12345 또는 상품 ID)',
       });
     }
 
-    const result = await extractProductData(url);
+    const result = await extractProductData(finalUrl);
     res.json(result);
   } catch (err) {
     next(err);
