@@ -14,7 +14,7 @@ const renderer = {
 
     const gridHtml = items.map((item, i) => {
       return `<div class="mod-icon-grid__item">
-    <span class="mod-icon-grid__icon">${escapeHtml(item.icon)}</span>
+    <span class="mod-icon-grid__icon" data-emoji="items.${i}.icon" style="cursor:pointer">${escapeHtml(item.icon)}</span>
     <span class="mod-icon-grid__label" data-editable="items.${i}.label">${escapeHtml(item.label)}</span>
     ${item.description ? `<span class="mod-icon-grid__desc" data-editable="items.${i}.description">${escapeHtml(item.description)}</span>` : ''}
   </div>`;

@@ -171,6 +171,13 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
     <div style="display:flex;gap:8px"><button class="btn bo" style="flex:1" onclick="closeAddTeam()">취소</button><button class="btn bp" style="flex:1" onclick="createTeam()">추가</button></div>
   </div>
 </div>
+<!-- 이모티콘 피커 -->
+<div id="emojiPickerModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.3);align-items:center;justify-content:center" onclick="if(event.target===this)closeEmojiPicker()">
+  <div style="background:#fff;border-radius:16px;padding:16px;width:340px;max-width:90vw;box-shadow:0 16px 48px rgba(0,0,0,.18)">
+    <input class="inp" id="emojiSearch" placeholder="이모티콘 검색 (예: 사람, 음식, 별...)" oninput="filterEmojis(this.value)" style="margin-bottom:10px">
+    <div id="emojiGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:280px;overflow-y:auto"></div>
+  </div>
+</div>
 <div id="loadingView"><div class="cc2"><div class="lsp"></div><h2 style="font-size:20px;font-weight:700;margin-bottom:8px" id="loadTitle">처리 중</h2><p style="font-size:14px;color:var(--text2)" id="loadDesc"></p><div class="ls" id="loadSteps"></div><div style="margin-top:16px;text-align:center;color:var(--text3);font-size:13px">보통 <b style="color:var(--brand)">10~20초</b> 소요<br><span id="aiTimer" style="font-size:12px"></span></div></div></div>
 <div id="detectedView"><div class="cc2">
 <!-- 상품 카드 -->
@@ -316,6 +323,28 @@ function bindInlineEditing(){
       if(obj[lastKey]!==undefined)obj[lastKey]=val;
       // 오른쪽 패널도 동기화
       renderEdit();
+    });
+  });
+
+  // 이모티콘: data-emoji 속성 → 클릭 시 이모티콘 피커
+  document.querySelectorAll('#pvF [data-emoji]').forEach(function(el){
+    el.style.cursor='pointer';
+    el.title='클릭하여 이모티콘 변경';
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var sec=el.closest('.intro-section');if(!sec)return;
+      var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
+      var path=el.dataset.emoji;
+      openEmojiPicker(function(emoji){
+        saveU();
+        var parts=path.split('.');var obj=S.secs[idx].data;
+        for(var p=0;p<parts.length-1;p++){
+          var key=isNaN(parts[p])?parts[p]:parseInt(parts[p]);
+          if(!obj[key])return;obj=obj[key];
+        }
+        obj[parts[parts.length-1]]=emoji;
+        renderPreview();renderEdit();
+      });
     });
   });
 
@@ -531,6 +560,49 @@ function addBlock(type,label){saveU();var data={};if(type==='intro-hook')data={t
   S.secs.push({id:gid(),type:type,label:lbl,ic:lic,data:data,ai:false,cf:true});S.act=S.secs[S.secs.length-1].id;render();toast(lbl+' 추가')}
 function rmSec(id){saveU();S.secs=S.secs.filter(function(x){return x.id!==id});if(S.act===id)S.act=null;render();toast('삭제')}
 function exitBuilder(){if(S.secs.length>0&&!confirm('저장하지 않은 변경이 있습니다.'))return;showV('entry')}
+// ── 이모티콘 피커 ──
+var EMOJI_DATA=[
+  {cat:'사람',items:['👤','👨‍👩‍👧‍👦','👫','👨‍👩‍👧','🧑‍💼','🧑','👶','🧒','👦','👧','🧑‍🦱','👨‍🦰','👩‍🦳','🧓','👴','👵','🎓','👥','🙋','🙋‍♂️','🙋‍♀️','🤷','💁','🧑‍🤝‍🧑','👬','👭']},
+  {cat:'여행',items:['✈️','🗺️','🧳','🏖️','🏔️','🌍','🌏','🗼','🗽','🏰','⛩️','🕌','🛫','🚢','🚂','🚌','🚕','🚗','🛵','🚲','⛵','🎡','🎢','🎠','🏟️']},
+  {cat:'음식',items:['🍽️','🍕','🍔','🍜','🍣','🍱','🥘','🍰','🧁','☕','🍷','🍺','🥂','🍴','🥡','🍝','🌮','🥐','🍩','🍦','🍫','🧀','🥗','🍖','🥩']},
+  {cat:'자연',items:['🌳','🌺','🌸','🌻','🌊','🏝️','🌅','🌄','⛰️','🏞️','🌈','☀️','🌙','⭐','🌟','💫','❄️','🔥','🍀','🌿','🌴','🌵','🦋','🐠','🐬']},
+  {cat:'활동',items:['🏄','🤿','🚣','🧗','🪂','🎿','⛷️','🏊','🚴','🏃','🧘','🎣','🏕️','🔭','📸','🎨','🎭','🎵','🎤','🎬','🏋️','⚽','🎯','🎮','🎲']},
+  {cat:'기호',items:['✨','⭐','💡','❤️','🔥','⚡','✅','🎯','💎','🏆','🎁','📌','🔔','💰','🛡️','🎫','🎟️','📊','📋','📖','🔑','⏰','🕐','📍','🚩']},
+  {cat:'교통',items:['🚗','🚕','🚌','🚎','🚐','🚑','🚒','🚂','🚃','🚄','🚅','🚆','🚇','🚈','🚊','🚝','🚞','🚋','🚲','🛵','🏍️','🚁','🛩️','🚀','🛸']},
+  {cat:'건물',items:['🏠','🏢','🏨','🏩','🏪','🏬','🏣','🏤','🏥','🏦','⛪','🕍','🛕','🕋','⛩️','🏯','🏰','💒','🗼','🗽','🏟️','🎪','🏗️','🧱','🏘️']},
+  {cat:'날씨',items:['☀️','🌤️','⛅','🌥️','☁️','🌦️','🌧️','⛈️','🌩️','🌨️','❄️','☃️','⛄','🌬️','💨','🌪️','🌫️','🌈','☔','⚡','🔥','💧','🌊','🌡️','☄️']}
+];
+var _allEmojis=[];EMOJI_DATA.forEach(function(g){g.items.forEach(function(e){_allEmojis.push({emoji:e,cat:g.cat})})});
+var _emojiCb=null;
+function openEmojiPicker(cb){
+  _emojiCb=cb;
+  document.getElementById('emojiSearch').value='';
+  renderEmojiGrid(_allEmojis);
+  document.getElementById('emojiPickerModal').style.display='flex';
+  document.getElementById('emojiSearch').focus();
+}
+function closeEmojiPicker(){document.getElementById('emojiPickerModal').style.display='none';_emojiCb=null}
+function renderEmojiGrid(list){
+  var el=document.getElementById('emojiGrid');
+  if(!list.length){el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text3);font-size:13px">검색 결과가 없어요</div>';return}
+  // 카테고리별 그룹핑
+  var cats={};list.forEach(function(e){if(!cats[e.cat])cats[e.cat]=[];cats[e.cat].push(e.emoji)});
+  var html='';Object.keys(cats).forEach(function(cat){
+    html+='<div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--text3);padding:6px 2px 2px;text-transform:uppercase">'+cat+'</div>';
+    cats[cat].forEach(function(em){
+      html+='<div style="font-size:22px;text-align:center;padding:6px;cursor:pointer;border-radius:6px;transition:background .1s" onclick="pickEmoji(\''+em+'\')" onmouseover="this.style.background=\'#f0f0f0\'" onmouseout="this.style.background=\'transparent\'">'+em+'</div>';
+    });
+  });
+  el.innerHTML=html;
+}
+function filterEmojis(q){
+  if(!q){renderEmojiGrid(_allEmojis);return}
+  var lower=q.toLowerCase();
+  var filtered=_allEmojis.filter(function(e){return e.cat.toLowerCase().includes(lower)});
+  renderEmojiGrid(filtered);
+}
+function pickEmoji(em){if(_emojiCb)_emojiCb(em);closeEmojiPicker()}
+
 function pickSpeed(el){document.querySelectorAll('.speed-opt').forEach(function(o){o.classList.remove('sel');o.querySelector('input').checked=false});el.classList.add('sel');el.querySelector('input').checked=true}
 function filterLib(q){document.querySelectorAll('#libList .lib-item').forEach(function(el){el.style.display=(!q||(el.textContent||'').toLowerCase().includes(q.toLowerCase()))?'':'none'});document.querySelectorAll('#libList div[style*="font-weight:700"]').forEach(function(el){el.style.display=q?'none':''})}
 
