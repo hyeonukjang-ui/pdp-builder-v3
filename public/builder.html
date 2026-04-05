@@ -62,9 +62,10 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
 .cat-btn{padding:12px 8px;border:2px solid var(--bd);border-radius:var(--r);background:var(--sf);cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
 .cat-btn:hover{border-color:var(--brand);background:var(--brand-50)}.cat-btn.sel{border-color:var(--brand);background:var(--brand-50);box-shadow:0 0 0 3px var(--brand-100)}
 .cat-btn .ci{font-size:22px;margin-bottom:2px}.cat-btn .cn{font-size:11px;font-weight:600}
-.tm-card{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1.5px solid var(--bd);border-radius:var(--r);cursor:pointer;transition:all .15s;margin-bottom:6px;background:var(--sf)}
+.tm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tm-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border:1.5px solid var(--bd);border-radius:var(--r);cursor:pointer;transition:all .15s;background:var(--sf);text-align:center}
 .tm-card:hover{border-color:var(--brand);background:var(--brand-50);box-shadow:var(--sh)}
-.tm-ic{font-size:24px;flex-shrink:0}.tm-info{flex:1;min-width:0}.tm-name{font-size:14px;font-weight:600}.tm-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.tm-ic{font-size:28px}.tm-info{min-width:0}.tm-name{font-size:13px;font-weight:600}.tm-meta{font-size:10px;color:var(--text3);margin-top:2px}
 .tw-card{display:flex;gap:12px;padding:14px;border:1.5px solid var(--bd);border-radius:var(--r);margin-bottom:8px;cursor:pointer;transition:all .15s;background:var(--sf)}
 .tw-card:hover{border-color:var(--brand);box-shadow:var(--sh)}
 .tw-thumb{width:64px;height:48px;border-radius:6px;object-fit:cover;background:#f1f3f5;flex-shrink:0}
@@ -138,7 +139,7 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
     <div class="err" id="searchErr"></div></div>
   <div id="draftsArea" style="display:none"><div class="dsec"><div class="dst">💾 저장된 초안</div><div id="draftsList"></div></div></div>
   <!-- 팀 폴더 -->
-  <div class="dsec" style="margin-top:24px"><div class="dst">📂 팀 폴더</div><div id="teamsList" style="margin-top:8px"></div><button class="btn bo" style="width:100%;margin-top:8px" onclick="showAddTeam()">+ 팀 추가하기</button></div>
+  <div class="dsec" style="margin-top:24px"><div class="dst">📂 팀 폴더</div><div id="teamsList" class="tm-grid" style="margin-top:8px"></div></div>
 </div></div>
 <!-- 팀 작업 목록 뷰 -->
 <div id="teamView" style="min-height:100vh;display:none;padding:40px 24px">
@@ -580,11 +581,12 @@ loadDrafts();
 function loadTeams(){
   fetch(API_BASE+'/api/teams').then(function(r){return r.json()}).then(function(teams){
     var el=document.getElementById('teamsList');
-    if(!teams.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text3);font-size:13px">아직 팀이 없어요</div>';return}
-    el.innerHTML=teams.map(function(t){
-      var meta=t.workCount+'개 작업'+(t.lastWork?' · 최근 '+new Date(t.lastWork).toLocaleDateString('ko-KR'):'');
-      return'<div class="tm-card" onclick="openTeam(\''+t.id+'\',\''+esc(t.name)+'\',\''+t.icon+'\')"><span class="tm-ic">'+t.icon+'</span><div class="tm-info"><div class="tm-name">'+esc(t.name)+'</div><div class="tm-meta">'+meta+'</div></div><span style="color:var(--text3)">›</span></div>'
-    }).join('')
+    var html=teams.map(function(t){
+      var meta=t.workCount+'개 작업'+(t.lastWork?' · '+new Date(t.lastWork).toLocaleDateString('ko-KR'):'');
+      return'<div class="tm-card" onclick="openTeam(\''+t.id+'\',\''+esc(t.name)+'\',\''+t.icon+'\')"><span class="tm-ic">'+t.icon+'</span><div class="tm-info"><div class="tm-name">'+esc(t.name)+'</div><div class="tm-meta">'+meta+'</div></div></div>'
+    }).join('');
+    html+='<div class="tm-card" onclick="showAddTeam()" style="border-style:dashed;color:var(--text3)"><span class="tm-ic">➕</span><div class="tm-info"><div class="tm-name">팀 추가</div></div></div>';
+    el.innerHTML=html
   }).catch(function(){document.getElementById('teamsList').innerHTML='<div style="color:var(--er);font-size:12px;padding:8px">팀 목록 로드 실패</div>'})
 }
 function openTeam(id,name,icon){
