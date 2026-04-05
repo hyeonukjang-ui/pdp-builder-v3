@@ -152,11 +152,13 @@ app.post('/api/generate-intro', async (req, res, next) => {
       });
     }
 
+    const speed = req.body.speed || 'normal'; // 'fast' | 'normal'
     const result = await generateIntroBlocks({
       rawData,
       category: category || 'TOUR',
       depth2: depth2 || null,
       recipe: req.body.recipe || null,
+      speed,
     });
 
     res.json(result);
