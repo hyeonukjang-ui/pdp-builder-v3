@@ -50,7 +50,7 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
 .ml{font-size:12px;color:var(--text3);margin-bottom:4px}.mv{font-size:14px;font-weight:600}
 .step-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px}
 .step-num{width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px}
-.step-num.done{background:var(--ok)}
+.step-num.done{background:var(--brand)}
 .step-body{flex:1;min-width:0}
 .step-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px}
 .step-hint{font-size:11px;color:var(--text3);margin-bottom:6px}
@@ -382,7 +382,7 @@ function extractProductId(input){input=input.trim();if(/^\d+$/.test(input))retur
 function doSearch(){var raw=document.getElementById('pidInput').value.trim();if(!raw)return;var ee=document.getElementById('searchErr');var id=extractProductId(raw);if(!id){ee.textContent='올바른 상품 ID 또는 링크를 입력해주세요.';ee.style.display='block';return}ee.style.display='none';showV('loading');document.getElementById('loadTitle').textContent='상품 데이터 추출 중';document.getElementById('loadSteps').innerHTML='<div class="lst ac"><span style="width:22px;text-align:center">⏳</span><span style="font-size:14px">상품 정보를 가져오는 중...</span></div>';document.getElementById('aiTimer').textContent='';
   fetch(API_BASE+'/api/extract',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:'https://experiences.myrealtrip.com/products/'+id})}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(data){if(!data.success)throw new Error('추출 실패');S.rawData=data.rawData;S.prod={id:id,title:data.rawData.title||'상품 #'+id};S.category=data.suggestedCategory||'TOUR';showDetected()}).catch(function(err){toast('추출 실패: '+err.message);showV('entry')})}
 function renderD2(d1){var d2s=DEPTH2[d1]||[];var wrap=document.getElementById('d2Wrap');if(!d2s.length){wrap.style.display='none';S.depth2=null;return}document.getElementById('d2Label').textContent=catName(d1)+' 세부 분류';document.getElementById('d2Grid').innerHTML=d2s.map(function(c){return'<div class="cat-btn'+(S.depth2===c.id?' sel':'')+'" data-d2="'+c.id+'"><div class="ci">'+c.ic+'</div><div class="cn">'+c.n+'</div></div>'}).join('');wrap.style.display='flex'}
-function updateDetectedHeader(){document.getElementById('dtIc').textContent=catIcon(S.category);document.getElementById('dtCat').textContent=catName(S.category)+(S.depth2?' · '+S.depth2:'');var s1=document.getElementById('step1Num');if(S.category){s1.classList.add('done');s1.textContent='✓'}var btn=document.getElementById('genBtn');btn.disabled=false;btn.textContent='🚀 상세페이지 생성'}
+function updateDetectedHeader(){document.getElementById('dtIc').textContent=catIcon(S.category);document.getElementById('dtCat').textContent=catName(S.category)+(S.depth2?' · '+S.depth2:'');var s1=document.getElementById('step1Num');if(S.category){s1.classList.add('done');s1.textContent='1'}var btn=document.getElementById('genBtn');btn.disabled=false;btn.textContent='🚀 상세페이지 생성'}
 function showDetected(){
   // 구 카테고리 ID면 새 구조로 매핑
   var mapped=CAT_MAP[S.category];
