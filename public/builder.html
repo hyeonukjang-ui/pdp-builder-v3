@@ -621,10 +621,11 @@ function openTeamSave(){
   if(!S.secs.length){toast('저장할 블록이 없습니다');return}
   fetch(API_BASE+'/api/teams').then(function(r){return r.json()}).then(function(teams){
     var el=document.getElementById('teamSaveList');
-    if(!teams.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text3);font-size:13px">팀이 없습니다. 먼저 팀을 추가하세요.</div>';document.getElementById('teamSaveModal').style.display='flex';return}
-    el.innerHTML=teams.map(function(t){
-      return'<div class="tm-card" onclick="saveToTeam(\''+t.id+'\')"><span class="tm-ic">'+t.icon+'</span><div class="tm-info"><div class="tm-name">'+esc(t.name)+'</div><div class="tm-meta">'+t.workCount+'개 작업</div></div></div>'
-    }).join('');
+    var html='';
+    if(!teams.length){html='<div style="text-align:center;padding:16px;color:var(--text3);font-size:13px">아직 팀이 없어요</div>'}
+    else{html=teams.map(function(t){return'<div class="tm-card" onclick="saveToTeam(\''+t.id+'\')"><span class="tm-ic">'+t.icon+'</span><div class="tm-info"><div class="tm-name">'+esc(t.name)+'</div><div class="tm-meta">'+t.workCount+'개 작업</div></div></div>'}).join('')}
+    html+='<div class="tm-card" onclick="closeTeamSave();showAddTeam()" style="justify-content:center;border-style:dashed;color:var(--text3)"><span style="font-size:14px">+ 팀 추가하기</span></div>';
+    el.innerHTML=html;
     document.getElementById('teamSaveModal').style.display='flex'
   })
 }
@@ -647,7 +648,7 @@ function createTeam(){
   var name=document.getElementById('newTeamName').value.trim();
   var icon=document.getElementById('newTeamIcon').value.trim()||'📁';
   if(!name){toast('팀 이름을 입력하세요');return}
-  fetch(API_BASE+'/api/teams',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,icon:icon})}).then(function(r){return r.json()}).then(function(){closeAddTeam();loadTeams();toast('팀 추가 완료')}).catch(function(){toast('추가 실패')})
+  fetch(API_BASE+'/api/teams',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,icon:icon})}).then(function(r){return r.json()}).then(function(){closeAddTeam();loadTeams();toast('팀 추가 완료');if(S.secs&&S.secs.length)openTeamSave()}).catch(function(){toast('추가 실패')})
 }
 loadTeams();
 
