@@ -1,6 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const TEAMS_FILE = path.join(__dirname, 'data', 'teams.json');
 import { extractProductData } from './lib/extractor.js';
 import { generateBlockCopy } from './lib/generator.js';
 import { calculateHealthScore } from './lib/health-scorer.js';
@@ -327,6 +333,92 @@ ${result.html}
   } catch (err) {
     next(err);
   }
+});
+
+// ─── Teams API ──────────────────────────────────────────────
+
+function readTeams() {
+  try { return JSON.parse(fs.readFileSync(TEAMS_FILE, 'utf-8')); }
+  catch { return { teams: [] }; }
+}
+function writeTeams(data) {
+  fs.mkdirSync(path.dirname(TEAMS_FILE), { recursive: true });
+  fs.writeFileSync(TEAMS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+}
+
+// 팀 목록
+app.get('/api/teams', (req, res) => {
+  const data = readTeams();
+  res.json(data.teams.map(t => ({
+    id: t.id, name: t.name, icon: t.icon,
+    workCount: (t.works || []).length,
+    lastWork: (t.works || []).length ? t.works[t.works.length - 1].savedAt : null,
+  })));
+});
+
+// 팀 추가
+app.post('/api/teams', (req, res) => {
+  const { name, icon } = req.body;
+  if (!name) return res.status(400).json({ error: '팀 이름 필수' });
+  const data = readTeams();
+  const id = name.replace(/\s+/g, '-').toLowerCase() + '-' + Date.now().toString(36);
+  data.teams.push({ id, name, icon: icon || '📁', createdAt: new Date().toISOString().slice(0, 10), works: [] });
+  writeTeams(data);
+  res.json({ id, name, icon: icon || '📁' });
+});
+
+// 팀 삭제
+app.delete('/api/teams/:teamId', (req, res) => {
+  const data = readTeams();
+  data.teams = data.teams.filter(t => t.id !== req.params.teamId);
+  writeTeams(data);
+  res.json({ ok: true });
+});
+
+// 팀 작업 목록
+app.get('/api/teams/:teamId/works', (req, res) => {
+  const data = readTeams();
+  const team = data.teams.find(t => t.id === req.params.teamId);
+  if (!team) return res.status(404).json({ error: '팀 없음' });
+  res.json((team.works || []).map(w => ({
+    id: w.id, title: w.title, category: w.category, depth2: w.depth2,
+    thumbnail: w.thumbnail, savedAt: w.savedAt, blockCount: (w.secs || []).length,
+  })));
+});
+
+// 작업 저장
+app.post('/api/teams/:teamId/works', (req, res) => {
+  const data = readTeams();
+  const team = data.teams.find(t => t.id === req.params.teamId);
+  if (!team) return res.status(404).json({ error: '팀 없음' });
+  const { id, title, category, depth2, thumbnail, prod, secs } = req.body;
+  const workId = id || ('w-' + Date.now().toString(36));
+  // 같은 ID면 덮어쓰기
+  const idx = (team.works || []).findIndex(w => w.id === workId);
+  const work = { id: workId, title, category, depth2, thumbnail, prod, secs, savedAt: new Date().toISOString() };
+  if (idx >= 0) { team.works[idx] = work; } else { if (!team.works) team.works = []; team.works.push(work); }
+  writeTeams(data);
+  res.json({ id: workId, savedAt: work.savedAt });
+});
+
+// 작업 상세 (로드용)
+app.get('/api/teams/:teamId/works/:workId', (req, res) => {
+  const data = readTeams();
+  const team = data.teams.find(t => t.id === req.params.teamId);
+  if (!team) return res.status(404).json({ error: '팀 없음' });
+  const work = (team.works || []).find(w => w.id === req.params.workId);
+  if (!work) return res.status(404).json({ error: '작업 없음' });
+  res.json(work);
+});
+
+// 작업 삭제
+app.delete('/api/teams/:teamId/works/:workId', (req, res) => {
+  const data = readTeams();
+  const team = data.teams.find(t => t.id === req.params.teamId);
+  if (!team) return res.status(404).json({ error: '팀 없음' });
+  team.works = (team.works || []).filter(w => w.id !== req.params.workId);
+  writeTeams(data);
+  res.json({ ok: true });
 });
 
 // ─── 에러 핸들러 ─────────────────────────────────────────────

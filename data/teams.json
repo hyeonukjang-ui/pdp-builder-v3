@@ -1,0 +1,18 @@
+{
+  "teams": [
+    {
+      "id": "china",
+      "name": "중화권팀",
+      "icon": "🗺️",
+      "createdAt": "2026-04-05",
+      "works": []
+    },
+    {
+      "id": "japan",
+      "name": "일본팀",
+      "icon": "🇯🇵",
+      "createdAt": "2026-04-05",
+      "works": []
+    }
+  ]
+}
