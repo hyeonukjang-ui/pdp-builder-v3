@@ -216,8 +216,9 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
   <div class="step-body">
     <div class="step-label">생성 모드</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <label class="speed-opt sel" id="speedNormal" onclick="pickSpeed(this)"><input type="radio" name="speed" value="normal" checked style="display:none"><div style="font-size:13px;font-weight:600">일반</div><div style="font-size:11px;color:var(--text3)">Sonnet · 20–30초</div></label>
       <label class="speed-opt" id="speedFast" onclick="pickSpeed(this)"><input type="radio" name="speed" value="fast" style="display:none"><div style="font-size:13px;font-weight:600">⚡ 빠른생성</div><div style="font-size:11px;color:var(--text3)">Haiku · 10–15초</div></label>
+      <label class="speed-opt sel" id="speedNormal" onclick="pickSpeed(this)"><input type="radio" name="speed" value="normal" checked style="display:none"><div style="font-size:13px;font-weight:600">일반</div><div style="font-size:11px;color:var(--text3)">Sonnet · 20–30초</div></label>
+      <label class="speed-opt" id="speedOpus" onclick="pickSpeed(this)"><input type="radio" name="speed" value="opus" style="display:none"><div style="font-size:13px;font-weight:600">✨ 고품질</div><div style="font-size:11px;color:var(--text3)">Opus · 40–60초</div></label>
     </div>
   </div>
 </div>
