@@ -649,8 +649,23 @@ function dlJPG(){
   if(!S.secs.length){toast('블록 없음');return}
   var pvF=document.getElementById('pvF');
   if(!pvF||!pvF.children.length){toast('미리보기 없음');return}
-  toast('JPG 생성 중...');
-  html2canvas(pvF,{useCORS:true,allowTaint:true,scale:2,backgroundColor:'#ffffff',logging:false}).then(function(canvas){
+  toast('이미지 준비 중...');
+  // 외부 이미지를 base64로 변환하여 CORS 문제 해결
+  var imgs=pvF.querySelectorAll('img[src^="http"]');
+  var promises=Array.from(imgs).map(function(img){
+    return fetch(API_BASE+'/api/proxy-image?url='+encodeURIComponent(img.src))
+      .then(function(r){return r.blob()})
+      .then(function(blob){return new Promise(function(resolve){
+        var reader=new FileReader();
+        reader.onload=function(){img.setAttribute('src',reader.result);resolve()};
+        reader.readAsDataURL(blob);
+      })})
+      .catch(function(){}) // 실패한 이미지는 무시
+  });
+  Promise.all(promises).then(function(){
+    toast('JPG 생성 중...');
+    return html2canvas(pvF,{useCORS:true,allowTaint:true,scale:2,backgroundColor:'#ffffff',logging:false});
+  }).then(function(canvas){
     canvas.toBlob(function(blob){
       var a=document.createElement('a');
       a.href=URL.createObjectURL(blob);
@@ -658,6 +673,8 @@ function dlJPG(){
       a.click();
       URL.revokeObjectURL(a.href);
       toast('JPG 다운로드 완료');
+      // 미리보기 복원
+      renderPreview();
     },'image/jpeg',0.92);
   }).catch(function(err){toast('JPG 생성 실패: '+err.message)});
 }
