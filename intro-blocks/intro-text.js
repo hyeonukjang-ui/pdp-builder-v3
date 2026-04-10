@@ -64,12 +64,18 @@ const renderer = {
 </div>`;
     }
 
-    // FAQ 모드
+    // FAQ 모드 — Q뱃지 + A뱃지 구조 (Figma 시안)
     if (faq && faq.length) {
       const faqHtml = faq.map((item, i) =>
         `<div class="mod-faq__item">
-    <div class="mod-faq__q" data-editable="faq.${i}.q"><span class="mod-faq__q-badge">Q</span> ${escapeHtml(item.q)}</div>
-    <div class="mod-faq__a" data-editable="faq.${i}.a">${escapeHtml(item.a)}</div>
+    <div class="mod-faq__row">
+      <span class="mod-faq__badge mod-faq__badge--q">Q</span>
+      <span class="mod-faq__q" data-editable="faq.${i}.q">${escapeHtml(item.q)}</span>
+    </div>
+    <div class="mod-faq__row">
+      <span class="mod-faq__badge mod-faq__badge--a">A</span>
+      <span class="mod-faq__a" data-editable="faq.${i}.a">${escapeHtml(item.a)}</span>
+    </div>
   </div>`
       ).join('\n  ');
 
