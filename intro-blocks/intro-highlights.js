@@ -12,9 +12,12 @@ const renderer = {
     const heading = title || '핵심 포인트';
     const colClass = columns === 4 ? 'mod-icon-grid--4col' : '';
 
+    const iconBgColors = ['#F2F4F6', '#EDEBF7', '#F0F7FF', '#EDEBF7', '#F0F7FF', '#F2F4F6'];
+
     const gridHtml = items.map((item, i) => {
+      const bgColor = iconBgColors[i % iconBgColors.length];
       return `<div class="mod-icon-grid__item">
-    <span class="mod-icon-grid__icon" data-emoji="items.${i}.icon" style="cursor:pointer">${escapeHtml(item.icon)}</span>
+    <span class="mod-icon-grid__icon" data-emoji="items.${i}.icon" style="cursor:pointer;background:${bgColor}">${escapeHtml(item.icon)}</span>
     <span class="mod-icon-grid__label" data-editable="items.${i}.label">${escapeHtml(item.label)}</span>
     ${item.description ? `<span class="mod-icon-grid__desc" data-editable="items.${i}.description">${escapeHtml(item.description)}</span>` : ''}
   </div>`;

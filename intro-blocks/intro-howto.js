@@ -11,9 +11,8 @@ const renderer = {
     const { title, steps, image } = data;
 
     const stepsHtml = steps.map(s => {
-      const indicator = s.icon
-        ? `<div class="mod-steps__icon">${s.icon}</div>`
-        : `<div class="mod-steps__number">${Number(s.step)}</div>`;
+      // Always use number circle, no emoji icons
+      const indicator = `<div class="mod-steps__number">${Number(s.step)}</div>`;
 
       return `<div class="mod-steps__item">
     ${indicator}

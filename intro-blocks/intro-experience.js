@@ -13,7 +13,9 @@ const renderer = {
 
     const listHtml = items.map((item, i) => {
       return `<div class="mod-target__item">
-    <span class="mod-target__icon" data-emoji="items.${i}.icon" style="cursor:pointer">${escapeHtml(item.icon || '👤')}</span>
+    <div class="mod-target__icon-box">
+      <span class="mod-target__icon" data-emoji="items.${i}.icon" style="cursor:pointer">${escapeHtml(item.icon || '👤')}</span>
+    </div>
     <div class="mod-target__body">
       <span class="mod-target__label" data-editable="items.${i}.label">${escapeHtml(item.label)}</span>
       ${item.description ? `<span class="mod-target__desc" data-editable="items.${i}.description">${escapeHtml(item.description)}</span>` : ''}

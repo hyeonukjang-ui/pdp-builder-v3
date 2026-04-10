@@ -138,7 +138,7 @@
 
 .mod-faq__item {
   padding: 14px 0;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid #F2F4F6;
 }
 
 .mod-faq__item:first-child {
@@ -151,16 +151,34 @@
 
 .mod-faq__q {
   font-size: 15px;
-  font-weight: 600;
-  color: #1D2229;
+  font-weight: 700;
+  color: #191F28;
   line-height: 1.5;
   margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mod-faq__q-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #E8F3FF;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2B96ED;
+  flex-shrink: 0;
 }
 
 .mod-faq__a {
   font-size: 14px;
-  color: #6B7280;
+  color: #6B7684;
   line-height: 1.6;
+  text-indent: 30px;
 }
 
 .mod-text__body:last-child { margin-bottom: 0; }
@@ -262,26 +280,33 @@
   align-items: center;
   text-align: center;
   gap: 6px;
-  padding: 16px 8px;
+  padding: 16px 10px;
   background: #F9FAFB;
-  border-radius: 12px;
+  border-radius: 16px;
 }
 
 .mod-icon-grid__icon {
-  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 20px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mod-icon-grid__label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1D2229;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333D4B;
   line-height: 1.3;
+  text-align: center;
 }
 
 .mod-icon-grid__desc {
   font-size: 12px;
-  color: #6B7280;
+  color: #6B7684;
   line-height: 1.3;
 }
 
@@ -290,7 +315,8 @@
    번호 스텝 리스트 + 연결선
    ================================================================ */
 .mod-steps {
-  padding: 0 20px 32px;
+  padding: 40px 24px;
+  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -298,9 +324,9 @@
 
 .mod-steps__item {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   position: relative;
-  padding-bottom: 24px;
+  padding-bottom: 32px;
 }
 
 .mod-steps__item:last-child { padding-bottom: 0; }
@@ -309,20 +335,20 @@
 .mod-steps__item:not(:last-child)::before {
   content: '';
   position: absolute;
-  left: 17px;
-  top: 36px;
+  left: 23px;
+  top: 48px;
   bottom: 0;
   width: 2px;
   background: #E5E7EB;
 }
 
 .mod-steps__number {
-  flex: 0 0 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--intro-accent, #2B96ED);
-  color: #fff;
-  font-size: 14px;
+  flex: 0 0 48px;
+  height: 48px;
+  border-radius: 24px;
+  background: #E8F3FF;
+  color: #2B96ED;
+  font-size: 22px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -331,10 +357,10 @@
 }
 
 .mod-steps__icon {
-  flex: 0 0 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #F3F4F6;
+  flex: 0 0 48px;
+  height: 48px;
+  border-radius: 24px;
+  background: #E8F3FF;
   font-size: 18px;
   display: flex;
   align-items: center;
@@ -348,15 +374,15 @@
 }
 
 .mod-steps__title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1D2229;
+  font-size: 16px;
+  font-weight: 700;
+  color: #191F28;
   margin: 0 0 4px;
 }
 
 .mod-steps__desc {
   font-size: 14px;
-  color: #6B7280;
+  color: #6B7684;
   line-height: 1.5;
   margin: 0;
 }
@@ -715,11 +741,11 @@
 .mod-badges__item {
   display: inline-block;
   padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  background: #EFF6FF;
-  color: var(--intro-accent, #2B96ED);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #F2F4F6;
+  color: #3182F6;
 }
 
 /* ================================================================
@@ -922,11 +948,23 @@
 
 .mod-target__item {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: flex-start;
-  padding: 14px 16px;
-  background: #F8F9FA;
-  border-radius: 12px;
+  padding: 16px;
+  background: #F9FAFB;
+  border-radius: 16px;
+}
+
+.mod-target__icon-box {
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.06);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .mod-target__icon {
@@ -943,15 +981,15 @@
 .mod-target__label {
   display: block;
   font-size: 15px;
-  font-weight: 600;
-  color: #1D2229;
+  font-weight: 700;
+  color: #191F28;
   line-height: 1.4;
 }
 
 .mod-target__desc {
   display: block;
   font-size: 13px;
-  color: #6B7280;
+  color: #6B7684;
   line-height: 1.5;
   margin-top: 2px;
 }
@@ -1220,4 +1258,57 @@
   font-size: 14px;
   font-weight: 600;
   color: #059669;
+}
+
+/* ================================================================
+   Module: Includes / Excludes (.mod-includes)
+   포함·불포함 2열 카드
+   ================================================================ */
+.mod-includes {
+  padding: 0 20px 24px;
+}
+
+.mod-includes__grid {
+  display: flex;
+  gap: 12px;
+}
+
+.mod-includes__card {
+  flex: 1;
+  border-radius: 16px;
+  padding: 18px 16px;
+}
+
+.mod-includes__card--yes {
+  background: #EBFAF0;
+}
+
+.mod-includes__card--no {
+  background: #FFF2F2;
+}
+
+.mod-includes__label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.mod-includes__card--yes .mod-includes__label {
+  color: #22B16F;
+}
+
+.mod-includes__card--no .mod-includes__label {
+  color: #FF4343;
+}
+
+.mod-includes__item {
+  font-size: 13px;
+  color: #404040;
+  line-height: 1.8;
+}
+
+.mod-includes__item .mod-includes__check {
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 4px;
 }

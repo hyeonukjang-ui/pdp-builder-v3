@@ -4,7 +4,7 @@ import { escapeHtml } from './utils.js';
 
 const renderer = {
   validate(data) {
-    return !!(data && (data.paragraphs?.length || data.faq?.length || data.table?.length));
+    return !!(data && (data.paragraphs?.length || data.faq?.length || data.table?.length || data.includes?.length || data.excludes?.length));
   },
 
   render(data, ctx) {
@@ -37,11 +37,38 @@ const renderer = {
 </div>`;
     }
 
+    // 포함·불포함 모드
+    const { includes, excludes } = data;
+    if ((includes && includes.length) || (excludes && excludes.length)) {
+      const yesItems = (includes || []).map(item =>
+        `<div class="mod-includes__item"><span class="mod-includes__check">✓</span> ${escapeHtml(item)}</div>`
+      ).join('\n      ');
+      const noItems = (excludes || []).map(item =>
+        `<div class="mod-includes__item"><span class="mod-includes__check">✕</span> ${escapeHtml(item)}</div>`
+      ).join('\n      ');
+
+      return `<div class="mod-text ${bgClass}">
+  ${title ? `<h3 class="mod-text__title" data-editable="title">${escapeHtml(title)}</h3>` : `<h3 class="mod-text__title">포함·불포함</h3>`}
+</div>
+<div class="mod-includes">
+  <div class="mod-includes__grid">
+    <div class="mod-includes__card mod-includes__card--yes">
+      <div class="mod-includes__label">포함</div>
+      ${yesItems}
+    </div>
+    <div class="mod-includes__card mod-includes__card--no">
+      <div class="mod-includes__label">불포함</div>
+      ${noItems}
+    </div>
+  </div>
+</div>`;
+    }
+
     // FAQ 모드
     if (faq && faq.length) {
       const faqHtml = faq.map((item, i) =>
         `<div class="mod-faq__item">
-    <div class="mod-faq__q" data-editable="faq.${i}.q">Q. ${escapeHtml(item.q)}</div>
+    <div class="mod-faq__q" data-editable="faq.${i}.q"><span class="mod-faq__q-badge">Q</span> ${escapeHtml(item.q)}</div>
     <div class="mod-faq__a" data-editable="faq.${i}.a">${escapeHtml(item.a)}</div>
   </div>`
       ).join('\n  ');
