@@ -351,6 +351,29 @@ function bindInlineEditing(){
     });
   });
 
+  // 히어로 이미지: 드래그로 object-position 조정
+  document.querySelectorAll('#pvF .mod-hero__img').forEach(function(img){
+    var dragging=false,startY=0,startPos=50;
+    img.addEventListener('mousedown',function(e){
+      e.preventDefault();dragging=true;startY=e.clientY;
+      var cur=img.style.objectPosition||'center center';
+      startPos=parseInt(cur.split(' ')[1])||50;
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!dragging)return;
+      var dy=e.clientY-startY;
+      var newPos=Math.max(0,Math.min(100,startPos+dy*0.3));
+      img.style.objectPosition='center '+newPos+'%';
+    });
+    document.addEventListener('mouseup',function(){
+      if(!dragging)return;dragging=false;
+      // 데이터에 저장
+      var sec=img.closest('.intro-section');if(!sec)return;
+      var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
+      S.secs[idx].data.imagePosition=img.style.objectPosition;
+    });
+  });
+
   // 이미지: 미리보기의 img 클릭 → 이미지 피커 (히어로 제외 — 히어로는 블록 선택으로)
   document.querySelectorAll('#pvF img').forEach(function(img){
     img.addEventListener('click',function(e){

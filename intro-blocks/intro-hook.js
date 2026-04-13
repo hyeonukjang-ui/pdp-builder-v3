@@ -21,7 +21,7 @@ const renderer = {
 
     return `<div class="mod-hero">
   ${hasImage
-    ? `<img class="mod-hero__img" src="${escapeHtml(image.url)}" alt="${escapeHtml(image.alt || title)}" />`
+    ? `<img class="mod-hero__img" src="${escapeHtml(image.url)}" alt="${escapeHtml(image.alt || title)}"${data.imagePosition ? ` style="object-position:${escapeHtml(data.imagePosition)}"` : ''} />`
     : `<div class="mod-hero__placeholder" style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);"></div>`}
   <div class="mod-hero__overlay"></div>
   <div class="mod-hero__content mod-hero__content--left">
