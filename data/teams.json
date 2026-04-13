@@ -20,6 +20,48 @@
       "icon": "🌴",
       "createdAt": "2026-04-08",
       "works": []
+    },
+    {
+      "id": "americas",
+      "name": "미주팀",
+      "icon": "🌎",
+      "createdAt": "2026-04-13",
+      "works": []
+    },
+    {
+      "id": "oceania",
+      "name": "대양주팀",
+      "icon": "🦘",
+      "createdAt": "2026-04-13",
+      "works": []
+    },
+    {
+      "id": "central-europe",
+      "name": "중부유럽팀",
+      "icon": "🏰",
+      "createdAt": "2026-04-13",
+      "works": []
+    },
+    {
+      "id": "southern-europe",
+      "name": "남부유럽팀",
+      "icon": "🏛️",
+      "createdAt": "2026-04-13",
+      "works": []
+    },
+    {
+      "id": "strategy",
+      "name": "전략팀",
+      "icon": "📊",
+      "createdAt": "2026-04-13",
+      "works": []
+    },
+    {
+      "id": "pb-business",
+      "name": "PB사업팀",
+      "icon": "💼",
+      "createdAt": "2026-04-13",
+      "works": []
     }
   ]
 }

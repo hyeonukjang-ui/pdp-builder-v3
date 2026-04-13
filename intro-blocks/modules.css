@@ -933,9 +933,10 @@
 
 .mod-vcard__img {
   width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
+  background: #f8f9fa;
+  border-radius: 12px;
 }
 
 .mod-vcard__placeholder {

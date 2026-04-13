@@ -646,7 +646,29 @@ document.getElementById('libList').addEventListener('mouseover',function(e){
   _previewEl.classList.add('show');
 });
 document.getElementById('libList').addEventListener('mouseleave',function(){if(_previewTimer)clearTimeout(_previewTimer);_previewTimer=null;_previewEl.classList.remove('show')});
-function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={category:S.category||'TOUR',introBlocks:S.secs.map(function(s){return{blockType:s.type,data:s.data}})};var result=_renderIntro(introData);var css='';try{document.querySelectorAll('link[href*="intro-blocks"]').forEach(function(link){var sheet=link.sheet;if(!sheet)return;Array.from(sheet.cssRules||[]).forEach(function(rule){css+=rule.cssText+'\n'})})}catch(e){}var t=S.prod?S.prod.title:'상세페이지';return'<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>'+esc(t)+' - 마이리얼트립</title><link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Pretendard Variable",-apple-system,sans-serif;color:#1D2229;background:#fff;display:flex;justify-content:center}'+css+'</style></head><body>'+result.html+'</body></html>'}
+function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={category:S.category||'TOUR',introBlocks:S.secs.map(function(s){return{blockType:s.type,data:s.data}})};var result=_renderIntro(introData);
+  // 개발자 요구사항: body 하위만, 인라인 스타일, class/data-* 제거
+  // 1) 임시 DOM에 렌더링하여 computed style을 인라인으로 변환
+  var tmp=document.createElement('div');tmp.style.cssText='position:absolute;left:-9999px;top:-9999px;width:390px';tmp.innerHTML=result.html;document.body.appendChild(tmp);
+  // 2) CSS를 수집하여 class→style 매핑
+  var cssMap={};try{document.querySelectorAll('link[href*="intro-blocks"]').forEach(function(link){var sheet=link.sheet;if(!sheet)return;Array.from(sheet.cssRules||[]).forEach(function(rule){if(rule.selectorText&&rule.selectorText.startsWith('.')){cssMap[rule.selectorText]=rule.style.cssText}})})}catch(e){}
+  // 3) 모든 class 속성을 가진 요소에 인라인 스타일 적용
+  tmp.querySelectorAll('[class]').forEach(function(el){
+    var existing=el.getAttribute('style')||'';
+    var classes=el.className.split(/\s+/);
+    var inlined='';
+    classes.forEach(function(cls){if(cls&&cssMap['.'+cls])inlined+=cssMap['.'+cls]});
+    if(inlined)el.setAttribute('style',(existing?existing+';':'')+inlined);
+  });
+  // 4) class, data-editable, data-emoji, data-block-* 속성 제거
+  tmp.querySelectorAll('*').forEach(function(el){
+    el.removeAttribute('class');el.removeAttribute('data-editable');el.removeAttribute('data-emoji');
+    el.removeAttribute('data-block-type');el.removeAttribute('data-block-index');el.removeAttribute('data-item-index');
+  });
+  // 5) section→div
+  var output=tmp.innerHTML.replace(/<section/g,'<div').replace(/<\/section>/g,'</div>');
+  document.body.removeChild(tmp);
+  return output}
 function dlJPG(){
   if(!S.secs.length){toast('블록 없음');return}
   var pvF=document.getElementById('pvF');
