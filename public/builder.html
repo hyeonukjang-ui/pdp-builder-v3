@@ -717,16 +717,34 @@ function dlJPG(){
   if(!pvF||!pvF.children.length){toast('미리보기 없음');return}
   toast('이미지 준비 중...');
   // 외부 이미지를 base64로 변환하여 CORS 문제 해결
-  var imgs=pvF.querySelectorAll('img[src^="http"]');
-  var promises=Array.from(imgs).map(function(img){
-    return fetch(API_BASE+'/api/proxy-image?url='+encodeURIComponent(img.src))
-      .then(function(r){return r.blob()})
-      .then(function(blob){return new Promise(function(resolve){
-        var reader=new FileReader();
-        reader.onload=function(){img.setAttribute('src',reader.result);resolve()};
-        reader.readAsDataURL(blob);
-      })})
-      .catch(function(){}) // 실패한 이미지는 무시
+  var promises=[];
+  // 1) img 태그
+  pvF.querySelectorAll('img[src^="http"]').forEach(function(img){
+    promises.push(
+      fetch(API_BASE+'/api/proxy-image?url='+encodeURIComponent(img.src))
+        .then(function(r){return r.blob()})
+        .then(function(blob){return new Promise(function(resolve){
+          var reader=new FileReader();
+          reader.onload=function(){img.setAttribute('src',reader.result);resolve()};
+          reader.readAsDataURL(blob);
+        })})
+        .catch(function(){})
+    );
+  });
+  // 2) background-image (히어로 등)
+  pvF.querySelectorAll('[data-hero-img]').forEach(function(el){
+    var url=el.getAttribute('data-hero-img');
+    if(!url||!url.startsWith('http'))return;
+    promises.push(
+      fetch(API_BASE+'/api/proxy-image?url='+encodeURIComponent(url))
+        .then(function(r){return r.blob()})
+        .then(function(blob){return new Promise(function(resolve){
+          var reader=new FileReader();
+          reader.onload=function(){el.style.backgroundImage='url('+reader.result+')';resolve()};
+          reader.readAsDataURL(blob);
+        })})
+        .catch(function(){})
+    );
   });
   Promise.all(promises).then(function(){
     toast('JPG 생성 중...');
