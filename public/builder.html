@@ -351,26 +351,38 @@ function bindInlineEditing(){
     });
   });
 
-  // 히어로 이미지: 드래그로 object-position 조정
+  // 히어로 이미지: 드래그로 object-position 조정 (좌우+상하)
   document.querySelectorAll('#pvF .mod-hero__img').forEach(function(img){
-    var dragging=false,startY=0,startPos=50;
+    var dragging=false,startX=0,startY=0,posX=50,posY=50;
     img.addEventListener('mousedown',function(e){
-      e.preventDefault();dragging=true;startY=e.clientY;
-      var cur=img.style.objectPosition||'center center';
-      startPos=parseInt(cur.split(' ')[1])||50;
+      e.preventDefault();dragging=true;startX=e.clientX;startY=e.clientY;
+      var cur=(img.style.objectPosition||'50% 50%').split(/\s+/);
+      posX=parseInt(cur[0])||50;posY=parseInt(cur[1])||50;
     });
     document.addEventListener('mousemove',function(e){
       if(!dragging)return;
-      var dy=e.clientY-startY;
-      var newPos=Math.max(0,Math.min(100,startPos+dy*0.3));
-      img.style.objectPosition='center '+newPos+'%';
+      var dx=e.clientX-startX,dy=e.clientY-startY;
+      var nx=Math.max(0,Math.min(100,posX-dx*0.3));
+      var ny=Math.max(0,Math.min(100,posY-dy*0.3));
+      img.style.objectPosition=nx+'% '+ny+'%';
     });
     document.addEventListener('mouseup',function(){
       if(!dragging)return;dragging=false;
-      // 데이터에 저장
       var sec=img.closest('.intro-section');if(!sec)return;
       var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
       S.secs[idx].data.imagePosition=img.style.objectPosition;
+    });
+    // 더블클릭: 이미지 피커 열기
+    img.addEventListener('dblclick',function(e){
+      e.stopPropagation();
+      var sec=img.closest('.intro-section');if(!sec)return;
+      var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
+      var s=S.secs[idx];
+      var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
+      if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다.</p>'}
+      else{grid.innerHTML=imgs.map(function(im,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(im.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
+      _imgPickerCb=function(url){saveU();s.data.image={url:url,alt:''};render()};
+      document.getElementById('imgPickerModal').classList.add('show');
     });
   });
 
