@@ -351,37 +351,33 @@ function bindInlineEditing(){
     });
   });
 
-  // 히어로 이미지: 드래그로 위치 조정 + 더블클릭으로 이미지 변경
-  document.querySelectorAll('#pvF .mod-hero__img').forEach(function(img){
-    var posX=50,posY=50;
-    var cur=(img.style.objectPosition||'50% 50%').split(/\s+/);
-    posX=parseInt(cur[0])||50;posY=parseInt(cur[1])||50;
-
+  // 히어로 이미지: 드래그로 background-position 조정 + 더블클릭으로 이미지 변경
+  document.querySelectorAll('#pvF .mod-hero__img[data-hero-img]').forEach(function(el){
     function onMove(e){
-      var dx=e.clientX-img._startX,dy=e.clientY-img._startY;
-      var nx=Math.max(0,Math.min(100,img._posX-dx*0.3));
-      var ny=Math.max(0,Math.min(100,img._posY-dy*0.3));
-      img.style.objectPosition=nx+'% '+ny+'%';
+      var dx=e.clientX-el._startX,dy=e.clientY-el._startY;
+      var nx=Math.max(0,Math.min(100,el._posX-dx*0.3));
+      var ny=Math.max(0,Math.min(100,el._posY-dy*0.3));
+      el.style.backgroundPosition=nx+'% '+ny+'%';
     }
     function onUp(){
       window.removeEventListener('mousemove',onMove);
       window.removeEventListener('mouseup',onUp);
-      var sec=img.closest('.intro-section');if(!sec)return;
+      var sec=el.closest('.intro-section');if(!sec)return;
       var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
-      S.secs[idx].data.imagePosition=img.style.objectPosition;
+      S.secs[idx].data.imagePosition=el.style.backgroundPosition;
     }
-    img.addEventListener('mousedown',function(e){
+    el.addEventListener('mousedown',function(e){
       e.preventDefault();e.stopPropagation();
-      var cur2=(img.style.objectPosition||'50% 50%').split(/\s+/);
-      img._startX=e.clientX;img._startY=e.clientY;
-      img._posX=parseInt(cur2[0])||50;img._posY=parseInt(cur2[1])||50;
+      var cur=(el.style.backgroundPosition||'50% 50%').split(/\s+/);
+      el._startX=e.clientX;el._startY=e.clientY;
+      el._posX=parseInt(cur[0])||50;el._posY=parseInt(cur[1])||50;
       window.addEventListener('mousemove',onMove);
       window.addEventListener('mouseup',onUp);
     });
     // 더블클릭: 이미지 피커
-    img.addEventListener('dblclick',function(e){
+    el.addEventListener('dblclick',function(e){
       e.stopPropagation();
-      var sec=img.closest('.intro-section');if(!sec)return;
+      var sec=el.closest('.intro-section');if(!sec)return;
       var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
       var s=S.secs[idx];
       var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
