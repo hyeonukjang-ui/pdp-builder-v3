@@ -19,7 +19,389 @@
       "name": "동남아팀",
       "icon": "🌴",
       "createdAt": "2026-04-08",
-      "works": []
+      "works": [
+        {
+          "id": "3650242",
+          "title": "[동부핵심만/한국어] 발리 렘푸양 사원 동부투어 | 인생사진은 덤! (단독/Apong팀)",
+          "category": "TOUR",
+          "depth2": "가이드 투어",
+          "thumbnail": "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/10/06/9Eoz/tMmung5eLp.jpg",
+          "prod": {
+            "id": "3650242",
+            "title": "[동부핵심만/한국어] 발리 렘푸양 사원 동부투어 | 인생사진은 덤! (단독/Apong팀)"
+          },
+          "secs": [
+            {
+              "id": "s1776089568198-1",
+              "type": "intro-hook",
+              "label": "히어로 이미지",
+              "ic": "🖼️",
+              "data": {
+                "title": "천국의 문 렘푸양 사원",
+                "subtitle": "발리 동부 4대 명소 12시간",
+                "textAlign": "left",
+                "image": {
+                  "url": "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/10/06/9Eoz/tMmung5eLp.jpg",
+                  "alt": "[동부핵심만/한국어] 발리 렘푸양 사원 동부투어 | 인생사진은 덤! (단독/Apong팀)"
+                },
+                "badges": [
+                  "⭐ 4.9 (273개)",
+                  "무료취소",
+                  "최저가보장제"
+                ],
+                "imagePosition": "53.3% 11.9%"
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-2",
+              "type": "intro-text",
+              "label": "투어 소개",
+              "ic": "📝",
+              "data": {
+                "title": "발리 동부 핵심 투어",
+                "paragraphs": [
+                  "SNS에서 화제인 '천국의 문' 렘푸양 사원부터 신비로운 티르타강가 물의 궁전까지. 발리에서 가장 신성한 동부 지역 4대 명소를 하루에 만나요.",
+                  "1948년 건립된 아름다운 궁전과 포토 스팟 투카드 세풍 폭포에서 인생사진도 남겨보세요. 영어 구사 가능한 현지 드라이버가 호텔 픽업부터 안전하게 모시고 갑니다."
+                ],
+                "background": "white"
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-3",
+              "type": "intro-highlights",
+              "label": "하이라이트",
+              "ic": "✨",
+              "data": {
+                "title": "투어 하이라이트",
+                "items": [
+                  {
+                    "icon": "🚗",
+                    "label": "호텔 픽업 포함",
+                    "description": "숙소에서 편리하게 출발해요"
+                  },
+                  {
+                    "icon": "🎫",
+                    "label": "모든 입장료",
+                    "description": "4개 명소 입장료 모두 포함"
+                  },
+                  {
+                    "icon": "📸",
+                    "label": "천국의 문",
+                    "description": "SNS 핫플 렌푸양 사원 촬영"
+                  },
+                  {
+                    "icon": "🏛️",
+                    "label": "물의 궁전",
+                    "description": "1948년 티르타강가 궁전"
+                  },
+                  {
+                    "icon": "🌅",
+                    "label": "전망 명소",
+                    "description": "아궁 화산 파노라마 뷰"
+                  },
+                  {
+                    "icon": "💧",
+                    "label": "신비 폭포",
+                    "description": "동굴 속 투카드 세풍 폭포"
+                  }
+                ],
+                "columns": 2
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-4",
+              "type": "intro-experience",
+              "label": "추천 대상",
+              "ic": "🎯",
+              "data": {
+                "title": "이런 분께 추천해요",
+                "items": [
+                  {
+                    "icon": "📷",
+                    "label": "사진 좋아하는 커플",
+                    "description": "인스타 감성 스팟에서 인생사진 남겨요"
+                  },
+                  {
+                    "icon": "👨‍👩‍👧‍👦",
+                    "label": "가족 여행객",
+                    "description": "차량 이동으로 편하게 4곳 둘러봐요"
+                  },
+                  {
+                    "icon": "🙏",
+                    "label": "문화 체험 원하는 분",
+                    "description": "발리 전통 사원과 궁전 문화 경험해요"
+                  },
+                  {
+                    "icon": "🌿",
+                    "label": "자연 애호가",
+                    "description": "화산 전망과 신비로운 폭포 감상해요"
+                  }
+                ]
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-5",
+              "type": "intro-provider",
+              "label": "가이드 소개",
+              "ic": "🧑‍🏫",
+              "data": {
+                "guides": [
+                  {
+                    "name": "카리스마 투어 및 여행",
+                    "role": "발리 전문 투어 팀",
+                    "experience": "킨타마니 마을 기반 현지팀",
+                    "badges": [
+                      "영어 가능",
+                      "호텔 픽업",
+                      "안전 운행"
+                    ],
+                    "introduction": "발리 킨타마니 마을에서 다양한 투어를 운영하는 현지 전문팀입니다. 일출 지프 투어부터 바투르산 트레킹까지 발리의 자연을 안전하고 즐겁게 경험할 수 있도록 도와드려요.",
+                    "image": {
+                      "url": "https://d6bztw1vgnv55.cloudfront.net/1504828/review/2026/03/13/382aff0d-8451-4ad2-8d0b-077bd7e7dbf2.jpeg",
+                      "alt": ""
+                    }
+                  }
+                ]
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-6",
+              "type": "intro-schedule",
+              "label": "타임라인",
+              "ic": "📅",
+              "data": {
+                "title": "당일 일정 한눈에",
+                "totalDuration": "12시간",
+                "days": [
+                  {
+                    "label": "D1",
+                    "title": "숙소 픽업",
+                    "summary": "호텔 위치별 맞춤 픽업",
+                    "type": "이동"
+                  },
+                  {
+                    "label": "D2",
+                    "title": "렘푸양 사원 투어",
+                    "summary": "천국의 문 포토 스팟 · 신성한 사원 탐방",
+                    "type": "가이드 투어"
+                  },
+                  {
+                    "label": "D3",
+                    "title": "티르타강가 사원",
+                    "summary": "1948년 물의 궁전 · 발리 문화 체험",
+                    "type": "가이드 투어"
+                  },
+                  {
+                    "label": "D4",
+                    "title": "라항안 스위트",
+                    "summary": "아궁 화산 전망 · 파노라마 사진 촬영",
+                    "type": "가이드 투어"
+                  },
+                  {
+                    "label": "D5",
+                    "title": "투카드 세풍 폭포",
+                    "summary": "동굴 속 신비 폭포 · 자연 감상",
+                    "type": "가이드 투어"
+                  },
+                  {
+                    "label": "D6",
+                    "title": "숙소 복귀",
+                    "summary": "투어 종료 후 호텔 드롭오프",
+                    "type": "이동"
+                  }
+                ]
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-7",
+              "type": "intro-card-grid",
+              "label": "투어 코스/명소",
+              "ic": "🗺️",
+              "data": {
+                "title": "주요 명소",
+                "items": [
+                  {
+                    "title": "렘푸양 사원",
+                    "subtitle": "발리에서 가장 신성한 사원 중 하나로 '천국의 문'으로 유명해요. 긴 계단을 올라 정상에서 바라보는 풍경과 상징적인 문 사이로 찍는 인생사진은 SNS에서 화제가 되고 있어요.",
+                    "image": {
+                      "url": "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/10/06/9Eoz/tMmung5eLp.jpg",
+                      "alt": ""
+                    }
+                  },
+                  {
+                    "title": "티르타강가 사원",
+                    "subtitle": "1948년에 지어진 발리에서 가장 아름다운 물의 궁전이에요. 발리의 전통 문화와 역사를 생생하게 체험할 수 있는 곳으로, 궁전 곳곳에 흐르는 맑은 물과 조각상들이 신비로운 분위기를 연출해요.",
+                    "image": {
+                      "url": "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/10/06/HTz2/9SygsIzFlE.jpg",
+                      "alt": ""
+                    }
+                  },
+                  {
+                    "title": "투카드 세풍 폭포",
+                    "subtitle": "계단을 내려가 동굴 안에서 만나는 신비로운 폭포예요. 동굴 천장 사이로 쏟아지는 폭포수와 신비로운 빛이 어우러져 환상적인 포토 스팟을 만들어줍니다. 발리의 원시 자연을 만끽할 수 있어요.",
+                    "image": {
+                      "url": "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/10/06/9Jim/JcrNZGskUd.jpg",
+                      "alt": ""
+                    }
+                  }
+                ]
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-8",
+              "type": "intro-text",
+              "label": "포함·불포함",
+              "ic": "✅",
+              "data": {
+                "title": "포함·불포함",
+                "paragraphs": [
+                  "• 영어 소통 가능한 운전기사의 호텔 픽업/하차",
+                  "• 모든 입장료 포함",
+                  "• 운전자 팁 별도",
+                  "• 개별 여행자 보험 별도"
+                ],
+                "background": "white"
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-9",
+              "type": "intro-howto",
+              "label": "이용방법",
+              "ic": "📖",
+              "data": {
+                "title": "이용 방법",
+                "steps": [
+                  {
+                    "step": 1,
+                    "title": "예약 확정받기",
+                    "description": "결제 완료 후 예약 확정 메시지를 받아요",
+                    "icon": "✅"
+                  },
+                  {
+                    "step": 2,
+                    "title": "픽업 대기하기",
+                    "description": "숙소에서 조율된 시간에 차량을 기다려요",
+                    "icon": "🚗"
+                  },
+                  {
+                    "step": 3,
+                    "title": "투어 참여하기",
+                    "description": "가이드와 함께 4곳 명소를 둘러봐요",
+                    "icon": "📸"
+                  },
+                  {
+                    "step": 4,
+                    "title": "숙소 복귀하기",
+                    "description": "투어 종료 후 숙소로 안전하게 돌아와요",
+                    "icon": "🏨"
+                  }
+                ]
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-10",
+              "type": "intro-text",
+              "label": "집합/픽업",
+              "ic": "📍",
+              "data": {
+                "title": "집합/픽업 안내",
+                "paragraphs": [
+                  "• 숙소에서 픽업해드려요",
+                  "• 픽업 시간은 숙소 위치에 따라 달라져요",
+                  "• 차량이 조율한 시간에 정확히 대기해주세요",
+                  "• 투어는 정시에 출발하니 시간을 엄수해주세요"
+                ],
+                "background": "gray"
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-11",
+              "type": "intro-text",
+              "label": "취소환불",
+              "ic": "🔄",
+              "data": {
+                "title": "취소 및 환불 안내",
+                "paragraphs": [
+                  "• 여행일 1일 전 오전 9시 이전: 100% 환불",
+                  "• 여행일 1일 전 오전 9시 이후: 취소/환불 불가",
+                  "• 취소 요청은 현지 시간을 기준으로 해요"
+                ],
+                "background": "white"
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-12",
+              "type": "intro-text",
+              "label": "FAQ",
+              "ic": "❓",
+              "data": {
+                "title": "자주 묻는 질문",
+                "faq": [
+                  {
+                    "q": "몇 명까지 탈 수 있나요?",
+                    "a": "토요타 4인승 차량으로 최대 4명까지 가능해요"
+                  },
+                  {
+                    "q": "카시트 이용이 가능한가요?",
+                    "a": "카시트는 이용하실 수 없어요"
+                  },
+                  {
+                    "q": "투어는 어떤 언어로 진행되나요?",
+                    "a": "영어 또는 한국어로 진행돼요"
+                  },
+                  {
+                    "q": "수하물 보관이 가능한가요?",
+                    "a": "토요타 4인승에서 수하물 보관 가능해요"
+                  }
+                ],
+                "background": "gray"
+              },
+              "ai": true,
+              "cf": false
+            },
+            {
+              "id": "s1776089568198-13",
+              "type": "intro-cta",
+              "label": "이런 상품은 어때요?",
+              "ic": "💡",
+              "data": {
+                "title": "이런 상품은 어때요?",
+                "desc": "발리 다른 투어도 둘러보세요",
+                "url": "",
+                "image": {
+                  "url": "https://dry7pvlp22cox.cloudfront.net/mrt-images-prod/2024/10/06/6l4V/rTZzmXt4IV.jpg",
+                  "alt": "[동부핵심만/한국어] 발리 렘푸양 사원 동부투어 | 인생사진은 덤! (단독/Apong팀)"
+                }
+              },
+              "ai": true,
+              "cf": false
+            }
+          ],
+          "savedAt": "2026-04-13T14:13:19.542Z"
+        }
+      ]
     },
     {
       "id": "americas",
