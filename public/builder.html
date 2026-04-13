@@ -351,11 +351,14 @@ function bindInlineEditing(){
     });
   });
 
-  // 이미지: 미리보기의 img 클릭 → 이미지 피커
+  // 이미지: 미리보기의 img 클릭 → 이미지 피커 (히어로 제외 — 히어로는 블록 선택으로)
   document.querySelectorAll('#pvF img').forEach(function(img){
     img.addEventListener('click',function(e){
-      e.stopPropagation();
       var sec=img.closest('.intro-section');if(!sec)return;
+      var bt=sec.dataset.blockType;
+      // 히어로 이미지는 블록 선택으로 전파 (편집 패널에서 이미지 변경)
+      if(bt==='intro-hook')return;
+      e.stopPropagation();
       var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
       var s=S.secs[idx];
       // 이미지 피커 열기
