@@ -7,9 +7,30 @@
 .mod-hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 390/440;
+  height: 440px;
   overflow: hidden;
   background: #1a1a2e;
+}
+
+.mod-hero__hint {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.mod-hero:hover .mod-hero__hint {
+  opacity: 1;
 }
 
 .mod-hero__img {
