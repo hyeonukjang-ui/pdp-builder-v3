@@ -736,14 +736,23 @@ function dlJPG(){
     toast('JPG 생성 중...');
     return html2canvas(pvF,{useCORS:true,allowTaint:true,scale:2,backgroundColor:'#ffffff',logging:false});
   }).then(function(canvas){
-    canvas.toBlob(function(blob){
+    // 캡처된 캔버스를 3:4 비율로 맞춤 (넘치면 자르기)
+    var srcW=canvas.width,srcH=canvas.height;
+    var targetRatio=3/4; // 세로형 비율
+    var targetW=srcW,targetH=Math.round(srcW/targetRatio);
+    // 캡처가 더 길면 자르기, 더 짧으면 하단 흰색 채우기
+    var outCanvas=document.createElement('canvas');
+    outCanvas.width=targetW;outCanvas.height=targetH;
+    var ctx2=outCanvas.getContext('2d');
+    ctx2.fillStyle='#ffffff';ctx2.fillRect(0,0,targetW,targetH);
+    ctx2.drawImage(canvas,0,0);
+    outCanvas.toBlob(function(blob){
       var a=document.createElement('a');
       a.href=URL.createObjectURL(blob);
       a.download=(S.prod?S.prod.id:'pdp')+'-detail.jpg';
       a.click();
       URL.revokeObjectURL(a.href);
       toast('JPG 다운로드 완료');
-      // 미리보기 복원
       renderPreview();
     },'image/jpeg',0.92);
   }).catch(function(err){toast('JPG 생성 실패: '+err.message)});
