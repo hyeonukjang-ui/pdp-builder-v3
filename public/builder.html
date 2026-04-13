@@ -665,8 +665,10 @@ function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={categ
     el.removeAttribute('class');el.removeAttribute('data-editable');el.removeAttribute('data-emoji');
     el.removeAttribute('data-block-type');el.removeAttribute('data-block-index');el.removeAttribute('data-item-index');
   });
-  // 5) section→div
+  // 5) section→div + wrapper max-width:884px
   var output=tmp.innerHTML.replace(/<section/g,'<div').replace(/<\/section>/g,'</div>');
+  // wrapper를 884px max-width로 설정 (개발자 합의)
+  output='<div style="width:100%;max-width:884px;margin:0 auto;font-family:\'Pretendard Variable\',\'Noto Sans KR\',-apple-system,sans-serif;color:#212529;background:#fff">'+output+'</div>';
   document.body.removeChild(tmp);
   return output}
 function dlJPG(){
