@@ -7,6 +7,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TEAMS_FILE = path.join(__dirname, 'data', 'teams.json');
+
+// JSONBin.io 설정 (영구 저장)
+const JSONBIN_ID = process.env.JSONBIN_ID || '69dda814856a6821892f51dd';
+const JSONBIN_KEY = process.env.JSONBIN_KEY || '$2a$10$sYTePdfCsjdjC88Gs.9gf.UR6.3xnm885lS4Ua/AvA2Yjr1tX/lYS';
+const USE_JSONBIN = process.env.USE_JSONBIN !== 'false'; // 기본 true
 import { extractProductData } from './lib/extractor.js';
 import { generateBlockCopy } from './lib/generator.js';
 import { calculateHealthScore } from './lib/health-scorer.js';
@@ -343,18 +348,56 @@ ${result.html}
 
 // ─── Teams API ──────────────────────────────────────────────
 
-function readTeams() {
+// JSONBin.io에서 읽기
+async function readTeamsFromBin() {
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_KEY },
+    });
+    const json = await res.json();
+    return json.record || { teams: [] };
+  } catch (err) {
+    console.warn('[teams] JSONBin 읽기 실패, 로컬 폴백:', err.message);
+    return readTeamsLocal();
+  }
+}
+
+// JSONBin.io에 쓰기
+async function writeTeamsToBin(data) {
+  try {
+    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+      body: JSON.stringify(data),
+    });
+  } catch (err) {
+    console.warn('[teams] JSONBin 쓰기 실패:', err.message);
+  }
+  // 로컬도 동기화
+  writeTeamsLocal(data);
+}
+
+// 로컬 파일 (폴백)
+function readTeamsLocal() {
   try { return JSON.parse(fs.readFileSync(TEAMS_FILE, 'utf-8')); }
   catch { return { teams: [] }; }
 }
-function writeTeams(data) {
+function writeTeamsLocal(data) {
   fs.mkdirSync(path.dirname(TEAMS_FILE), { recursive: true });
   fs.writeFileSync(TEAMS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
+// 통합 인터페이스
+async function readTeams() {
+  return USE_JSONBIN ? readTeamsFromBin() : readTeamsLocal();
+}
+async function writeTeams(data) {
+  return USE_JSONBIN ? writeTeamsToBin(data) : writeTeamsLocal(data);
+}
+
 // 팀 목록
-app.get('/api/teams', (req, res) => {
-  const data = readTeams();
+app.get('/api/teams', async (req, res) => {
+  const data = await readTeams();
   res.json(data.teams.map(t => ({
     id: t.id, name: t.name, icon: t.icon,
     workCount: (t.works || []).length,
@@ -363,27 +406,27 @@ app.get('/api/teams', (req, res) => {
 });
 
 // 팀 추가
-app.post('/api/teams', (req, res) => {
+app.post('/api/teams', async (req, res) => {
   const { name, icon } = req.body;
   if (!name) return res.status(400).json({ error: '팀 이름 필수' });
-  const data = readTeams();
+  const data = await readTeams();
   const id = name.replace(/\s+/g, '-').toLowerCase() + '-' + Date.now().toString(36);
   data.teams.push({ id, name, icon: icon || '📁', createdAt: new Date().toISOString().slice(0, 10), works: [] });
-  writeTeams(data);
+  await writeTeams(data);
   res.json({ id, name, icon: icon || '📁' });
 });
 
 // 팀 삭제
-app.delete('/api/teams/:teamId', (req, res) => {
-  const data = readTeams();
+app.delete('/api/teams/:teamId', async (req, res) => {
+  const data = await readTeams();
   data.teams = data.teams.filter(t => t.id !== req.params.teamId);
-  writeTeams(data);
+  await writeTeams(data);
   res.json({ ok: true });
 });
 
 // 팀 작업 목록
-app.get('/api/teams/:teamId/works', (req, res) => {
-  const data = readTeams();
+app.get('/api/teams/:teamId/works', async (req, res) => {
+  const data = await readTeams();
   const team = data.teams.find(t => t.id === req.params.teamId);
   if (!team) return res.status(404).json({ error: '팀 없음' });
   res.json((team.works || []).map(w => ({
@@ -393,23 +436,22 @@ app.get('/api/teams/:teamId/works', (req, res) => {
 });
 
 // 작업 저장
-app.post('/api/teams/:teamId/works', (req, res) => {
-  const data = readTeams();
+app.post('/api/teams/:teamId/works', async (req, res) => {
+  const data = await readTeams();
   const team = data.teams.find(t => t.id === req.params.teamId);
   if (!team) return res.status(404).json({ error: '팀 없음' });
   const { id, title, category, depth2, thumbnail, prod, secs } = req.body;
   const workId = id || ('w-' + Date.now().toString(36));
-  // 같은 ID면 덮어쓰기
   const idx = (team.works || []).findIndex(w => w.id === workId);
   const work = { id: workId, title, category, depth2, thumbnail, prod, secs, savedAt: new Date().toISOString() };
   if (idx >= 0) { team.works[idx] = work; } else { if (!team.works) team.works = []; team.works.push(work); }
-  writeTeams(data);
+  await writeTeams(data);
   res.json({ id: workId, savedAt: work.savedAt });
 });
 
 // 작업 상세 (로드용)
-app.get('/api/teams/:teamId/works/:workId', (req, res) => {
-  const data = readTeams();
+app.get('/api/teams/:teamId/works/:workId', async (req, res) => {
+  const data = await readTeams();
   const team = data.teams.find(t => t.id === req.params.teamId);
   if (!team) return res.status(404).json({ error: '팀 없음' });
   const work = (team.works || []).find(w => w.id === req.params.workId);
@@ -418,12 +460,12 @@ app.get('/api/teams/:teamId/works/:workId', (req, res) => {
 });
 
 // 작업 삭제
-app.delete('/api/teams/:teamId/works/:workId', (req, res) => {
-  const data = readTeams();
+app.delete('/api/teams/:teamId/works/:workId', async (req, res) => {
+  const data = await readTeams();
   const team = data.teams.find(t => t.id === req.params.teamId);
   if (!team) return res.status(404).json({ error: '팀 없음' });
   team.works = (team.works || []).filter(w => w.id !== req.params.workId);
-  writeTeams(data);
+  await writeTeams(data);
   res.json({ ok: true });
 });
 
