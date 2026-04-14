@@ -724,10 +724,15 @@ function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={categ
     el.removeAttribute('class');el.removeAttribute('data-editable');el.removeAttribute('data-emoji');
     el.removeAttribute('data-block-type');el.removeAttribute('data-block-index');el.removeAttribute('data-item-index');
   });
-  // 5) section→div + wrapper max-width:884px
+  // 5) intro-page의 max-width를 884px로 덮어쓰기
+  var introPage=tmp.querySelector('.intro-page')||tmp.firstElementChild;
+  if(introPage){
+    var s=introPage.getAttribute('style')||'';
+    s=s.replace(/max-width:[^;]+;?/g,'');
+    introPage.setAttribute('style',s+';width:100%;max-width:884px;margin:0 auto');
+  }
+  // 6) section→div, class/data-* 제거 후 출력
   var output=tmp.innerHTML.replace(/<section/g,'<div').replace(/<\/section>/g,'</div>');
-  // wrapper를 884px max-width로 설정 (개발자 합의)
-  output='<div style="width:100%;max-width:884px;margin:0 auto;font-family:\'Pretendard Variable\',\'Noto Sans KR\',-apple-system,sans-serif;color:#212529;background:#fff">'+output+'</div>';
   document.body.removeChild(tmp);
   return output}
 function dlJPG(){
