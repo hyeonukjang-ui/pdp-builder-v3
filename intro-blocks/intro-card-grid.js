@@ -9,7 +9,7 @@ const renderer = {
 
   render(data, ctx) {
     const { title, items } = data;
-    const visibleItems = items.slice(0, 3);
+    const visibleItems = items;
 
     const cardsHtml = visibleItems.map((card, i) => {
       const hasImage = card.image?.url;
