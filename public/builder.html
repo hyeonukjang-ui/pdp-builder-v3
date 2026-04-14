@@ -731,47 +731,7 @@ function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={categ
     s=s.replace(/max-width:[^;]+;?/g,'');
     introPage.setAttribute('style',s+';width:100%;max-width:884px;margin:0 auto');
   }
-  // 6) 884px 스케일업: 폰트/패딩 확대
-  tmp.querySelectorAll('h2,h3').forEach(function(el){
-    var s=el.getAttribute('style')||'';
-    s=s.replace(/font-size:\s*22px/g,'font-size:28px').replace(/font-size:\s*16px/g,'font-size:20px').replace(/font-size:\s*15px/g,'font-size:18px');
-    el.setAttribute('style',s);
-  });
-  tmp.querySelectorAll('p').forEach(function(el){
-    var s=el.getAttribute('style')||'';
-    s=s.replace(/font-size:\s*15px/g,'font-size:17px').replace(/font-size:\s*14px/g,'font-size:16px').replace(/font-size:\s*13px/g,'font-size:15px');
-    el.setAttribute('style',s);
-  });
-  tmp.querySelectorAll('span').forEach(function(el){
-    var s=el.getAttribute('style')||'';
-    s=s.replace(/font-size:\s*13px/g,'font-size:15px').replace(/font-size:\s*12px/g,'font-size:14px').replace(/font-size:\s*11px/g,'font-size:13px');
-    el.setAttribute('style',s);
-  });
-  // 패딩 확대
-  tmp.querySelectorAll('div').forEach(function(el){
-    var s=el.getAttribute('style')||'';
-    if(s.includes('padding')){
-      s=s.replace(/padding:\s*24px 20px/g,'padding:32px 40px').replace(/padding:\s*0px 20px/g,'padding:0px 40px').replace(/padding:\s*40px 24px/g,'padding:48px 40px');
-      el.setAttribute('style',s);
-    }
-  });
-  // 하이라이트 3열
-  tmp.querySelectorAll('div').forEach(function(el){
-    var s=el.getAttribute('style')||'';
-    if(s.includes('grid-template-columns: repeat(2')||s.includes('grid-template-columns:repeat(2')){
-      s=s.replace(/repeat\(2,\s*1fr\)/g,'repeat(3, 1fr)');
-      el.setAttribute('style',s);
-    }
-  });
-  // 히어로 높이
-  tmp.querySelectorAll('div').forEach(function(el){
-    var s=el.getAttribute('style')||'';
-    if(s.includes('height: 440px')||s.includes('height:440px')){
-      s=s.replace(/height:\s*440px/g,'height:500px');
-      el.setAttribute('style',s);
-    }
-  });
-  // 7) section→div, class/data-* 제거 후 출력
+  // 6) section→div, class/data-* 제거 후 출력
   var output=tmp.innerHTML.replace(/<section/g,'<div').replace(/<\/section>/g,'</div>');
   document.body.removeChild(tmp);
   return output}
