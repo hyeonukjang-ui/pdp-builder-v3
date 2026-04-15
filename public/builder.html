@@ -103,7 +103,15 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
 .pvt{height:40px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 16px;flex-shrink:0}.pvt h3{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px}
 .pvs{flex:1;overflow-y:auto;padding:24px;display:flex;justify-content:center}.pvs::-webkit-scrollbar{width:4px}.pvs::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .pvf{background:var(--sf);border-radius:var(--rxl);border:1px solid var(--bd);box-shadow:var(--sh);overflow:hidden;width:390px;flex-shrink:0;align-self:flex-start}
-.pvf .intro-section{cursor:pointer;transition:outline .15s}.pvf .intro-section:hover{outline:1px solid rgba(81,171,243,.3);outline-offset:-1px}.pvf .intro-section.pv-act{outline:2px solid var(--brand);outline-offset:-2px}
+.pvf .intro-section{cursor:pointer;transition:outline .15s;position:relative}.pvf .intro-section:hover{outline:1px solid rgba(81,171,243,.3);outline-offset:-1px}.pvf .intro-section.pv-act{outline:2px solid var(--brand);outline-offset:-2px}
+.pvf .intro-section .pv-toolbar{position:absolute;top:8px;right:8px;display:flex;gap:4px;opacity:0;transition:opacity .15s;z-index:10}
+.pvf .intro-section:hover .pv-toolbar{opacity:1}
+.pv-tb-btn{width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;background:rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:all .15s}
+.pv-tb-btn:hover{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.pv-tb-btn.del:hover{background:#fff0ee;color:#fa5b4a}
+.pv-tb-btn.drag{cursor:grab}.pv-tb-btn.drag:active{cursor:grabbing}
+.pvf .intro-section.pv-dragging{opacity:.4;outline:2px dashed var(--brand)}
+.pvf .intro-section.pv-dragover{outline:2px solid var(--brand);outline-offset:4px}
 .edr{padding:14px 18px;border-bottom:1px solid var(--bd)}.edrt{display:flex;align-items:center;gap:8px}
 .eds{flex:1;overflow-y:auto;padding:18px}.eds::-webkit-scrollbar{width:4px}.eds::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px}
 .edf{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:8px}
@@ -385,6 +393,41 @@ function bindInlineEditing(){
       else{grid.innerHTML=imgs.map(function(im,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(im.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
       _imgPickerCb=function(url){saveU();s.data.image={url:url,alt:''};render()};
       document.getElementById('imgPickerModal').classList.add('show');
+    });
+  });
+
+  // 미리보기 섹션에 툴바(삭제+드래그) 삽입
+  document.querySelectorAll('#pvF .intro-section').forEach(function(sec){
+    if(sec.querySelector('.pv-toolbar'))return;
+    var idx=parseInt(sec.dataset.blockIndex);
+    var tb=document.createElement('div');tb.className='pv-toolbar';
+    tb.innerHTML='<button class="pv-tb-btn drag" title="드래그하여 순서 변경">⋮⋮</button><button class="pv-tb-btn del" title="삭제">✕</button>';
+    sec.appendChild(tb);
+    // 삭제
+    tb.querySelector('.del').addEventListener('click',function(e){
+      e.stopPropagation();
+      if(!S.secs[idx])return;saveU();
+      var sid=S.secs[idx].id;S.secs=S.secs.filter(function(x){return x.id!==sid});
+      if(S.act===sid)S.act=null;render();toast('삭제');
+    });
+    // 드래그
+    sec.setAttribute('draggable','true');
+    sec.addEventListener('dragstart',function(e){
+      e.dataTransfer.effectAllowed='move';
+      sec.classList.add('pv-dragging');
+      sec._dragIdx=idx;
+    });
+    sec.addEventListener('dragend',function(){sec.classList.remove('pv-dragging')});
+    sec.addEventListener('dragover',function(e){e.preventDefault();sec.classList.add('pv-dragover')});
+    sec.addEventListener('dragleave',function(){sec.classList.remove('pv-dragover')});
+    sec.addEventListener('drop',function(e){
+      e.preventDefault();sec.classList.remove('pv-dragover');
+      var fromEl=document.querySelector('#pvF .pv-dragging');
+      if(!fromEl)return;
+      var fromIdx=parseInt(fromEl.dataset.blockIndex);
+      var toIdx=parseInt(sec.dataset.blockIndex);
+      if(fromIdx===toIdx||isNaN(fromIdx)||isNaN(toIdx))return;
+      saveU();var arr=S.secs.slice();var moved=arr.splice(fromIdx,1)[0];arr.splice(toIdx,0,moved);S.secs=arr;render();
     });
   });
 
