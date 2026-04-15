@@ -12,7 +12,10 @@ const renderer = {
     const heading = title || '이런 상품은 어때요?';
     const hasImage = image?.url;
 
-    return `<div class="mod-recommend-v2" ${url ? `onclick="window.open('${escapeHtml(url)}','_blank')"` : ''}>
+    // URL 보안: myrealtrip.com 도메인만 허용 + noopener,noreferrer
+    const safeUrl = url && /^https?:\/\/([a-z0-9-]+\.)*myrealtrip\.com(\/|$)/i.test(url) ? url : '';
+
+    return `<div class="mod-recommend-v2" ${safeUrl ? `onclick="window.open('${escapeHtml(safeUrl)}','_blank','noopener,noreferrer')"` : ''}>
   ${hasImage
     ? `<img class="mod-recommend-v2__img" src="${escapeHtml(image.url)}" alt="${escapeHtml(heading)}">`
     : `<div class="mod-recommend-v2__img mod-recommend-v2__placeholder"></div>`}
