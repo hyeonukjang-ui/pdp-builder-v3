@@ -774,7 +774,29 @@ function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={categ
     s=s.replace(/max-width:[^;]+;?/g,'');
     introPage.setAttribute('style',s+';width:100%;max-width:884px;margin:0 auto');
   }
-  // 6) section→div, class/data-* 제거 후 출력
+  // 6-1) h1~h6, p 태그에 padding:0 강제 주입 (MRT 사이트 기본 CSS 무력화)
+  tmp.querySelectorAll('h1,h2,h3,h4,h5,h6,p').forEach(function(el){
+    var s=el.getAttribute('style')||'';
+    if(s && !s.endsWith(';'))s+=';';
+    // 기존 padding 지정 제거 후 padding:0 추가
+    s=s.replace(/padding[^:;]*:[^;]+;?/g,'');
+    el.setAttribute('style',s+'padding:0');
+  });
+  // 6-2) 모든 인라인 style 속성에 !important 자동 추가 (외부 사이트 CSS 덮어쓰기)
+  tmp.querySelectorAll('[style]').forEach(function(el){
+    var s=el.getAttribute('style')||'';
+    // 각 선언에 !important 추가 (이미 있으면 건너뜀)
+    var result=s.split(';').map(function(decl){
+      decl=decl.trim();if(!decl)return '';
+      if(decl.indexOf('!important')!==-1)return decl;
+      var colonIdx=decl.indexOf(':');if(colonIdx<0)return decl;
+      var prop=decl.substring(0,colonIdx).trim();
+      var val=decl.substring(colonIdx+1).trim();
+      return prop+':'+val+' !important';
+    }).filter(Boolean).join(';');
+    el.setAttribute('style',result);
+  });
+  // 7) section→div, class/data-* 제거 후 출력
   var output=tmp.innerHTML.replace(/<section/g,'<div').replace(/<\/section>/g,'</div>');
   document.body.removeChild(tmp);
   return output}
