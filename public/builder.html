@@ -66,6 +66,7 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
 .tm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .tm-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border:1.5px solid var(--bd);border-radius:var(--r);cursor:pointer;transition:all .15s;background:var(--sf);text-align:center}
 .tm-card:hover{border-color:var(--brand);background:var(--brand-50);box-shadow:var(--sh)}
+.tm-card.sel{border-color:var(--brand);background:var(--brand-50);box-shadow:0 0 0 2px var(--brand)}
 .tm-ic{font-size:28px}.tm-info{min-width:0}.tm-name{font-size:13px;font-weight:600}.tm-meta{font-size:10px;color:var(--text3);margin-top:2px}
 .tm-del{position:absolute;top:4px;right:4px;background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;padding:2px 5px;border-radius:4px;opacity:0;transition:opacity .15s}.tm-card:hover .tm-del{opacity:1}.tm-del:hover{background:rgba(0,0,0,.06);color:var(--er)}
 .tw-card{display:flex;gap:12px;padding:14px;border:1.5px solid var(--bd);border-radius:var(--r);margin-bottom:8px;cursor:pointer;transition:all .15s;background:var(--sf)}
@@ -169,7 +170,7 @@ textarea.inp{min-height:70px;resize:vertical;line-height:1.6}
     <div style="font-size:16px;font-weight:700;margin-bottom:12px">📂 팀 폴더에 저장</div>
     <input class="inp" id="teamSaveSearch" placeholder="팀 검색..." oninput="filterTeamSave(this.value)" style="margin-bottom:12px">
     <div id="teamSaveList" class="tm-grid" style="max-height:280px;overflow-y:auto"></div>
-    <div style="display:flex;gap:8px;margin-top:16px"><button class="btn bo" style="flex:1" onclick="closeTeamSave()">취소</button></div>
+    <div style="display:flex;gap:8px;margin-top:16px"><button class="btn bo" style="flex:1" onclick="closeTeamSave()">취소</button><button id="teamSaveBtn" class="btn bp" style="flex:1" onclick="confirmSaveToTeam()" disabled>저장</button></div>
   </div>
 </div>
 <!-- 팀 추가 모달 -->
@@ -894,7 +895,7 @@ function openTeam(id,name,icon){
     el.innerHTML=works.map(function(w){
       var cat=w.category||'';var sub=w.depth2?' · '+w.depth2:'';
       var thumb=w.thumbnail?'<img class="tw-thumb" src="'+esc(w.thumbnail)+'">':'<div class="tw-thumb" style="display:flex;align-items:center;justify-content:center;font-size:20px">📄</div>';
-      return'<div class="tw-card" onclick="loadTeamWork(\''+S.currentTeam.id+'\',\''+w.id+'\')">'+thumb+'<div class="tw-info"><div class="tw-title">'+esc(w.title)+'</div><div class="tw-sub">'+cat+sub+' · '+w.blockCount+'블록 · '+new Date(w.savedAt).toLocaleDateString('ko-KR')+'</div></div><div class="tw-actions"><button class="btn btn-sm" style="color:var(--er);padding:4px 8px;font-size:11px" onclick="event.stopPropagation();delTeamWork(\''+S.currentTeam.id+'\',\''+w.id+'\')">🗑</button></div></div>'
+      return'<div class="tw-card" onclick="loadTeamWork(\''+S.currentTeam.id+'\',\''+w.id+'\')">'+thumb+'<div class="tw-info"><div class="tw-title">'+esc(w.title)+'</div><div class="tw-sub">'+cat+sub+' · '+w.blockCount+'블록 · '+new Date(w.savedAt).toLocaleDateString('ko-KR')+'</div></div><div class="tw-actions"><button class="btn btn-sm" style="color:var(--er);border-color:var(--er);background:#fff" onclick="event.stopPropagation();delTeamWork(\''+S.currentTeam.id+'\',\''+w.id+'\')">삭제</button></div></div>'
     }).join('')
   });
   showV('team')
@@ -911,10 +912,12 @@ function delTeamWork(teamId,workId){
     openTeam(S.currentTeam.id,S.currentTeam.name,S.currentTeam.icon);toast('삭제')
   })
 }
-var _saveTeams=[];
+var _saveTeams=[];var _selectedTeamId=null;
 function openTeamSave(){
   if(!S.secs.length){toast('저장할 블록이 없습니다');return}
   document.getElementById('teamSaveSearch').value='';
+  _selectedTeamId=null;
+  updateTeamSaveBtn();
   fetch(API_BASE+'/api/teams').then(function(r){return r.json()}).then(function(teams){
     _saveTeams=teams;
     renderTeamSaveGrid(teams);
@@ -925,16 +928,20 @@ function renderTeamSaveGrid(teams){
   var el=document.getElementById('teamSaveList');
   var html='';
   if(!teams.length){html='<div style="grid-column:1/-1;text-align:center;padding:16px;color:var(--text3);font-size:13px">검색 결과가 없어요</div>'}
-  else{html=teams.map(function(t){return'<div class="tm-card" onclick="saveToTeam(\''+t.id+'\')"><span class="tm-ic">'+t.icon+'</span><div class="tm-info"><div class="tm-name">'+esc(t.name)+'</div><div class="tm-meta">'+t.workCount+'개 작업</div></div></div>'}).join('')}
+  else{html=teams.map(function(t){var sel=_selectedTeamId===t.id?' sel':'';return'<div class="tm-card'+sel+'" onclick="selectTeamSave(\''+t.id+'\')"><span class="tm-ic">'+t.icon+'</span><div class="tm-info"><div class="tm-name">'+esc(t.name)+'</div><div class="tm-meta">'+t.workCount+'개 작업</div></div></div>'}).join('')}
   html+='<div class="tm-card" onclick="closeTeamSave();showAddTeam()" style="justify-content:center;border-style:dashed;color:var(--text3)"><span class="tm-ic">➕</span><div class="tm-info"><div class="tm-name">팀 추가</div></div></div>';
   el.innerHTML=html;
 }
+function selectTeamSave(teamId){_selectedTeamId=teamId;renderTeamSaveGrid(_getFilteredTeams());updateTeamSaveBtn()}
+function _getFilteredTeams(){var q=document.getElementById('teamSaveSearch').value.trim().toLowerCase();if(!q)return _saveTeams;return _saveTeams.filter(function(t){return t.name.toLowerCase().includes(q)})}
+function updateTeamSaveBtn(){var b=document.getElementById('teamSaveBtn');if(!b)return;b.disabled=!_selectedTeamId}
+function confirmSaveToTeam(){if(!_selectedTeamId){toast('팀을 선택하세요');return}saveToTeam(_selectedTeamId)}
 function filterTeamSave(q){
   if(!q){renderTeamSaveGrid(_saveTeams);return}
   var lower=q.toLowerCase();
   renderTeamSaveGrid(_saveTeams.filter(function(t){return t.name.toLowerCase().includes(lower)}));
 }
-function closeTeamSave(){document.getElementById('teamSaveModal').style.display='none'}
+function closeTeamSave(){document.getElementById('teamSaveModal').style.display='none';_selectedTeamId=null}
 function saveToTeam(teamId){
   var thumb=(S.rawData&&S.rawData.images&&S.rawData.images[0])?S.rawData.images[0].url:'';
   var body={
