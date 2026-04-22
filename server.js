@@ -473,10 +473,10 @@ app.post('/api/teams/:teamId/works', async (req, res) => {
   const data = await readTeams();
   const team = data.teams.find(t => t.id === req.params.teamId);
   if (!team) return res.status(404).json({ error: '팀 없음' });
-  const { id, title, category, depth2, thumbnail, prod, secs } = req.body;
+  const { id, title, category, depth2, thumbnail, prod, rawData, secs } = req.body;
   const workId = id || ('w-' + Date.now().toString(36));
   const idx = (team.works || []).findIndex(w => w.id === workId);
-  const work = { id: workId, title, category, depth2, thumbnail, prod, secs, savedAt: new Date().toISOString() };
+  const work = { id: workId, title, category, depth2, thumbnail, prod, rawData, secs, savedAt: new Date().toISOString() };
   if (idx >= 0) { team.works[idx] = work; } else { if (!team.works) team.works = []; team.works.push(work); }
   await writeTeams(data);
   res.json({ id: workId, savedAt: work.savedAt });

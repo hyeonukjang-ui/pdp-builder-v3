@@ -902,7 +902,7 @@ function openTeam(id,name,icon){
 }
 function loadTeamWork(teamId,workId){
   fetch(API_BASE+'/api/teams/'+teamId+'/works/'+workId).then(function(r){return r.json()}).then(function(w){
-    S.prod=w.prod;S.secs=w.secs;S.category=w.category||'TOUR';S.depth2=w.depth2||null;S.rawData=w.prod;S.act=null;
+    S.prod=w.prod;S.secs=w.secs;S.category=w.category||'TOUR';S.depth2=w.depth2||null;S.rawData=w.rawData||w.prod;S.act=null;
     showV('builder');render();toast('작업 로드 완료')
   }).catch(function(){toast('로드 실패')})
 }
@@ -950,6 +950,7 @@ function saveToTeam(teamId){
     category:S.category,depth2:S.depth2,
     thumbnail:thumb,
     prod:JSON.parse(JSON.stringify(S.prod||{})),
+    rawData:JSON.parse(JSON.stringify(S.rawData||{})),
     secs:JSON.parse(JSON.stringify(S.secs))
   };
   fetch(API_BASE+'/api/teams/'+teamId+'/works',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json()}).then(function(){closeTeamSave();toast('팀 폴더에 저장 완료')}).catch(function(){toast('저장 실패')})
