@@ -362,22 +362,17 @@ async function readTeamsFromBin() {
   }
 }
 
-// JSONBin.io에 쓰기
-async function writeTeamsToBin(data) {
-  try {
-    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-      body: JSON.stringify(data),
-    });
-  } catch (err) {
-    console.warn('[teams] JSONBin 쓰기 실패:', err.message);
-  }
-  // 로컬도 동기화
-  writeTeamsLocal(data);
+// JSONBin.io에 쓰기 (백그라운드, fire-and-forget)
+function writeTeamsToBinBackground(data) {
+  if (!USE_JSONBIN) return;
+  fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+    body: JSON.stringify(data),
+  }).catch(err => console.warn('[teams] JSONBin 백그라운드 쓰기 실패:', err.message));
 }
 
-// 로컬 파일 (폴백)
+// 로컬 파일 (폴백 + 빠른 지속성)
 function readTeamsLocal() {
   try { return JSON.parse(fs.readFileSync(TEAMS_FILE, 'utf-8')); }
   catch { return { teams: [] }; }
@@ -387,13 +382,51 @@ function writeTeamsLocal(data) {
   fs.writeFileSync(TEAMS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-// 통합 인터페이스
+// 메모리 캐시 — 서버 구동 중 API 응답을 즉시 반환하기 위함.
+// JSONBin read/write는 1~3초 걸리므로 캐시 미스 시에만 read, write는 디바운스 백그라운드로 돌린다.
+let teamsCache = null;
+let cacheLoading = null;
+let binWriteTimer = null;
+
+async function ensureCache() {
+  if (teamsCache) return teamsCache;
+  if (cacheLoading) return cacheLoading;
+  cacheLoading = (USE_JSONBIN ? readTeamsFromBin() : Promise.resolve(readTeamsLocal()))
+    .then(data => { teamsCache = data || { teams: [] }; cacheLoading = null; return teamsCache; });
+  return cacheLoading;
+}
+
+function scheduleBinSync() {
+  if (!USE_JSONBIN) return;
+  if (binWriteTimer) clearTimeout(binWriteTimer);
+  binWriteTimer = setTimeout(() => {
+    binWriteTimer = null;
+    writeTeamsToBinBackground(teamsCache);
+  }, 500);
+}
+
 async function readTeams() {
-  return USE_JSONBIN ? readTeamsFromBin() : readTeamsLocal();
+  return ensureCache();
 }
 async function writeTeams(data) {
-  return USE_JSONBIN ? writeTeamsToBin(data) : writeTeamsLocal(data);
+  teamsCache = data;
+  writeTeamsLocal(data); // 즉시 로컬 동기화 (빠름)
+  scheduleBinSync();     // JSONBin은 백그라운드로
 }
+
+// 프로세스 종료 시 pending 쓰기 flush
+function flushOnExit() {
+  if (binWriteTimer) {
+    clearTimeout(binWriteTimer);
+    binWriteTimer = null;
+    writeTeamsToBinBackground(teamsCache);
+  }
+}
+process.on('SIGTERM', flushOnExit);
+process.on('SIGINT', () => { flushOnExit(); process.exit(0); });
+
+// 서버 시작 시 캐시 미리 로드
+ensureCache().then(() => console.log('[teams] 캐시 로드 완료')).catch(() => {});
 
 // 팀 목록
 app.get('/api/teams', async (req, res) => {
