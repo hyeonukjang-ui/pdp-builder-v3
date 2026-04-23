@@ -424,6 +424,25 @@ function bindInlineEditing(){
     });
   });
 
+  // 갤러리 셀: 클릭 시 이미지 피커
+  document.querySelectorAll('#pvF .mod-gallery__cell').forEach(function(cell){
+    cell.style.cursor='pointer';
+    cell.title='클릭하여 이미지 변경';
+    cell.addEventListener('click',function(e){
+      e.stopPropagation();
+      var sec=cell.closest('.intro-section');if(!sec)return;
+      var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
+      var galIdx=parseInt(cell.dataset.galIdx);if(isNaN(galIdx))return;
+      var s=S.secs[idx];
+      S.act=s.id;highlightAct();renderEdit();
+      var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
+      if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다. 편집 패널의 URL 입력을 사용하세요.</p>'}
+      else{grid.innerHTML=imgs.map(function(im,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(im.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
+      _imgPickerCb=function(url){saveU();if(!s.data.images)s.data.images=[];if(!s.data.images[galIdx])s.data.images[galIdx]={url:'',alt:''};s.data.images[galIdx].url=url;render()};
+      document.getElementById('imgPickerModal').classList.add('show');
+    });
+  });
+
   // 미리보기 섹션에 툴바(삭제+드래그) 삽입
   document.querySelectorAll('#pvF .intro-section').forEach(function(sec){
     if(sec.querySelector('.pv-toolbar'))return;
