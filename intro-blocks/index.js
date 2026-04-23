@@ -11,6 +11,7 @@ import './intro-comparison.js';
 import './intro-schedule.js';
 import './intro-text.js';
 import './intro-image.js';
+import './intro-gallery.js';
 import './intro-highlights.js';
 import './intro-stat.js';
 import './intro-divider.js';

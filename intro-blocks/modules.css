@@ -305,6 +305,49 @@
 }
 
 /* ================================================================
+   Module: Gallery (.mod-gallery)
+   다중 이미지 갤러리 — 2열/3열/모자이크/히어로+서브, 공백 최소화(2px)
+   ================================================================ */
+.mod-gallery { background: #fff; }
+.mod-gallery__title {
+  padding: 20px 20px 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
+}
+.mod-gallery__grid { display: grid; gap: 2px; }
+.mod-gallery__cell { overflow: hidden; background: #F3F4F6; position: relative; }
+.mod-gallery__img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.mod-gallery__placeholder { width: 100%; height: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center; color: #9CA3AF; font-size: 20px; background: #F3F4F6; aspect-ratio: 1/1; }
+
+/* 2열 균등 */
+.mod-gallery--2col .mod-gallery__grid { grid-template-columns: 1fr 1fr; }
+.mod-gallery--2col .mod-gallery__img { aspect-ratio: 1 / 1; }
+
+/* 3열 균등 */
+.mod-gallery--3col .mod-gallery__grid { grid-template-columns: 1fr 1fr 1fr; }
+.mod-gallery--3col .mod-gallery__img { aspect-ratio: 1 / 1; }
+
+/* 모자이크: 왼쪽 큰 이미지 1개 + 오른쪽 작은 2개 세로 */
+.mod-gallery--mosaic .mod-gallery__grid {
+  grid-template-columns: 2fr 1fr;
+  grid-auto-rows: 1fr;
+}
+.mod-gallery--mosaic .mod-gallery__cell { aspect-ratio: auto; }
+.mod-gallery--mosaic .mod-gallery__cell:first-child {
+  grid-row: span 2;
+  aspect-ratio: 1 / 1;
+}
+.mod-gallery--mosaic .mod-gallery__cell:not(:first-child) { aspect-ratio: 2 / 1; }
+
+/* 히어로+서브: 첫 장 풀폭 + 나머지 2열 */
+.mod-gallery--hero-subs .mod-gallery__grid { grid-template-columns: 1fr 1fr; }
+.mod-gallery--hero-subs .mod-gallery__cell:first-child { grid-column: 1 / -1; }
+.mod-gallery--hero-subs .mod-gallery__cell:first-child .mod-gallery__img { aspect-ratio: 16 / 9; }
+.mod-gallery--hero-subs .mod-gallery__cell:not(:first-child) .mod-gallery__img { aspect-ratio: 1 / 1; }
+
+/* ================================================================
    Module: Icon Grid (.mod-icon-grid)
    2열 or 4열 아이콘 그리드
    ================================================================ */
