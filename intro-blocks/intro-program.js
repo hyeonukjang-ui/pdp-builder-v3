@@ -43,11 +43,11 @@ const renderer = {
 
       return `<div class="mod-program__item" data-item-index="${i}">
         <div class="mod-program__header">
-          <span class="mod-program__label" data-editable="item-label">${escapeHtml(item.label || '')}</span>
-          <h3 class="mod-program__title" data-editable="item-title">${escapeHtml(item.title)}</h3>
+          <span class="mod-program__label" data-editable="items.${i}.label">${escapeHtml(item.label || '')}</span>
+          <h3 class="mod-program__title" data-editable="items.${i}.title">${escapeHtml(item.title)}</h3>
           ${durationBadge}
         </div>
-        ${item.description ? `<p class="mod-program__desc" data-editable="item-desc">${escapeHtml(item.description)}</p>` : ''}
+        ${item.description ? `<p class="mod-program__desc" data-editable="items.${i}.description">${escapeHtml(item.description)}</p>` : ''}
         ${imagesHtml}
       </div>`;
     }).join('\n');
