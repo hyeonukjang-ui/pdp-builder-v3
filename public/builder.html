@@ -691,6 +691,17 @@ function openImgPicker(itemIdx){
   document.getElementById('imgPickerModal').classList.add('show')}
 function pickImg(i){var imgs=(S.rawData&&S.rawData.images)||[];if(imgs[i]&&_imgPickerCb){_imgPickerCb(imgs[i].url);closeImgPicker()}}
 function closeImgPicker(){document.getElementById('imgPickerModal').classList.remove('show');document.getElementById('imgUrlInput').value='';_imgPickerCb=null}
+// === 이미지 추가 팝업 일시 비활성화 (외부 업로드가 내부 서버에 등록 안 되는 이슈) ===
+// 복구하려면 이 IIFE 블록만 삭제하면 원래 동작으로 돌아옴.
+(function(){
+  var modal=document.getElementById('imgPickerModal');if(!modal)return;
+  new MutationObserver(function(){
+    if(modal.classList.contains('show')){
+      modal.classList.remove('show');_imgPickerCb=null;
+      if(typeof toast==='function')toast('🛠️ 이미지 추가 기능 정비 중');
+    }
+  }).observe(modal,{attributes:true,attributeFilter:['class']});
+})();
 function applyImgUrl(){var url=document.getElementById('imgUrlInput').value.trim();if(!url)return;if(_imgPickerCb){_imgPickerCb(url);closeImgPicker()}}
 document.getElementById('imgPickerFile').addEventListener('change',function(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){if(_imgPickerCb){_imgPickerCb(ev.target.result);closeImgPicker()}};reader.readAsDataURL(file);e.target.value=''});
 function rmHlImg(i){var s=ga();if(!s||!s.data.items||!s.data.items[i])return;saveU();s.data.items[i].image=null;render()}
