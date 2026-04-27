@@ -840,14 +840,14 @@ function genHTML(){if(!_introReady||!S.secs.length)return'';var introData={categ
   // 개발자 요구사항: body 하위만, 인라인 스타일, class/data-* 제거
   // 1) 임시 DOM에 렌더링하여 computed style을 인라인으로 변환
   var tmp=document.createElement('div');tmp.style.cssText='position:absolute;left:-9999px;top:-9999px;width:390px';tmp.innerHTML=result.html;document.body.appendChild(tmp);
-  // 2) CSS를 수집하여 class→style 매핑
-  var cssMap={};try{document.querySelectorAll('link[href*="intro-blocks"]').forEach(function(link){var sheet=link.sheet;if(!sheet)return;Array.from(sheet.cssRules||[]).forEach(function(rule){if(rule.selectorText&&rule.selectorText.startsWith('.')){cssMap[rule.selectorText]=rule.style.cssText}})})}catch(e){}
-  // 3) 모든 class 속성을 가진 요소에 인라인 스타일 적용
+  // 2) CSS를 수집 — 단일 클래스뿐 아니라 결합 셀렉터(.a .b), pseudo(:first-child) 모두 보관
+  //    cssRules 순서대로 저장하여 자연스러운 cascade 유지.
+  var cssRules=[];try{document.querySelectorAll('link[href*="intro-blocks"]').forEach(function(link){var sheet=link.sheet;if(!sheet)return;Array.from(sheet.cssRules||[]).forEach(function(rule){if(rule.selectorText&&rule.style&&rule.style.cssText){cssRules.push({sel:rule.selectorText,css:rule.style.cssText})}})})}catch(e){}
+  // 3) 각 요소에 element.matches()로 매칭되는 모든 룰을 인라인 적용
   tmp.querySelectorAll('[class]').forEach(function(el){
     var existing=el.getAttribute('style')||'';
-    var classes=el.className.split(/\s+/);
     var inlined='';
-    classes.forEach(function(cls){if(cls&&cssMap['.'+cls])inlined+=cssMap['.'+cls]});
+    cssRules.forEach(function(r){try{if(el.matches(r.sel))inlined+=r.css+';';}catch(e){}});
     if(inlined)el.setAttribute('style',(existing?existing+';':'')+inlined);
   });
   // 4) class, data-editable, data-emoji, data-block-* 속성 제거
