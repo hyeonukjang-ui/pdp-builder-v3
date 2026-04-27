@@ -691,16 +691,13 @@ function openImgPicker(itemIdx){
   document.getElementById('imgPickerModal').classList.add('show')}
 function pickImg(i){var imgs=(S.rawData&&S.rawData.images)||[];if(imgs[i]&&_imgPickerCb){_imgPickerCb(imgs[i].url);closeImgPicker()}}
 function closeImgPicker(){document.getElementById('imgPickerModal').classList.remove('show');document.getElementById('imgUrlInput').value='';_imgPickerCb=null}
-// === 이미지 추가 팝업 일시 비활성화 (외부 업로드가 내부 서버에 등록 안 되는 이슈) ===
-// 복구하려면 이 IIFE 블록만 삭제하면 원래 동작으로 돌아옴.
+// === 외부 이미지 업로드(파일/URL) UI 일시 숨김 — 내부 서버 등록 이슈 ===
+// 복구하려면 이 IIFE 블록만 삭제하면 원래 UI로 돌아옴.
 (function(){
   var modal=document.getElementById('imgPickerModal');if(!modal)return;
-  new MutationObserver(function(){
-    if(modal.classList.contains('show')){
-      modal.classList.remove('show');_imgPickerCb=null;
-      if(typeof toast==='function')toast('🛠️ 이미지 추가 기능 정비 중');
-    }
-  }).observe(modal,{attributes:true,attributeFilter:['class']});
+  var fileLabel=modal.querySelector('label.btn');if(fileLabel)fileLabel.style.display='none';
+  var urlInput=modal.querySelector('#imgUrlInput');if(urlInput&&urlInput.parentElement)urlInput.parentElement.style.display='none';
+  var sub=modal.querySelector('.sub');if(sub)sub.textContent='상품 이미지에서 선택하세요';
 })();
 function applyImgUrl(){var url=document.getElementById('imgUrlInput').value.trim();if(!url)return;if(_imgPickerCb){_imgPickerCb(url);closeImgPicker()}}
 document.getElementById('imgPickerFile').addEventListener('change',function(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){if(_imgPickerCb){_imgPickerCb(ev.target.result);closeImgPicker()}};reader.readAsDataURL(file);e.target.value=''});
