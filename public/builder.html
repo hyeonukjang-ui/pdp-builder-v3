@@ -443,6 +443,50 @@ function bindInlineEditing(){
     });
   });
 
+  // 미리보기 이미지 영역: 블록 type별 더블클릭 → 상품 이미지 피커
+  function _openPickerWithCb(applyFn){
+    var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
+    if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다.</p>'}
+    else{grid.innerHTML=imgs.map(function(im,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(im.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
+    _imgPickerCb=function(url){saveU();applyFn(url);render()};
+    document.getElementById('imgPickerModal').classList.add('show');
+  }
+  function _bindDbl(el,applyFn){
+    if(el._dblBound)return;el._dblBound=true;
+    el.style.cursor='pointer';el.title='더블클릭하여 이미지 변경';
+    el.addEventListener('dblclick',function(e){e.stopPropagation();_openPickerWithCb(applyFn)});
+  }
+  document.querySelectorAll('#pvF .intro-section').forEach(function(sec){
+    var idx=parseInt(sec.dataset.blockIndex);if(isNaN(idx)||!S.secs[idx])return;
+    var s=S.secs[idx],t=s.type;
+    if(t==='intro-image'){
+      sec.querySelectorAll('.mod-full-image__img,.mod-full-image__placeholder').forEach(function(el){_bindDbl(el,function(url){if(!s.data.image)s.data.image={};s.data.image.url=url})});
+    } else if(t==='intro-safety'){
+      sec.querySelectorAll('.mod-media-card__img,.mod-media-card__placeholder,.mod-media-card__image-wrap').forEach(function(el){_bindDbl(el,function(url){if(!s.data.image)s.data.image={};s.data.image.url=url})});
+    } else if(t==='intro-cta'){
+      sec.querySelectorAll('.mod-recommend-v2__img,.mod-recommend-v2__placeholder').forEach(function(el){_bindDbl(el,function(url){if(!s.data.image)s.data.image={};s.data.image.url=url})});
+    } else if(t==='intro-accommodation'){
+      var main=sec.querySelector('.mod-hotel__gallery-main');
+      if(main)_bindDbl(main,function(url){if(!s.data.images)s.data.images=[];if(!s.data.images[0])s.data.images[0]={url:'',alt:''};s.data.images[0].url=url});
+      sec.querySelectorAll('.mod-hotel__gallery-thumb').forEach(function(thumb,thumbIdx){var i=thumbIdx+1;_bindDbl(thumb,function(url){if(!s.data.images)s.data.images=[];while(s.data.images.length<=i)s.data.images.push({url:'',alt:''});s.data.images[i].url=url})});
+    } else if(t==='intro-program'){
+      sec.querySelectorAll('.mod-program__item').forEach(function(item){
+        var itemIdx=parseInt(item.dataset.itemIndex);if(isNaN(itemIdx))return;
+        var imgEls=item.querySelectorAll('.mod-program__img');
+        imgEls.forEach(function(imgEl,j){_bindDbl(imgEl,function(url){var it=s.data.items[itemIdx];if(!it)return;if(!it.images)it.images=[];while(it.images.length<=j)it.images.push({url:'',alt:''});it.images[j].url=url})});
+        item.querySelectorAll('.mod-program__placeholder').forEach(function(ph){_bindDbl(ph,function(url){var it=s.data.items[itemIdx];if(!it)return;it.images=[{url:url,alt:''}]})});
+      });
+    } else if(t==='intro-card-grid'){
+      sec.querySelectorAll('.mod-vcard__item').forEach(function(card,i){
+        card.querySelectorAll('.mod-vcard__img,.mod-vcard__placeholder').forEach(function(el){_bindDbl(el,function(url){if(s.data.items&&s.data.items[i])s.data.items[i].image={url:url,alt:''}})});
+      });
+    } else if(t==='intro-provider'){
+      sec.querySelectorAll('.mod-guide__card').forEach(function(card,i){
+        card.querySelectorAll('.mod-guide__avatar').forEach(function(el){_bindDbl(el,function(url){if(s.data.guides&&s.data.guides[i])s.data.guides[i].image={url:url,alt:''}})});
+      });
+    }
+  });
+
   // 미리보기 섹션에 툴바(삭제+드래그) 삽입
   document.querySelectorAll('#pvF .intro-section').forEach(function(sec){
     if(sec.querySelector('.pv-toolbar'))return;
