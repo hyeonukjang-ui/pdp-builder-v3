@@ -599,7 +599,14 @@ function renderEdit(){var ep=document.getElementById('eP'),ac=document.getElemen
   else if(t==='intro-comparison'){h+=fg('제목','<input class="inp" value="'+esc(d.title)+'" oninput="ud(\'title\',this.value)">')+fg('패키지 가격','<input class="inp" type="number" value="'+(d.packagePrice||'')+'" oninput="ud(\'packagePrice\',parseInt(this.value)||0)">')+'<label class="fl">항목</label>'+(d.items||[]).map(function(x,i){return'<div class="ri"><div class="rf"><input class="inp" value="'+esc(x.name)+'" oninput="uAI(\'items\','+i+',\'name\',this.value)" placeholder="항목명"><input class="inp" type="number" value="'+(x.price||'')+'" oninput="uAI(\'items\','+i+',\'price\',parseInt(this.value)||0)" placeholder="가격"></div><button class="rrm" onclick="rAI(\'items\','+i+')">✕</button></div>'}).join('')+'<button class="rad" onclick="aAI(\'items\',{name:\'\',price:0})">+ 추가</button>'}
   else if(t==='intro-stat'){h+='<label class="fl">수치</label>'+(d.items||[]).map(function(x,i){return'<div class="ri"><div class="rf"><input class="inp" value="'+esc(x.value)+'" oninput="uAI(\'items\','+i+',\'value\',this.value)" placeholder="값"><input class="inp" value="'+esc(x.unit)+'" oninput="uAI(\'items\','+i+',\'unit\',this.value)" placeholder="단위"><input class="inp" value="'+esc(x.label)+'" oninput="uAI(\'items\','+i+',\'label\',this.value)" placeholder="라벨"></div><button class="rrm" onclick="rAI(\'items\','+i+')">✕</button></div>'}).join('')+'<button class="rad" onclick="aAI(\'items\',{value:\'\',unit:\'\',label:\'\'})">+ 추가</button>'}
   else if(t==='intro-safety'){h+=fg('제목','<input class="inp" value="'+esc(d.title)+'" oninput="ud(\'title\',this.value)">')+fg('설명','<textarea class="inp" oninput="ud(\'description\',this.value)">'+esc(d.description)+'</textarea>')+fg('이미지',imgF(d.image&&d.image.url,"udImg(this.value)"))}
-  else if(t==='intro-accommodation'){h+=fg('숙소명','<input class="inp" value="'+esc(d.name)+'" oninput="ud(\'name\',this.value)">')+fg('영문명','<input class="inp" value="'+esc(d.nameEn)+'" oninput="ud(\'nameEn\',this.value)">')+fg('등급','<input class="inp" value="'+esc(d.grade)+'" oninput="ud(\'grade\',this.value)">')}
+  else if(t==='intro-accommodation'){
+    h+=fg('숙소명','<input class="inp" value="'+esc(d.name)+'" oninput="ud(\'name\',this.value)">')
+      +fg('영문명','<input class="inp" value="'+esc(d.nameEn)+'" oninput="ud(\'nameEn\',this.value)">')
+      +fg('등급','<input class="inp" value="'+esc(d.grade)+'" oninput="ud(\'grade\',this.value)">')
+      +'<label class="fl" style="margin-top:8px">이미지 (1+4 그리드)</label>'
+      +(d.images||[]).map(function(im,i){return'<div class="ri"><div class="rf" style="flex:1"><div class="img-field" onclick="openAccImg('+i+')" style="margin-bottom:6px">'+(im&&im.url?'<img src="'+esc(im.url)+'">':'📷 클릭하여 상품 이미지 선택')+'</div><input class="inp" value="'+esc((im&&im.url)||'')+'" oninput="uAI(\'images\','+i+',\'url\',this.value)" placeholder="이미지 URL"></div><button class="rrm" onclick="rAI(\'images\','+i+')">✕</button></div>'}).join('')
+      +'<button class="rad" onclick="aAI(\'images\',{url:\'\',alt:\'\'})">+ 이미지 추가</button>'
+  }
   else{h+='<textarea class="inp" style="min-height:200px;font-size:11px;font-family:monospace" readonly>'+JSON.stringify(d,null,2)+'</textarea>'}
   ep.innerHTML=h}
 function ga(){return S.secs.find(function(s){return s.id===S.act})}
@@ -710,6 +717,12 @@ function closeImgPicker(){document.getElementById('imgPickerModal').classList.re
 function applyImgUrl(){var url=document.getElementById('imgUrlInput').value.trim();if(!url)return;if(_imgPickerCb){_imgPickerCb(url);closeImgPicker()}}
 document.getElementById('imgPickerFile').addEventListener('change',function(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){if(_imgPickerCb){_imgPickerCb(ev.target.result);closeImgPicker()}};reader.readAsDataURL(file);e.target.value=''});
 function rmHlImg(i){var s=ga();if(!s||!s.data.items||!s.data.items[i])return;saveU();s.data.items[i].image=null;render()}
+function openAccImg(idx){
+  var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
+  if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다.</p>'}
+  else{grid.innerHTML=imgs.map(function(img,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(img.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
+  _imgPickerCb=function(url){var s=ga();if(!s)return;saveU();if(!s.data.images)s.data.images=[];if(!s.data.images[idx])s.data.images[idx]={url:'',alt:''};s.data.images[idx].url=url;render()};
+  document.getElementById('imgPickerModal').classList.add('show')}
 function openGuideImg(idx){
   var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
   if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다.</p>'}
