@@ -546,7 +546,15 @@ function render(){document.getElementById('bTi').textContent=S.prod?S.prod.title
   libEl.innerHTML=html;
   renderPreview();renderEdit()}
 function fg(l,inner){return'<div class="fg"><label class="fl">'+l+'</label>'+inner+'</div>'}
-function imgF(url,cb){return'<div class="img-field" onclick="triggerImgUpload()">'+(url?'<img src="'+esc(url)+'">':'📷 이미지 업로드 또는 URL')+'</div><input class="inp" style="margin-top:6px" value="'+esc(url)+'" oninput="'+cb+'" placeholder="이미지 URL">'}
+var _imgFSeq=0;
+function imgF(url,cb){var inpId='imgF_'+(++_imgFSeq);return'<div class="img-field" onclick="openImgPickerForInput(\''+inpId+'\')">'+(url?'<img src="'+esc(url)+'">':'📷 클릭하여 상품 이미지 선택')+'</div><input id="'+inpId+'" class="inp" style="margin-top:6px" value="'+esc(url)+'" oninput="'+cb+'" placeholder="이미지 URL">'}
+function openImgPickerForInput(inpId){
+  _imgPickerCb=function(url){var inp=document.getElementById(inpId);if(inp){inp.value=url;inp.dispatchEvent(new Event('input'))}};
+  var grid=document.getElementById('imgPickerGrid');var imgs=(S.rawData&&S.rawData.images)||[];
+  if(!imgs.length){grid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#adb5bd;font-size:13px;padding:20px">상품 이미지가 없습니다.</p>'}
+  else{grid.innerHTML=imgs.map(function(im,i){return'<div onclick="pickImg('+i+')" style="cursor:pointer;border-radius:8px;overflow:hidden;aspect-ratio:1;border:2px solid transparent;transition:all .15s" onmouseover="this.style.borderColor=\'#51abf3\'" onmouseout="this.style.borderColor=\'transparent\'"><img src="'+esc(im.url)+'" style="width:100%;height:100%;object-fit:cover;display:block"></div>'}).join('')}
+  document.getElementById('imgPickerModal').classList.add('show');
+}
 function renderEdit(){var ep=document.getElementById('eP'),ac=document.getElementById('ePActions');var sec=S.secs.find(function(s){return s.id===S.act});
   if(!sec){ep.innerHTML='<div class="emp"><div class="ei2">✏️</div><p><b>블록을 선택하세요</b><br>좌측 목록 또는 미리보기에서<br>블록을 클릭하면 편집</p></div>';ac.style.display='none';document.getElementById('ePIc').textContent='✏️';document.getElementById('ePTitle').textContent='속성 편집';return}
   var m=R[sec.type]||{l:sec.type,i:'📄'},d=sec.data||{},t=sec.type;document.getElementById('ePIc').textContent=sec.ic||m.i;document.getElementById('ePTitle').textContent=sec.label||m.l;ac.style.display='flex';var h='';
